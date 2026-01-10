@@ -46,6 +46,18 @@
   border-color: var(--color-primary-hover);
 }
 
+/* Intent: Secondary */
+.button[data-intent='secondary'] {
+  background: var(--color-secondary);
+  border-color: var(--color-secondary-border);
+  color: var(--color-secondary-fg);
+}
+
+.button[data-intent='secondary']:hover {
+  background: var(--color-secondary-hover);
+  border-color: var(--color-secondary-border);
+}
+
 /* Intent: Danger */
 .button[data-intent='danger'] {
   background: var(--color-danger);

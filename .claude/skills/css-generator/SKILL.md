@@ -1,111 +1,250 @@
----
-name: css-generator
-description: CSS styling agent for creating and modifying component styles following BEM methodology. Use when Claude needs to create CSS files, modify existing styles, add component styling, or work with design tokens. Triggers on CSS-related tasks including styling components, fixing layout issues, adding responsive styles, or any work involving .css files in the frontend.
----
+# CSS Generator Skill
 
-# CSS Generator
+CSS styling agent for creating and modifying component styles following BEM methodology and project design tokens.
 
-Agent for creating and modifying CSS in this project.
+## When to Use
 
-## Before Writing CSS
+Use this skill when:
+- Creating new CSS files for components
+- Modifying existing component styles
+- Adding responsive styles or variants
+- Working with design tokens
+- Fixing layout or styling issues
 
-1. Read the BEM guidelines: `.claude/docs/css-bem-guidelines.md`
-2. Review design tokens in `frontend/src/shared/styles/variables/`:
-   - `colors.css` - Color tokens (`--background`, `--foreground`, `--accent-*`)
-   - `layout.css` - Spacing (`--gap`, `--padding`, `--margin`)
-   - `typography.css` - Font sizes/weights (`--fs-*`, `--fw-*`)
-   - `shapes.css` - Borders, radius, shadows (`--border-radius`, `--shadow-*`)
+## File Locations
 
-## CSS File Organization
+- **Component CSS**: `frontend/src/styles/components/{component}.css`
+- **Design Tokens**: `frontend/src/styles/variables/`
+  - `palettes.css` - Raw color palettes (zinc, slate, blue, etc.)
+  - `themes.css` - Theme variant mappings
+  - `colors.css` - Semantic color tokens
+  - `layout.css` - Spacing, z-index, containers
+  - `shapes.css` - Border radius, shadows, transitions
+  - `typography.css` - Font sizes, weights, line heights
+- **Documentation**: `frontend/docs/CSS_PATTERNS.md`
 
-### Rule: Local Relativeness
+## Design Token Reference
 
-Place CSS files relative to the components that use them:
+### Colors (Semantic)
+```css
+/* Backgrounds */
+--color-bg, --color-bg-secondary, --color-bg-hover, --color-bg-active
 
-```
-component/
-├── index.tsx
-├── component.css          # Classes for this component only
-└── subcomponents/
-    └── child/
-        ├── index.tsx
-        └── child.css      # Classes for child only
-```
+/* Foregrounds */
+--color-fg, --color-fg-muted, --color-fg-subtle
 
-### When to Create Separate CSS Files
+/* Borders */
+--color-border, --color-border-hover
 
-| Scenario | Location |
-|----------|----------|
-| Component has its own classes | Same folder as component |
-| Parent shares classes with children | Parent folder only |
-| Subcomponent has unique classes | Subcomponent folder |
+/* Primary (accent color) */
+--color-primary, --color-primary-hover, --color-primary-fg, --color-primary-muted
 
-### Examples
+/* Secondary (neutral) */
+--color-secondary, --color-secondary-hover, --color-secondary-fg, --color-secondary-border
 
-**Separate files** - Each component has unique classes:
-```
-header/
-├── header.css             # .header, .header__container
-└── subcomponents/
-    └── header-profile/
-        └── header-profile.css  # .header-profile, .header-profile__email
+/* Intent colors */
+--color-danger, --color-danger-hover, --color-danger-fg, --color-danger-muted
+--color-success, --color-success-hover, --color-success-fg, --color-success-muted
+--color-warning, --color-warning-hover, --color-warning-fg, --color-warning-muted
 ```
 
-**Shared at parent** - Parent defines classes used by children:
-```
-form/
-├── form.css               # .form, .form__row, .form__field (used by all children)
-└── subcomponents/
-    └── form-field/
-        └── index.tsx      # Uses .form__field from parent, no CSS file needed
+### Color Scales (Raw Palettes)
+```css
+/* Neutrals (50-950) */
+--zinc-*, --slate-*, --stone-*, --gray-*, --neutral-*
+
+/* Accents (50-950) */
+--blue-*, --red-*, --green-*, --orange-*, --violet-*, --rose-*
+
+/* Theme-mapped scales */
+--scale-50 through --scale-950  /* Maps to current variant */
+--accent-50 through --accent-950  /* Maps to current accent */
 ```
 
-## BEM Quick Reference
+### Spacing (8px base)
+```css
+--space-1 (4px)   --space-2 (8px)   --space-3 (12px)  --space-4 (16px)
+--space-5 (20px)  --space-6 (24px)  --space-8 (32px)  --space-12 (48px)
+--space-16 (64px)
+```
+
+### Typography
+```css
+/* Sizes */
+--text-xs (12px)  --text-sm (14px)  --text-base (16px)
+--text-lg (18px)  --text-xl (20px)  --text-2xl (24px)  --text-3xl (32px)
+
+/* Weights */
+--font-normal (400)  --font-medium (500)  --font-semibold (600)  --font-bold (700)
+
+/* Line heights */
+--leading-none (1)  --leading-tight (1.25)  --leading-normal (1.5)  --leading-relaxed (1.625)
+```
+
+### Shapes
+```css
+/* Border radius */
+--radius-sm (4px)  --radius-md (8px)  --radius-lg (12px)  --radius-full (9999px)
+
+/* Shadows */
+--shadow-sm  --shadow-md  --shadow-lg
+
+/* Transitions */
+--duration-fast (100ms)  --duration-normal (200ms)  --duration-slow (300ms)
+
+/* Border shorthand */
+--border (1px solid var(--color-border))
+```
+
+### Z-Index Layers
+```css
+--z-dropdown (100)  --z-sticky (200)  --z-drawer (300)  --z-modal (400)  --z-toast (600)
+```
+
+### Breakpoints (Mobile-First)
+```css
+/* Base: Mobile */
+/* sm: 640px+ */  @media (min-width: 640px) { }
+/* md: 768px+ */  @media (min-width: 768px) { }
+/* lg: 1024px+ */ @media (min-width: 1024px) { }
+```
+
+## BEM Naming Convention
+
+| Type | Pattern | Example |
+|------|---------|---------|
+| Block | `.block` | `.card`, `.button`, `.modal` |
+| Element | `.block__element` | `.card__header`, `.card__body` |
+| Modifier | `.block--modifier` | `.card--elevated`, `.card--compact` |
+
+**Rule**: Never triple-nest elements. Use `.card__title` not `.card__header__title`.
+
+## Component Variants (data-attributes)
+
+Use data-attributes for variants instead of BEM modifiers for stateful/configurable properties:
 
 ```css
-/* Block */
-.component { }
+/* Intent variants */
+.button[data-intent="primary"] { }
+.button[data-intent="secondary"] { }
+.button[data-intent="danger"] { }
+.button[data-intent="ghost"] { }
 
-/* Element (flat, never nested) */
-.component__header { }
-.component__body { }
+/* Size variants */
+.button[data-size="sm"] { }
+.button[data-size="lg"] { }
 
-/* Modifier (always with base class) */
-.component--active { }
-.component--large { }
+/* State variants */
+.input[data-state="error"] { }
+.input[data-state="success"] { }
 ```
 
-HTML usage - always include base + modifier:
-```html
-<div class="component component--active">
-```
-
-## Required Practices
-
-1. **Design tokens only** - Never hardcode colors, spacing, or sizes
-2. **Mobile-first** - Default styles for mobile, media queries for larger
-3. **Both themes** - Test colors work in light AND dark mode
-4. **Focus states** - Include `:focus-visible` for accessibility
-5. **Transitions** - Use `--transition-fast` or `--transition-base`
-
-## Token Usage
+## Component Template
 
 ```css
-/* Spacing - use calc() with --gap */
-gap: calc(var(--gap) * 2);           /* 16px */
-padding: var(--padding);              /* 16px */
-margin-bottom: calc(var(--margin) * 0.5);
+/* ComponentName */
+.component-name {
+  /* Layout */
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 
-/* Colors - semantic tokens */
-color: var(--foreground);
-background: var(--background-secondary);
-border-color: var(--accent-primary);
+  /* Sizing */
+  padding: var(--space-2) var(--space-4);
 
-/* Typography */
-font-size: var(--fs-lg);
-font-weight: var(--fw-semibold);
+  /* Typography */
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-tight);
 
-/* Shapes */
-border-radius: var(--border-radius);
-box-shadow: var(--shadow-md);
+  /* Colors */
+  color: var(--color-fg);
+  background: var(--color-bg);
+  border: var(--border);
+  border-radius: var(--radius-md);
+
+  /* Transitions */
+  transition:
+    background var(--duration-fast),
+    border-color var(--duration-fast);
+}
+
+/* Hover state */
+.component-name:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-border-hover);
+}
+
+/* Focus state */
+.component-name:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+/* Disabled state */
+.component-name:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Intent: Primary */
+.component-name[data-intent="primary"] {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-primary-fg);
+}
+
+.component-name[data-intent="primary"]:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+/* Intent: Secondary */
+.component-name[data-intent="secondary"] {
+  background: var(--color-secondary);
+  border-color: var(--color-secondary-border);
+  color: var(--color-secondary-fg);
+}
+
+.component-name[data-intent="secondary"]:hover {
+  background: var(--color-secondary-hover);
+}
 ```
+
+## Anti-Patterns
+
+**Never use hardcoded values:**
+```css
+/* BAD */
+padding: 16px;
+color: #333;
+border-radius: 8px;
+font-size: 14px;
+
+/* GOOD */
+padding: var(--space-4);
+color: var(--color-fg);
+border-radius: var(--radius-md);
+font-size: var(--text-sm);
+```
+
+## Theming
+
+Components automatically support theming via CSS variables:
+
+- **Dark mode**: `[data-theme="dark"]` on `<html>`
+- **Neutral variant**: `[data-variant="slate|stone|gray|neutral"]` on `<html>`
+- **Accent color**: `[data-accent="red|green|orange|violet|rose"]` on `<html>`
+
+No component-level changes needed - semantic tokens adapt automatically.
+
+## Checklist
+
+When creating/modifying CSS:
+- [ ] Use design tokens, never hardcoded values
+- [ ] Follow BEM naming convention
+- [ ] Use data-attributes for variants
+- [ ] Include hover, focus, and disabled states
+- [ ] Test in both light and dark themes
+- [ ] Use mobile-first responsive design
+- [ ] Add file to `frontend/src/styles/components/index.css` if new

@@ -7,8 +7,15 @@
 --color-bg, --color-bg-secondary, --color-bg-hover, --color-bg-active
 --color-fg, --color-fg-muted, --color-fg-subtle
 --color-border, --color-border-hover
---color-primary, --color-primary-hover, --color-primary-fg
---color-danger, --color-success, --color-warning
+--color-primary, --color-primary-hover, --color-primary-fg, --color-primary-muted
+--color-secondary, --color-secondary-hover, --color-secondary-fg, --color-secondary-border
+--color-danger, --color-success, --color-warning (+ hover, fg, muted variants)
+```
+
+### Color Scales (raw palettes)
+```
+Neutrals: --zinc-*, --slate-*, --stone-*, --gray-*, --neutral-* (50-950)
+Accents:  --blue-*, --red-*, --green-*, --orange-*, --violet-*, --rose-* (50-950)
 ```
 
 ### Spacing (8px base)
@@ -70,6 +77,12 @@
   border-color: var(--color-primary);
 }
 
+.button[data-intent="secondary"] {
+  background: var(--color-secondary);
+  color: var(--color-secondary-fg);
+  border-color: var(--color-secondary-border);
+}
+
 .button[data-intent="danger"] {
   background: var(--color-danger);
   color: var(--color-danger-fg);
@@ -114,11 +127,43 @@
 
 ## Theming
 
-Toggle theme: `<html data-theme="dark">`
+### Data Attributes
+```html
+<html data-theme="dark" data-variant="slate" data-accent="violet">
+```
 
-Change brand color: Set `--hue-brand` (0-360)
-```css
-:root { --hue-brand: 280; } /* Purple */
+| Attribute | Values | Purpose |
+|-----------|--------|---------|
+| `data-theme` | `light`, `dark` | Light/dark mode |
+| `data-variant` | `zinc`, `slate`, `stone`, `gray`, `neutral` | Neutral scale (backgrounds, borders) |
+| `data-accent` | `blue`, `red`, `green`, `orange`, `violet`, `rose` | Primary/accent color |
+
+### React Hook
+```tsx
+import { useTheme } from '@/hooks/useTheme';
+
+function Component() {
+  const { mode, variant, accent, setMode, setVariant, setAccent } = useTheme();
+
+  return (
+    <button onClick={() => setAccent('rose')}>
+      Switch to Rose
+    </button>
+  );
+}
+```
+
+### ThemeProvider Setup
+```tsx
+import { ThemeProvider } from '@/context/theme';
+
+function App() {
+  return (
+    <ThemeProvider defaultConfig={{ accent: 'violet' }}>
+      <YourApp />
+    </ThemeProvider>
+  );
+}
 ```
 
 ---

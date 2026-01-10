@@ -1,55 +1,63 @@
+/* =============================================================================
+   SEMANTIC COLOR TOKENS
+   Maps scale/accent variables to semantic usage
+   ============================================================================= */
+
 :root {
-  /* === VARIANT HUES (change these to shift color scheme) === */
-  --hue-brand: 217;
-  --hue-danger: 0;
-  --hue-success: 142;
-  --hue-warning: 45;
-
-  /* === PRIMITIVES (light theme) === */
+  /* === PRIMITIVES === */
   --color-white: #ffffff;
-  --color-black: #111827;
-  --color-gray-50: #f9fafb;
-  --color-gray-100: #f3f4f6;
-  --color-gray-200: #e5e7eb;
-  --color-gray-300: #d1d5db;
-  --color-gray-400: #9ca3af;
-  --color-gray-500: #6b7280;
-  --color-gray-600: #4b5563;
-  --color-gray-700: #374151;
-  --color-gray-800: #1f2937;
-  --color-gray-900: #111827;
+  --color-black: #09090b;
 
-  /* === SEMANTIC TOKENS === */
+  /* === BACKGROUNDS === */
   --color-bg: var(--color-white);
-  --color-bg-secondary: var(--color-gray-50);
-  --color-bg-hover: var(--color-gray-100);
-  --color-bg-active: var(--color-gray-200);
+  --color-bg-secondary: var(--scale-50);
+  --color-bg-hover: var(--scale-100);
+  --color-bg-active: var(--scale-200);
 
-  --color-fg: var(--color-gray-900);
-  --color-fg-muted: var(--color-gray-500);
-  --color-fg-subtle: var(--color-gray-400);
+  /* === FOREGROUNDS === */
+  --color-fg: var(--scale-950);
+  --color-fg-muted: var(--scale-500);
+  --color-fg-subtle: var(--scale-400);
 
-  --color-border: var(--color-gray-200);
-  --color-border-hover: var(--color-gray-300);
+  /* === BORDERS === */
+  --color-border: var(--scale-200);
+  --color-border-hover: var(--scale-300);
 
-  /* === INTENT COLORS (derived from hues) === */
-  --color-primary: hsl(var(--hue-brand) 90% 54%);
-  --color-primary-hover: hsl(var(--hue-brand) 90% 48%);
+  /* === PRIMARY (accent color) === */
+  --color-primary: var(--accent-500);
+  --color-primary-hover: var(--accent-600);
+  --color-primary-active: var(--accent-700);
   --color-primary-fg: var(--color-white);
+  --color-primary-muted: var(--accent-100);
+  --color-primary-muted-fg: var(--accent-700);
 
-  --color-danger: hsl(var(--hue-danger) 84% 60%);
-  --color-danger-hover: hsl(var(--hue-danger) 84% 54%);
+  /* === SECONDARY (neutral, muted) === */
+  --color-secondary: var(--scale-100);
+  --color-secondary-hover: var(--scale-200);
+  --color-secondary-active: var(--scale-300);
+  --color-secondary-fg: var(--scale-900);
+  --color-secondary-border: var(--scale-200);
+
+  /* === INTENT: DANGER === */
+  --color-danger: var(--red-500);
+  --color-danger-hover: var(--red-600);
   --color-danger-fg: var(--color-white);
-  --color-danger-muted: hsl(var(--hue-danger) 84% 60% / 0.1);
+  --color-danger-muted: var(--red-100);
+  --color-danger-muted-fg: var(--red-700);
 
-  --color-success: hsl(var(--hue-success) 70% 50%);
-  --color-success-hover: hsl(var(--hue-success) 70% 45%);
+  /* === INTENT: SUCCESS === */
+  --color-success: var(--green-500);
+  --color-success-hover: var(--green-600);
   --color-success-fg: var(--color-white);
+  --color-success-muted: var(--green-100);
+  --color-success-muted-fg: var(--green-700);
 
-  --color-warning: hsl(var(--hue-warning) 90% 55%);
-  --color-warning-hover: hsl(var(--hue-warning) 90% 50%);
-  --color-warning-fg: var(--color-gray-900);
-  --color-warning-muted: hsl(var(--hue-warning) 90% 55% / 0.15);
+  /* === INTENT: WARNING === */
+  --color-warning: var(--orange-400);
+  --color-warning-hover: var(--orange-500);
+  --color-warning-fg: var(--scale-900);
+  --color-warning-muted: var(--orange-100);
+  --color-warning-muted-fg: var(--orange-700);
 
   /* === EFFECTS === */
   --color-overlay: rgb(0 0 0 / 0.5);
@@ -57,33 +65,55 @@
   --color-shadow: rgb(0 0 0);
 }
 
-[data-theme="dark"] {
-  --color-bg: var(--color-gray-900);
-  --color-bg-secondary: var(--color-gray-800);
-  --color-bg-hover: var(--color-gray-700);
-  --color-bg-active: var(--color-gray-600);
+/* === DARK THEME === */
+[data-theme='dark'] {
+  /* Backgrounds */
+  --color-bg: var(--scale-950);
+  --color-bg-secondary: var(--scale-900);
+  --color-bg-hover: var(--scale-800);
+  --color-bg-active: var(--scale-700);
 
-  --color-fg: var(--color-gray-50);
-  --color-fg-muted: var(--color-gray-400);
-  --color-fg-subtle: var(--color-gray-500);
+  /* Foregrounds */
+  --color-fg: var(--scale-50);
+  --color-fg-muted: var(--scale-400);
+  --color-fg-subtle: var(--scale-500);
 
-  --color-border: var(--color-gray-700);
-  --color-border-hover: var(--color-gray-600);
+  /* Borders */
+  --color-border: var(--scale-800);
+  --color-border-hover: var(--scale-700);
 
-  /* Intent colors adjusted for dark theme */
-  --color-primary: hsl(var(--hue-brand) 90% 60%);
-  --color-primary-hover: hsl(var(--hue-brand) 90% 65%);
+  /* Primary (lighter in dark mode) */
+  --color-primary: var(--accent-400);
+  --color-primary-hover: var(--accent-300);
+  --color-primary-active: var(--accent-200);
+  --color-primary-muted: var(--accent-950);
+  --color-primary-muted-fg: var(--accent-300);
 
-  --color-danger: hsl(var(--hue-danger) 80% 65%);
-  --color-danger-hover: hsl(var(--hue-danger) 80% 70%);
-  --color-danger-muted: hsl(var(--hue-danger) 80% 65% / 0.15);
+  /* Secondary */
+  --color-secondary: var(--scale-800);
+  --color-secondary-hover: var(--scale-700);
+  --color-secondary-active: var(--scale-600);
+  --color-secondary-fg: var(--scale-100);
+  --color-secondary-border: var(--scale-700);
 
-  --color-success: hsl(var(--hue-success) 70% 60%);
-  --color-success-hover: hsl(var(--hue-success) 70% 65%);
+  /* Danger */
+  --color-danger: var(--red-400);
+  --color-danger-hover: var(--red-300);
+  --color-danger-muted: var(--red-950);
+  --color-danger-muted-fg: var(--red-300);
 
-  --color-warning: hsl(var(--hue-warning) 90% 65%);
-  --color-warning-hover: hsl(var(--hue-warning) 90% 70%);
-  --color-warning-muted: hsl(var(--hue-warning) 90% 65% / 0.12);
+  /* Success */
+  --color-success: var(--green-400);
+  --color-success-hover: var(--green-300);
+  --color-success-muted: var(--green-950);
+  --color-success-muted-fg: var(--green-300);
 
+  /* Warning */
+  --color-warning: var(--orange-400);
+  --color-warning-hover: var(--orange-300);
+  --color-warning-muted: var(--orange-950);
+  --color-warning-muted-fg: var(--orange-300);
+
+  /* Effects */
   --color-overlay: rgb(0 0 0 / 0.7);
 }

@@ -1,4 +1,10 @@
-/* Colors (backgrounds, foregrounds, accents) for Themes */
+/* Color palettes (raw colors: zinc, slate, blue, etc.) */
+@import "./palettes.css";
+
+/* Theme variants (maps scales to --scale-* and --accent-* variables) */
+@import "./themes.css";
+
+/* Semantic colors (maps scale/accent to --color-* tokens) */
 @import "./colors.css";
 
 /* Layout (gap, padding, margins) */
