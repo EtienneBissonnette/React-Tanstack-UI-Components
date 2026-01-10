@@ -1,0 +1,127 @@
+{
+  // ===========================================
+  // Theme
+  // ===========================================
+  "workbench.colorTheme": "Default Dark Modern",
+  // ===========================================
+  // Terminal
+  // ===========================================
+  "terminal.integrated.enablePersistentSessions": false,
+  // ===========================================
+  // Editor Settings
+  // ===========================================
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "editor.linkedEditing": true,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "editor.minimap.enabled": false,
+  "editor.stickyScroll.enabled": true,
+  "editor.inlineSuggest.enabled": true,
+  // ===========================================
+  // Code Actions on Save
+  // ===========================================
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
+  },
+  // ===========================================
+  // Default Formatters by Language
+  // ===========================================
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "vscode.markdown-language-features"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.tabSize": 4,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
+    }
+  },
+  // ===========================================
+  // ESLint Configuration (Frontend)
+  // ===========================================
+  "eslint.useFlatConfig": true,
+  "eslint.workingDirectories": [
+    "frontend"
+  ],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  // ===========================================
+  // TypeScript Settings (Frontend)
+  // ===========================================
+  "typescript.tsdk": "frontend/node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.preferences.quoteStyle": "double",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  // ===========================================
+  // Python Settings (Backend)
+  // ===========================================
+  "python.defaultInterpreterPath": "${workspaceFolder}/backend/.venv/bin/python",
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.autoImportCompletions": true,
+  // ===========================================
+  // File Associations
+  // ===========================================
+  "files.associations": {
+    "*.css": "css"
+  },
+  // ===========================================
+  // Search Exclusions
+  // ===========================================
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.git": true,
+    "**/package-lock.json": true,
+    "**/__pycache__": true,
+    "**/.venv": true,
+    "**/routeTree.gen.ts": true
+  },
+  // ===========================================
+  // File Exclusions (hide from explorer)
+  // ===========================================
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/__pycache__": true,
+    "**/*.pyc": true
+  },
+  // ===========================================
+  // File Watcher Exclusions
+  // ===========================================
+  "files.watcherExclude": {
+    "**/routeTree.gen.ts": true,
+    "**/.venv/**": true,
+    "**/node_modules/**": true
+  },
+  // ===========================================
+  // Read-only Files
+  // ===========================================
+  "files.readonlyInclude": {
+    "**/routeTree.gen.ts": true
+  },
+  // ===========================================
+  // Emmet for JSX
+  // ===========================================
+  "emmet.includeLanguages": {
+    "javascriptreact": "html",
+    "typescriptreact": "html"
+  }
+}

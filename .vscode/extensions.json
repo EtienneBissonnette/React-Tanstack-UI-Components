@@ -1,0 +1,39 @@
+{
+  "recommendations": [
+    // ===========================================
+    // Essential - Linting & Formatting
+    // ===========================================
+    "dbaeumer.vscode-eslint",
+
+    // ===========================================
+    // TypeScript / JavaScript (Frontend)
+    // ===========================================
+    "ms-vscode.vscode-typescript-next",
+
+    // ===========================================
+    // React Development (Frontend)
+    // ===========================================
+    "dsznajder.es7-react-js-snippets",
+    "formulahendry.auto-rename-tag",
+
+    // ===========================================
+    // Python / FastAPI (Backend)
+    // ===========================================
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-python.black-formatter",
+    "ms-python.isort",
+
+    // ===========================================
+    // Productivity
+    // ===========================================
+    "christian-kohler.path-intellisense",
+    "streetsidesoftware.code-spell-checker",
+
+    // ===========================================
+    // Git
+    // ===========================================
+    "eamodio.gitlens"
+  ],
+  "unwantedRecommendations": []
+}

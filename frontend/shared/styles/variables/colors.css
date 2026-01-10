@@ -1,0 +1,70 @@
+/* Light Theme */
+:root {
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --background: #ffffff;
+  --background-hovered: #ebebebb9;
+  --background-active: #efefef;
+  --foreground: #111827;
+  --secondary: #f3f4f6;
+  --secondary-background: #f9fafb;
+  --secondary-hovered: #dbdbdb95;
+  --secondary-foreground: #111827;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+  --accent: #f3f4f6;
+  --accent-foreground: #111827;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --destructive-muted: rgba(239, 68, 68, 0.1);
+  --border-color: #e5e7eb;
+  --input-color: #e5e7eb;
+  --success: #43c26b;
+  --success-foreground: #f9fafb;
+  --warning: #f0ea4a;
+  --warning-foreground: #6b7280;
+  --warning-muted: rgba(240, 234, 74, 0.15);
+
+  --shadow-color: 0, 0, 0;
+  --outline-color: var(--primary);
+  --ring: var(--primary);
+  --ring-alpha: 59, 130, 246;
+  --shimmer-base: rgba(195, 195, 195, 0.8);
+  --shimmer-highlight: rgba(255, 255, 255, 0.9);
+  --overlay: rgba(17, 24, 39, 0.6);
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --background: #111827;
+  --background-hovered: #4343439b;
+  --background-active: #42464e;
+  --foreground: #f9fafb;
+  --secondary: #1f2937;
+  --secondary-background: #1f2937;
+  --secondary-hovered: #373737c2;
+  --secondary-foreground: #f9fafb;
+  --muted: #393d48af;
+  --muted-foreground: #9ca3af;
+  --accent: #1f2937;
+  --accent-foreground: #f9fafb;
+  --destructive: #f66464;
+  --destructive-foreground: #ffffff;
+  --destructive-muted: rgba(246, 100, 100, 0.15);
+  --border-color: #374151;
+  --input-color: #374151;
+  --success: #86ffac;
+  --success-foreground: #6b7280;
+  --warning: #f8ff70;
+  --warning-foreground: #6b7280;
+  --warning-muted: rgba(248, 255, 112, 0.12);
+  --shadow-color: 0, 0, 0;
+  --outline-color: var(--primary);
+  --ring: var(--primary);
+  --ring-alpha: 59, 130, 246;
+  --shimmer-base: rgba(64, 64, 79, 0.7);
+  --shimmer-highlight: rgba(255, 255, 255, 0.4);
+  --overlay: rgba(0, 0, 0, 0.7);
+}

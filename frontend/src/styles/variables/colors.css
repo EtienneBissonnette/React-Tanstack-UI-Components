@@ -1,0 +1,89 @@
+:root {
+  /* === VARIANT HUES (change these to shift color scheme) === */
+  --hue-brand: 217;
+  --hue-danger: 0;
+  --hue-success: 142;
+  --hue-warning: 45;
+
+  /* === PRIMITIVES (light theme) === */
+  --color-white: #ffffff;
+  --color-black: #111827;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  /* === SEMANTIC TOKENS === */
+  --color-bg: var(--color-white);
+  --color-bg-secondary: var(--color-gray-50);
+  --color-bg-hover: var(--color-gray-100);
+  --color-bg-active: var(--color-gray-200);
+
+  --color-fg: var(--color-gray-900);
+  --color-fg-muted: var(--color-gray-500);
+  --color-fg-subtle: var(--color-gray-400);
+
+  --color-border: var(--color-gray-200);
+  --color-border-hover: var(--color-gray-300);
+
+  /* === INTENT COLORS (derived from hues) === */
+  --color-primary: hsl(var(--hue-brand) 90% 54%);
+  --color-primary-hover: hsl(var(--hue-brand) 90% 48%);
+  --color-primary-fg: var(--color-white);
+
+  --color-danger: hsl(var(--hue-danger) 84% 60%);
+  --color-danger-hover: hsl(var(--hue-danger) 84% 54%);
+  --color-danger-fg: var(--color-white);
+  --color-danger-muted: hsl(var(--hue-danger) 84% 60% / 0.1);
+
+  --color-success: hsl(var(--hue-success) 70% 50%);
+  --color-success-hover: hsl(var(--hue-success) 70% 45%);
+  --color-success-fg: var(--color-white);
+
+  --color-warning: hsl(var(--hue-warning) 90% 55%);
+  --color-warning-hover: hsl(var(--hue-warning) 90% 50%);
+  --color-warning-fg: var(--color-gray-900);
+  --color-warning-muted: hsl(var(--hue-warning) 90% 55% / 0.15);
+
+  /* === EFFECTS === */
+  --color-overlay: rgb(0 0 0 / 0.5);
+  --color-ring: var(--color-primary);
+  --color-shadow: rgb(0 0 0);
+}
+
+[data-theme="dark"] {
+  --color-bg: var(--color-gray-900);
+  --color-bg-secondary: var(--color-gray-800);
+  --color-bg-hover: var(--color-gray-700);
+  --color-bg-active: var(--color-gray-600);
+
+  --color-fg: var(--color-gray-50);
+  --color-fg-muted: var(--color-gray-400);
+  --color-fg-subtle: var(--color-gray-500);
+
+  --color-border: var(--color-gray-700);
+  --color-border-hover: var(--color-gray-600);
+
+  /* Intent colors adjusted for dark theme */
+  --color-primary: hsl(var(--hue-brand) 90% 60%);
+  --color-primary-hover: hsl(var(--hue-brand) 90% 65%);
+
+  --color-danger: hsl(var(--hue-danger) 80% 65%);
+  --color-danger-hover: hsl(var(--hue-danger) 80% 70%);
+  --color-danger-muted: hsl(var(--hue-danger) 80% 65% / 0.15);
+
+  --color-success: hsl(var(--hue-success) 70% 60%);
+  --color-success-hover: hsl(var(--hue-success) 70% 65%);
+
+  --color-warning: hsl(var(--hue-warning) 90% 65%);
+  --color-warning-hover: hsl(var(--hue-warning) 90% 70%);
+  --color-warning-muted: hsl(var(--hue-warning) 90% 65% / 0.12);
+
+  --color-overlay: rgb(0 0 0 / 0.7);
+}
