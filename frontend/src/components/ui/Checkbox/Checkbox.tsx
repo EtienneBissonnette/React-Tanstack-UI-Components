@@ -1,4 +1,5 @@
 import { Checkbox as BaseCheckbox } from '@base-ui/react/checkbox';
+import { Check, Minus } from 'lucide-react';
 import { forwardRef, type ComponentProps } from 'react';
 import './Checkbox.css';
 
@@ -8,35 +9,6 @@ interface CheckboxProps extends ComponentProps<typeof BaseCheckbox.Root> {
   size?: CheckboxSize;
   label?: string;
 }
-
-const CheckIcon = () => (
-  <svg
-    width="12"
-    height="12"
-    viewBox="0 0 12 12"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <polyline points="10 3 4.5 8.5 2 6" />
-  </svg>
-);
-
-const IndeterminateIcon = () => (
-  <svg
-    width="12"
-    height="12"
-    viewBox="0 0 12 12"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-  >
-    <line x1="2" y1="6" x2="10" y2="6" />
-  </svg>
-);
 
 export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
   ({ size = 'md', label, className = '', indeterminate, ...props }, ref) => {
@@ -51,7 +23,7 @@ export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
         {...props}
       >
         <BaseCheckbox.Indicator className="checkbox__indicator">
-          {indeterminate ? <IndeterminateIcon /> : <CheckIcon />}
+          {indeterminate ? <Minus size={12} /> : <Check size={12} />}
         </BaseCheckbox.Indicator>
       </BaseCheckbox.Root>
     );

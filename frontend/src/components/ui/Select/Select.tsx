@@ -1,7 +1,10 @@
 import { Select as BaseSelect } from '@base-ui/react/select';
+import { Check, ChevronDown } from 'lucide-react';
 import './Select.css';
 
 type SelectSize = 'sm' | 'md' | 'lg';
+type SelectSide = 'top' | 'bottom' | 'left' | 'right';
+type SelectAlign = 'start' | 'center' | 'end';
 
 interface SelectOption {
   value: string;
@@ -19,37 +22,10 @@ interface SelectProps {
   disabled?: boolean;
   className?: string;
   name?: string;
+  side?: SelectSide;
+  align?: SelectAlign;
+  sideOffset?: number;
 }
-
-const ChevronIcon = () => (
-  <svg
-    width="12"
-    height="12"
-    viewBox="0 0 12 12"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <polyline points="3 5 6 8 9 5" />
-  </svg>
-);
-
-const CheckIcon = () => (
-  <svg
-    width="12"
-    height="12"
-    viewBox="0 0 12 12"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <polyline points="10 3 4.5 8.5 2 6" />
-  </svg>
-);
 
 export function Select({
   options,
@@ -61,6 +37,9 @@ export function Select({
   disabled = false,
   className = '',
   name,
+  side = 'bottom',
+  align = 'start',
+  sideOffset = 4,
 }: SelectProps) {
   return (
     <BaseSelect.Root
@@ -88,12 +67,18 @@ export function Select({
           }}
         </BaseSelect.Value>
         <BaseSelect.Icon className="select__icon">
-          <ChevronIcon />
+          <ChevronDown size={14} />
         </BaseSelect.Icon>
       </BaseSelect.Trigger>
 
       <BaseSelect.Portal>
-        <BaseSelect.Positioner className="select__positioner" sideOffset={4}>
+        <BaseSelect.Positioner
+          className="select__positioner"
+          side={side}
+          align={align}
+          sideOffset={sideOffset}
+          alignItemWithTrigger={false}
+        >
           <BaseSelect.Popup className="select__popup">
             {options.map((option) => (
               <BaseSelect.Item
@@ -103,7 +88,7 @@ export function Select({
                 className="select__item"
               >
                 <BaseSelect.ItemIndicator className="select__item-indicator">
-                  <CheckIcon />
+                  <Check size={12} />
                 </BaseSelect.ItemIndicator>
                 <BaseSelect.ItemText>{option.label}</BaseSelect.ItemText>
               </BaseSelect.Item>
