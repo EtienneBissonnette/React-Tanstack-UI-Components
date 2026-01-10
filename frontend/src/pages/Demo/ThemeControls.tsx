@@ -1,5 +1,10 @@
-import { Sun, Moon, Palette, Pipette } from "lucide-react";
-import { useTheme, type ThemeAccent, type ThemeVariant } from "../../context";
+import { Sun, Moon, Palette, Pipette, Type } from "lucide-react";
+import {
+  useTheme,
+  type ThemeAccent,
+  type ThemeTypography,
+  type ThemeVariant,
+} from "../../context";
 import { Select } from "../../components/ui/Select/Select";
 import "./ThemeControls.css";
 
@@ -9,6 +14,13 @@ const variantOptions: { value: string; label: string }[] = [
   { value: "stone", label: "Stone" },
   { value: "gray", label: "Gray" },
   { value: "neutral", label: "Neutral" },
+];
+
+const typographyOptions: { value: string; label: string }[] = [
+  { value: "system", label: "System" },
+  { value: "modern", label: "Modern" },
+  { value: "geometric", label: "Geometric" },
+  { value: "editorial", label: "Editorial" },
 ];
 
 const accents: { value: ThemeAccent; color: string }[] = [
@@ -21,8 +33,16 @@ const accents: { value: ThemeAccent; color: string }[] = [
 ];
 
 export function ThemeControls() {
-  const { resolvedMode, variant, accent, setMode, setVariant, setAccent } =
-    useTheme();
+  const {
+    resolvedMode,
+    variant,
+    accent,
+    typography,
+    setMode,
+    setVariant,
+    setAccent,
+    setTypography,
+  } = useTheme();
 
   return (
     <div className="theme-controls">
@@ -38,6 +58,21 @@ export function ThemeControls() {
 
       <div className="theme-controls__divider" />
 
+      {/* Typography Select */}
+      <div className="theme-controls__group">
+        <Type size={14} className="theme-controls__icon" />
+        <Select
+          options={typographyOptions}
+          value={typography}
+          onValueChange={(val) => setTypography(val as ThemeTypography)}
+          sideOffset={12}
+          size="sm"
+          className="theme-controls__select"
+        />
+      </div>
+
+      <div className="theme-controls__divider" />
+
       {/* Variant Select */}
       <div className="theme-controls__group">
         <Palette size={14} className="theme-controls__icon" />
@@ -47,7 +82,7 @@ export function ThemeControls() {
           onValueChange={(val) => setVariant(val as ThemeVariant)}
           sideOffset={12}
           size="sm"
-          className="theme-controls__variant-select"
+          className="theme-controls__select"
         />
       </div>
 

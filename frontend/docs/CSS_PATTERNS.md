@@ -2,26 +2,13 @@
 
 ## File Structure (Co-located CSS)
 
-CSS files are **co-located with their components**:
-
 ```
-src/components/
-├── Button/
-│   ├── Button.tsx
-│   └── Button.css          # Component styles
-├── Card/
-│   ├── Card.tsx
-│   ├── Card.css            # Shared styles (parent + children)
-│   ├── CardHeader.tsx
-│   ├── CardHeader.css      # CardHeader-only styles
-│   └── CardBody.tsx
-│   └── CardBody.css        # CardBody-only styles
+src/components/Button/
+├── Button.tsx
+└── Button.css
 ```
 
-**Rules:**
 - Place CSS next to the component it styles
-- Parent CSS contains shared classes used by children
-- Subcomponent CSS contains only subcomponent-specific styles
 - Import in component: `import './Component.css'`
 
 ---
@@ -30,43 +17,36 @@ src/components/
 
 ### Colors
 ```
---color-bg, --color-bg-secondary, --color-bg-hover, --color-bg-active
+--color-bg, --color-bg-secondary, --color-bg-hover
 --color-fg, --color-fg-muted, --color-fg-subtle
 --color-border, --color-border-hover
 --color-primary, --color-primary-hover, --color-primary-fg, --color-primary-muted
---color-secondary, --color-secondary-hover, --color-secondary-fg, --color-secondary-border
---color-danger, --color-success, --color-warning (+ hover, fg, muted variants)
-```
-
-### Color Scales (raw palettes)
-```
-Neutrals: --zinc-*, --slate-*, --stone-*, --gray-*, --neutral-* (50-950)
-Accents:  --blue-*, --red-*, --green-*, --orange-*, --violet-*, --rose-* (50-950)
-```
-
-### Spacing (8px base)
-```
---space-1 (4px)  --space-2 (8px)   --space-3 (12px)  --space-4 (16px)
---space-5 (20px) --space-6 (24px)  --space-8 (32px)  --space-12 (48px)
+--color-secondary, --color-secondary-hover, --color-secondary-fg
+--color-danger, --color-success, --color-warning (+ hover, fg, muted)
 ```
 
 ### Typography
 ```
---text-xs (12px) --text-sm (14px) --text-base (16px) --text-lg (18px)
---font-normal (400) --font-medium (500) --font-semibold (600) --font-bold (700)
---leading-tight (1.25) --leading-normal (1.5)
+--font-sans          (body font, controlled by typography preset)
+--font-heading       (display font, controlled by typography preset)
+--font-mono          (monospace)
+--text-xs/sm/base/lg/xl/2xl/3xl
+--font-normal/medium/semibold/bold
+--leading-tight/normal/relaxed
+```
+
+### Spacing
+```
+--space-1 (4px) --space-2 (8px) --space-3 (12px) --space-4 (16px)
+--space-5 (20px) --space-6 (24px) --space-8 (32px) --space-12 (48px)
 ```
 
 ### Shapes
 ```
---radius-sm (4px) --radius-md (8px) --radius-lg (12px) --radius-full
---shadow-sm --shadow-md --shadow-lg
+--radius-sm/md/lg/full
+--shadow-sm/md/lg
 --duration-fast (100ms) --duration-normal (200ms)
-```
-
-### Z-Index
-```
---z-dropdown (100) --z-sticky (200) --z-drawer (300) --z-modal (400) --z-toast (600)
+--z-dropdown/sticky/drawer/modal/toast
 ```
 
 ---
@@ -75,130 +55,64 @@ Accents:  --blue-*, --red-*, --green-*, --orange-*, --violet-*, --rose-* (50-950
 
 | Type | Pattern | Example |
 |------|---------|---------|
-| Block | `.block` | `.card`, `.button` |
-| Element | `.block__element` | `.card__header` |
-| Modifier | `.block--modifier` | `.card--elevated` |
-
-**Rule**: Never nest elements → `.card__header__title` → `.card__title`
+| Block | `.block` | `.button` |
+| Element | `.block__element` | `.button__icon` |
+| Modifier | `.block--modifier` | `.button--ghost` |
 
 ---
 
 ## Component Variants (data-attributes)
 
 ```css
-/* Base */
-.button {
-  padding: var(--space-2) var(--space-4);
-  font-size: var(--text-sm);
-  border-radius: var(--radius-md);
-  background: var(--color-bg);
-  color: var(--color-fg);
-  border: var(--border);
-}
-
-/* Intent */
-.button[data-intent="primary"] {
-  background: var(--color-primary);
-  color: var(--color-primary-fg);
-  border-color: var(--color-primary);
-}
-
-.button[data-intent="secondary"] {
-  background: var(--color-secondary);
-  color: var(--color-secondary-fg);
-  border-color: var(--color-secondary-border);
-}
-
-.button[data-intent="danger"] {
-  background: var(--color-danger);
-  color: var(--color-danger-fg);
-}
-
-/* Size */
-.button[data-size="sm"] {
-  padding: var(--space-1) var(--space-2);
-  font-size: var(--text-xs);
-}
-
-.button[data-size="lg"] {
-  padding: var(--space-3) var(--space-6);
-  font-size: var(--text-base);
-}
-```
-
-**Usage:**
-```html
-<button class="button" data-intent="primary" data-size="lg">Submit</button>
+.button { /* base */ }
+.button[data-intent="primary"] { background: var(--color-primary); }
+.button[data-size="sm"] { padding: var(--space-1) var(--space-2); }
 ```
 
 ---
 
-## Breakpoints (Mobile-First)
+## Theming System
 
-```css
-/* Base: Mobile */
-.component { padding: var(--space-4); }
-
-/* sm: 640px+ */
-@media (min-width: 640px) { }
-
-/* md: 768px+ */
-@media (min-width: 768px) { }
-
-/* lg: 1024px+ */
-@media (min-width: 1024px) { }
-```
-
----
-
-## Theming
-
-### Data Attributes
-```html
-<html data-theme="dark" data-variant="slate" data-accent="violet">
-```
+### Data Attributes on `<html>`
 
 | Attribute | Values | Purpose |
 |-----------|--------|---------|
 | `data-theme` | `light`, `dark` | Light/dark mode |
-| `data-variant` | `zinc`, `slate`, `stone`, `gray`, `neutral` | Neutral scale (backgrounds, borders) |
-| `data-accent` | `blue`, `red`, `green`, `orange`, `violet`, `rose` | Primary/accent color |
+| `data-variant` | `zinc`, `slate`, `stone`, `gray`, `neutral` | Neutral palette |
+| `data-accent` | `blue`, `red`, `green`, `orange`, `violet`, `rose` | Accent color |
+| `data-typography` | `system`, `modern`, `geometric`, `editorial` | Font pairing |
+
+### Typography Presets
+
+| Preset | Display | Body |
+|--------|---------|------|
+| `system` | System stack | System stack |
+| `modern` | Inter | Inter |
+| `geometric` | Space Grotesk | DM Sans |
+| `editorial` | Playfair Display | Source Sans 3 |
 
 ### React Hook
+
 ```tsx
-import { useTheme } from '@/hooks/useTheme';
+import { useTheme } from '@/context';
 
-function Component() {
-  const { mode, variant, accent, setMode, setVariant, setAccent } = useTheme();
-
-  return (
-    <button onClick={() => setAccent('rose')}>
-      Switch to Rose
-    </button>
-  );
-}
+const {
+  resolvedMode, variant, accent, typography,
+  setMode, setVariant, setAccent, setTypography
+} = useTheme();
 ```
 
-### ThemeProvider Setup
-```tsx
-import { ThemeProvider } from '@/context/theme';
+### Key Principle
 
-function App() {
-  return (
-    <ThemeProvider defaultConfig={{ accent: 'violet' }}>
-      <YourApp />
-    </ThemeProvider>
-  );
-}
-```
+Always use semantic tokens (`--color-primary`, `--font-heading`) not raw values. The theming system remaps these based on user preferences.
 
 ---
 
 ## Anti-Patterns
 
 ```css
-/* Hardcoded */              /* Tokens */
-padding: 16px;               padding: var(--space-4);
-color: #333;                 color: var(--color-fg);
-border-radius: 8px;          border-radius: var(--radius-md);
+/* Bad */                        /* Good */
+color: #333;                     color: var(--color-fg);
+font-family: 'Inter';            font-family: var(--font-sans);
+padding: 16px;                   padding: var(--space-4);
 ```

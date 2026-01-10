@@ -1,3 +1,6 @@
+/* Import self-hosted fonts (fontsource) */
+@import './fonts.css';
+
 /* Reset CSS browser defaults to a consistent baseline */
 @import './baseline/reset.css';
 

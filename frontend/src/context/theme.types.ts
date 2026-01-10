@@ -7,11 +7,13 @@ export type ThemeAccent =
   | 'orange'
   | 'violet'
   | 'rose';
+export type ThemeTypography = 'system' | 'modern' | 'geometric' | 'editorial';
 
 export interface ThemeConfig {
   mode: ThemeMode;
   variant: ThemeVariant;
   accent: ThemeAccent;
+  typography: ThemeTypography;
 }
 
 export interface ThemeContextValue extends ThemeConfig {
@@ -20,6 +22,7 @@ export interface ThemeContextValue extends ThemeConfig {
   setMode: (mode: ThemeMode) => void;
   setVariant: (variant: ThemeVariant) => void;
   setAccent: (accent: ThemeAccent) => void;
+  setTypography: (typography: ThemeTypography) => void;
   setTheme: (config: Partial<ThemeConfig>) => void;
 }
 
@@ -29,4 +32,5 @@ export const DEFAULT_CONFIG: ThemeConfig = {
   mode: 'system',
   variant: 'zinc',
   accent: 'blue',
+  typography: 'system',
 };

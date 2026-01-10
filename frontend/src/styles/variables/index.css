@@ -15,3 +15,6 @@
 
 /* Typography (fonts, sizes, line heights) */
 @import "./typography.css";
+
+/* Font presets (maps data-typography to --font-display/--font-body) */
+@import "./fonts.css";

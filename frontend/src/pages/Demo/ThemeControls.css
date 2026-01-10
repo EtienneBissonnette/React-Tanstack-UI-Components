@@ -67,8 +67,8 @@
   flex-shrink: 0;
 }
 
-/* Variant Select override */
-.theme-controls__variant-select {
+/* Select override */
+.theme-controls__select {
   min-width: 100px;
 }
 

@@ -13,6 +13,7 @@ import {
   type ThemeConfig,
   type ThemeContextValue,
   type ThemeMode,
+  type ThemeTypography,
   type ThemeVariant,
 } from './theme.types';
 
@@ -46,7 +47,8 @@ function getSystemMode(): 'light' | 'dark' {
 function applyThemeToDOM(
   resolvedMode: 'light' | 'dark',
   variant: ThemeVariant,
-  accent: ThemeAccent
+  accent: ThemeAccent,
+  typography: ThemeTypography
 ) {
   const html = document.documentElement;
 
@@ -65,6 +67,13 @@ function applyThemeToDOM(
     html.removeAttribute('data-accent');
   } else {
     html.setAttribute('data-accent', accent);
+  }
+
+  // Apply typography (only if not default)
+  if (typography === 'system') {
+    html.removeAttribute('data-typography');
+  } else {
+    html.setAttribute('data-typography', typography);
   }
 }
 
@@ -103,8 +112,8 @@ export function ThemeProvider({ children, defaultConfig }: ThemeProviderProps) {
 
   // Apply theme to DOM whenever it changes
   useEffect(() => {
-    applyThemeToDOM(resolvedMode, config.variant, config.accent);
-  }, [resolvedMode, config.variant, config.accent]);
+    applyThemeToDOM(resolvedMode, config.variant, config.accent, config.typography);
+  }, [resolvedMode, config.variant, config.accent, config.typography]);
 
   // Persist config to localStorage
   useEffect(() => {
@@ -127,6 +136,10 @@ export function ThemeProvider({ children, defaultConfig }: ThemeProviderProps) {
     setConfig((prev) => ({ ...prev, accent }));
   }, []);
 
+  const setTypography = useCallback((typography: ThemeTypography) => {
+    setConfig((prev) => ({ ...prev, typography }));
+  }, []);
+
   const setTheme = useCallback((partial: Partial<ThemeConfig>) => {
     setConfig((prev) => ({ ...prev, ...partial }));
   }, []);
@@ -138,13 +151,13 @@ export function ThemeProvider({ children, defaultConfig }: ThemeProviderProps) {
       setMode,
       setVariant,
       setAccent,
+      setTypography,
       setTheme,
     }),
-    [config, resolvedMode, setMode, setVariant, setAccent, setTheme]
+    [config, resolvedMode, setMode, setVariant, setAccent, setTypography, setTheme]
   );
 
   return (
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
 }
-

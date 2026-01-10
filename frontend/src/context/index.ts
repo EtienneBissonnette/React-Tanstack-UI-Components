@@ -5,5 +5,6 @@ export type {
   ThemeConfig,
   ThemeContextValue,
   ThemeMode,
+  ThemeTypography,
   ThemeVariant,
 } from './theme.types';

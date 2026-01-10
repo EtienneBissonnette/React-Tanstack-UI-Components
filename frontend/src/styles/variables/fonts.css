@@ -1,0 +1,30 @@
+/* =============================================================================
+   TYPOGRAPHY PRESETS
+
+   Each preset defines a display (heading) and body font pairing.
+   Controlled via data-typography attribute on <html>.
+   ============================================================================= */
+
+/* Default: System fonts (fastest, native feel) */
+:root {
+  --font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Modern: Inter - Clean, neutral, tech */
+[data-typography='modern'] {
+  --font-display: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+/* Geometric: Space Grotesk + DM Sans - Contemporary, tech-forward */
+[data-typography='geometric'] {
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+/* Editorial: Playfair Display + Source Sans 3 - Magazine, sophisticated */
+[data-typography='editorial'] {
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Source Sans 3', sans-serif;
+}
