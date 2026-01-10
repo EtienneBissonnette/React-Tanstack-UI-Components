@@ -13,15 +13,73 @@ Use this skill when:
 
 ## File Locations
 
-- **Component CSS**: `frontend/src/styles/components/{component}.css`
-- **Design Tokens**: `frontend/src/styles/variables/`
-  - `palettes.css` - Raw color palettes (zinc, slate, blue, etc.)
-  - `themes.css` - Theme variant mappings
-  - `colors.css` - Semantic color tokens
-  - `layout.css` - Spacing, z-index, containers
-  - `shapes.css` - Border radius, shadows, transitions
-  - `typography.css` - Font sizes, weights, line heights
-- **Documentation**: `frontend/docs/CSS_PATTERNS.md`
+### Component CSS (Co-located)
+
+CSS files are **co-located with their components**. Place CSS files next to the component they style:
+
+```
+src/components/
+├── Button/
+│   ├── Button.tsx
+│   └── Button.css        # Styles for Button component
+├── Card/
+│   ├── Card.tsx
+│   ├── Card.css          # Shared styles for Card and its children
+│   ├── CardHeader.tsx
+│   ├── CardHeader.css    # Styles specific to CardHeader only
+│   ├── CardBody.tsx
+│   └── CardBody.css      # Styles specific to CardBody only
+```
+
+**Rules:**
+- Component-specific CSS → same directory as the component
+- Parent components with shared classes → put shared classes in parent's CSS
+- Subcomponent-only classes → put in subcomponent's CSS file
+
+**Example - Card with subcomponents:**
+
+```css
+/* Card.css - shared classes used across Card, CardHeader, CardBody */
+.card {
+  border: var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg);
+}
+
+.card__divider {
+  border-top: var(--border);
+  margin: 0;
+}
+```
+
+```css
+/* CardHeader.css - only CardHeader-specific styles */
+.card__header {
+  padding: var(--space-4);
+  font-weight: var(--font-semibold);
+}
+```
+
+```css
+/* CardBody.css - only CardBody-specific styles */
+.card__body {
+  padding: var(--space-4);
+}
+```
+
+### Design Tokens (Global)
+
+Global design tokens remain in `frontend/src/styles/variables/`:
+- `palettes.css` - Raw color palettes (zinc, slate, blue, etc.)
+- `themes.css` - Theme variant mappings
+- `colors.css` - Semantic color tokens
+- `layout.css` - Spacing, z-index, containers
+- `shapes.css` - Border radius, shadows, transitions
+- `typography.css` - Font sizes, weights, line heights
+
+### Documentation
+
+- `frontend/docs/CSS_PATTERNS.md` - Token reference and patterns
 
 ## Design Token Reference
 
@@ -241,10 +299,13 @@ No component-level changes needed - semantic tokens adapt automatically.
 ## Checklist
 
 When creating/modifying CSS:
+- [ ] Co-locate CSS file with its component
+- [ ] Import CSS in the component file: `import './Component.css'`
+- [ ] Put shared parent/child classes in parent's CSS
+- [ ] Put subcomponent-only classes in subcomponent's CSS
 - [ ] Use design tokens, never hardcoded values
 - [ ] Follow BEM naming convention
 - [ ] Use data-attributes for variants
 - [ ] Include hover, focus, and disabled states
 - [ ] Test in both light and dark themes
 - [ ] Use mobile-first responsive design
-- [ ] Add file to `frontend/src/styles/components/index.css` if new

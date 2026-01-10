@@ -1,5 +1,31 @@
 # CSS Patterns
 
+## File Structure (Co-located CSS)
+
+CSS files are **co-located with their components**:
+
+```
+src/components/
+├── Button/
+│   ├── Button.tsx
+│   └── Button.css          # Component styles
+├── Card/
+│   ├── Card.tsx
+│   ├── Card.css            # Shared styles (parent + children)
+│   ├── CardHeader.tsx
+│   ├── CardHeader.css      # CardHeader-only styles
+│   └── CardBody.tsx
+│   └── CardBody.css        # CardBody-only styles
+```
+
+**Rules:**
+- Place CSS next to the component it styles
+- Parent CSS contains shared classes used by children
+- Subcomponent CSS contains only subcomponent-specific styles
+- Import in component: `import './Component.css'`
+
+---
+
 ## Token Reference
 
 ### Colors
