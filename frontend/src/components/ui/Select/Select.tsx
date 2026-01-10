@@ -1,5 +1,4 @@
 import { Select as BaseSelect } from '@base-ui/react/select';
-import { forwardRef } from 'react';
 import './Select.css';
 
 type SelectSize = 'sm' | 'md' | 'lg';
@@ -52,64 +51,66 @@ const CheckIcon = () => (
   </svg>
 );
 
-export const Select = forwardRef<HTMLDivElement, SelectProps>(
-  (
-    {
-      options,
-      value,
-      defaultValue,
-      onValueChange,
-      placeholder = 'Select...',
-      size = 'md',
-      disabled = false,
-      className = '',
-      name,
-    },
-    ref
-  ) => {
-    const classes = ['select', className].filter(Boolean).join(' ');
-
-    return (
-      <BaseSelect.Root
-        value={value}
-        defaultValue={defaultValue}
-        onValueChange={onValueChange}
-        disabled={disabled}
-        name={name}
+export function Select({
+  options,
+  value,
+  defaultValue,
+  onValueChange,
+  placeholder = 'Select...',
+  size = 'md',
+  disabled = false,
+  className = '',
+  name,
+}: SelectProps) {
+  return (
+    <BaseSelect.Root
+      value={value}
+      defaultValue={defaultValue}
+      onValueChange={(val) => {
+        if (val !== null && onValueChange) {
+          onValueChange(val);
+        }
+      }}
+      disabled={disabled}
+      name={name}
+    >
+      <BaseSelect.Trigger
+        className={`select__trigger${className ? ` ${className}` : ''}`}
+        data-size={size !== 'md' ? size : undefined}
       >
-        <BaseSelect.Trigger
-          ref={ref}
-          className={`${classes}__trigger`}
-          data-size={size !== 'md' ? size : undefined}
-        >
-          <BaseSelect.Value placeholder={placeholder} />
-          <BaseSelect.Icon className="select__icon">
-            <ChevronIcon />
-          </BaseSelect.Icon>
-        </BaseSelect.Trigger>
+        <BaseSelect.Value>
+          {(val) => {
+            if (val === null || val === undefined) {
+              return <span className="select__placeholder">{placeholder}</span>;
+            }
+            const selected = options.find((o) => o.value === val);
+            return selected?.label ?? val;
+          }}
+        </BaseSelect.Value>
+        <BaseSelect.Icon className="select__icon">
+          <ChevronIcon />
+        </BaseSelect.Icon>
+      </BaseSelect.Trigger>
 
-        <BaseSelect.Portal>
-          <BaseSelect.Positioner className="select__positioner" sideOffset={4}>
-            <BaseSelect.Popup className="select__popup">
-              {options.map((option) => (
-                <BaseSelect.Option
-                  key={option.value}
-                  value={option.value}
-                  disabled={option.disabled}
-                  className="select__option"
-                >
-                  <BaseSelect.OptionIndicator className="select__option-indicator">
-                    <CheckIcon />
-                  </BaseSelect.OptionIndicator>
-                  <BaseSelect.OptionText>{option.label}</BaseSelect.OptionText>
-                </BaseSelect.Option>
-              ))}
-            </BaseSelect.Popup>
-          </BaseSelect.Positioner>
-        </BaseSelect.Portal>
-      </BaseSelect.Root>
-    );
-  }
-);
-
-Select.displayName = 'Select';
+      <BaseSelect.Portal>
+        <BaseSelect.Positioner className="select__positioner" sideOffset={4}>
+          <BaseSelect.Popup className="select__popup">
+            {options.map((option) => (
+              <BaseSelect.Item
+                key={option.value}
+                value={option.value}
+                disabled={option.disabled}
+                className="select__item"
+              >
+                <BaseSelect.ItemIndicator className="select__item-indicator">
+                  <CheckIcon />
+                </BaseSelect.ItemIndicator>
+                <BaseSelect.ItemText>{option.label}</BaseSelect.ItemText>
+              </BaseSelect.Item>
+            ))}
+          </BaseSelect.Popup>
+        </BaseSelect.Positioner>
+      </BaseSelect.Portal>
+    </BaseSelect.Root>
+  );
+}

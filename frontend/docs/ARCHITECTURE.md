@@ -15,6 +15,37 @@
 
 ## Patterns
 
+### Provider Composition
+
+All context providers are composed in `src/providers/AppProviders.tsx`:
+
+```typescript
+// src/providers/AppProviders.tsx
+export function AppProviders({ children }: { children: ReactNode }) {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        {children}
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+}
+```
+
+Used in `main.tsx`:
+
+```typescript
+<StrictMode>
+  <AppProviders>
+    <RouterProvider router={router} />
+  </AppProviders>
+</StrictMode>
+```
+
+**Order (outside → inside):** QueryClient → Theme → Router
+
+Add new providers to `AppProviders.tsx` — keeps `main.tsx` clean.
+
 ### TanStack Query - queryOptions Pattern
 
 Define query configurations as reusable objects:
@@ -137,6 +168,12 @@ src/
 │   ├── api-client.ts          # HTTP client
 │   └── query-client.ts        # TanStack Query config
 │
+├── providers/                 # Context provider composition
+│   └── AppProviders.tsx       # Wraps all providers
+│
+├── context/                   # React context definitions
+│   └── theme.tsx              # Theme context + useTheme
+│
 ├── errors/                    # Error handling infrastructure
 │   ├── types.ts               # Typed error classes
 │   └── guards.ts              # Type guard functions
@@ -155,6 +192,8 @@ src/
 | `pages/` | Composition | Assembles feature components, purely presentational |
 | `features/` | Domain logic | API calls, state, feature-specific components |
 | `layouts/` | App shell | Headers, footers, drawers, navigation |
+| `providers/` | Context composition | AppProviders wraps all context providers |
+| `context/` | State contexts | Theme, Auth, Toast contexts |
 | `hooks/` | Shared behavior | Cross-feature reusable hooks |
 | `components/` | Shared UI | Design system primitives |
 
