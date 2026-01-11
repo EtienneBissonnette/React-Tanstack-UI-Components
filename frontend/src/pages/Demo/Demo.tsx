@@ -3,7 +3,9 @@ import {
   ButtonDemo,
   CheckboxDemo,
   ColorsDemo,
+  DrawerDemo,
   InputDemo,
+  ModalDemo,
   SelectDemo,
   SpacingDemo,
   SwitchDemo,
@@ -27,6 +29,8 @@ export function Demo() {
         <CheckboxDemo />
         <SwitchDemo />
         <SelectDemo />
+        <ModalDemo />
+        <DrawerDemo />
         <ColorsDemo />
         <TypographyDemo />
         <SpacingDemo />

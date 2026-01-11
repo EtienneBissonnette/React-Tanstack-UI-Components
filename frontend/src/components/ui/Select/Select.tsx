@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import { Select as BaseSelect } from '@base-ui/react/select';
 import { Check, ChevronDown } from 'lucide-react';
 import './Select.css';
@@ -10,6 +11,8 @@ interface SelectOption {
   value: string;
   label: string;
   disabled?: boolean;
+  style?: CSSProperties;
+  className?: string;
 }
 
 interface SelectProps {
@@ -79,13 +82,14 @@ export function Select({
           sideOffset={sideOffset}
           alignItemWithTrigger={false}
         >
-          <BaseSelect.Popup className="select__popup">
+          <BaseSelect.Popup className="select__popup" data-size={size !== 'md' ? size : undefined}>
             {options.map((option) => (
               <BaseSelect.Item
                 key={option.value}
                 value={option.value}
                 disabled={option.disabled}
-                className="select__item"
+                className={`select__item${option.className ? ` ${option.className}` : ''}`}
+                style={option.style}
               >
                 <BaseSelect.ItemIndicator className="select__item-indicator">
                   <Check size={12} />

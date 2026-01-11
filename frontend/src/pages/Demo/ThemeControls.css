@@ -3,7 +3,7 @@
   position: fixed;
   top: var(--space-4);
   right: var(--space-4);
-  z-index: var(--z-modal);
+  z-index: var(--z-sticky);
   display: flex;
   align-items: center;
   gap: var(--space-2);
@@ -16,6 +16,125 @@
   box-shadow:
     0 4px 24px -4px rgba(0, 0, 0, 0.12),
     0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  transition:
+    padding var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1),
+    border-radius var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Minimized state */
+.theme-controls[data-minimized] {
+  padding: var(--space-1);
+  border-radius: var(--radius-full);
+  gap: 0;
+}
+
+/* Header: contains theme toggle + close button */
+.theme-controls__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex-shrink: 0;
+}
+
+/* Hide header content when minimized, show only toggle */
+.theme-controls[data-minimized]
+  .theme-controls__header
+  .theme-controls__mode-btn {
+  display: none;
+}
+
+/* Mode toggle - circular button with ring */
+.theme-controls__mode-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  color: var(--color-fg-muted);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    color var(--duration-fast),
+    background var(--duration-fast),
+    border-color var(--duration-fast),
+    box-shadow var(--duration-fast),
+    transform var(--duration-fast);
+}
+
+.theme-controls__mode-btn:hover {
+  color: var(--color-fg);
+  background: var(--color-bg-hover);
+  border-color: var(--color-border-hover);
+}
+
+.theme-controls__mode-btn:focus-visible {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-muted);
+}
+
+.theme-controls__mode-btn:active {
+  transform: scale(0.95);
+}
+
+/* Toggle button (settings/close) */
+.theme-controls__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  color: var(--color-fg-muted);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    color var(--duration-fast),
+    background var(--duration-fast),
+    transform var(--duration-fast);
+}
+
+/* When minimized, toggle becomes circular */
+.theme-controls[data-minimized] .theme-controls__toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+}
+
+.theme-controls__toggle:hover {
+  color: var(--color-fg);
+  background: var(--color-bg-hover);
+}
+
+.theme-controls__toggle:active {
+  transform: scale(0.95);
+}
+
+/* Panel content wrapper */
+.theme-controls__panel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  opacity: 1;
+  transition:
+    opacity var(--duration-fast) ease-out,
+    max-width var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1),
+    max-height var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-controls[data-minimized] .theme-controls__panel {
+  max-width: 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
 
 /* Icon button base */
@@ -31,6 +150,7 @@
   border: none;
   border-radius: var(--radius-md);
   cursor: pointer;
+  flex-shrink: 0;
   transition:
     color var(--duration-fast),
     background var(--duration-fast),
@@ -52,6 +172,7 @@
   height: 20px;
   background: var(--color-border);
   opacity: 0.5;
+  flex-shrink: 0;
 }
 
 /* Group container */
@@ -59,6 +180,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  flex-shrink: 0;
 }
 
 /* Muted icon in groups */
@@ -72,10 +194,17 @@
   min-width: 100px;
 }
 
+/* Make select popup appear above theme controls */
+.theme-controls .select__positioner {
+  z-index: calc(var(--z-sticky) + 100);
+}
+
 /* Color swatches for accent */
 .theme-controls__swatches {
   display: flex;
-  gap: 6px;
+  gap: 8px;
+  padding: 4px;
+  margin: -4px;
 }
 
 .theme-controls__swatch {
@@ -106,7 +235,7 @@
 }
 
 .theme-controls__swatch::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
@@ -120,13 +249,62 @@
     top: auto;
     bottom: var(--space-3);
     right: var(--space-3);
-    left: var(--space-3);
-    justify-content: center;
-    flex-wrap: wrap;
+    left: auto;
+  }
+
+  .theme-controls:not([data-minimized]) {
+    /* Anchor to right, not centered */
+    right: var(--space-3);
+    left: auto;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-2);
+    max-width: calc(100vw - var(--space-6));
+  }
+
+  /* Header spans full width on mobile */
+  .theme-controls:not([data-minimized]) .theme-controls__header {
+    width: 100%;
+    justify-content: space-between;
     gap: var(--space-2);
   }
 
-  .theme-controls__divider {
+  /* Panel content */
+  .theme-controls:not([data-minimized]) .theme-controls__panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    width: 100%;
+  }
+
+  .theme-controls[data-minimized] .theme-controls__panel {
+    max-width: 0;
+    max-height: 0;
+    width: 0;
+  }
+
+  /* Hide dividers inside panel on mobile */
+  .theme-controls__panel .theme-controls__divider {
     display: none;
+  }
+
+  .theme-controls__group {
+    width: 100%;
+    display: flex;
+  }
+
+  .theme-controls__select {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Make select trigger full width */
+  .theme-controls__select .select__trigger {
+    width: 100%;
+  }
+
+  /* Color swatches stay next to icon */
+  .theme-controls__swatches {
+    justify-content: flex-start;
   }
 }

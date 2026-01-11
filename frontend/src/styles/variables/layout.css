@@ -1,21 +1,21 @@
 :root {
   /* === SPACING SCALE (8px base) === */
   --space-0: 0;
-  --space-1: 0.25rem;   /* 4px */
-  --space-2: 0.5rem;    /* 8px */
-  --space-3: 0.75rem;   /* 12px */
-  --space-4: 1rem;      /* 16px */
-  --space-5: 1.25rem;   /* 20px */
-  --space-6: 1.5rem;    /* 24px */
-  --space-8: 2rem;      /* 32px */
-  --space-10: 2.5rem;   /* 40px */
-  --space-12: 3rem;     /* 48px */
-  --space-16: 4rem;     /* 64px */
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem; /* 48px */
+  --space-16: 4rem; /* 64px */
 
   /* === Z-INDEX LAYERS === */
   --z-base: 0;
-  --z-dropdown: 100;
-  --z-sticky: 200;
+  --z-sticky: 100;
+  --z-dropdown: 200;
   --z-drawer: 300;
   --z-modal: 400;
   --z-overlay: 500;
@@ -25,6 +25,33 @@
   --header-height: 4rem;
   --container-max: 1280px;
   --container-padding: var(--space-4);
+
+  /* === VIEWPORT CONSTRAINTS === */
+  --viewport-min-width: 320px;
+  --viewport-min-height: 568px;
+
+  /* === OVERLAY SIZES === */
+  /* Modal widths */
+  --modal-size-sm: 400px;
+  --modal-size-md: 500px;
+  --modal-size-lg: 640px;
+  --modal-size-xl: 800px;
+
+  /* Drawer widths (left/right) */
+  --drawer-size-sm: 280px;
+  --drawer-size-md: 360px;
+  --drawer-size-lg: 480px;
+  --drawer-size-xl: 640px;
+
+  /* Drawer heights (top/bottom) */
+  --drawer-height-sm: 200px;
+  --drawer-height-md: 300px;
+  --drawer-height-lg: 400px;
+  --drawer-height-xl: 500px;
+
+  /* Content constraints */
+  --overlay-content-max-width: 90vw;
+  --overlay-content-max-height: 85vh;
 }
 
 @media (min-width: 768px) {

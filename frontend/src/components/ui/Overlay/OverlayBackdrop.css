@@ -1,0 +1,24 @@
+.overlay-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  background: rgb(0 0 0 / 0.5);
+
+  /* Animation */
+  opacity: 0;
+  transition: opacity var(--duration-normal) ease-out;
+}
+
+.overlay-backdrop[data-open] {
+  opacity: 1;
+}
+
+.overlay-backdrop[data-closing] {
+  opacity: 0;
+  transition: opacity var(--duration-fast) ease-in;
+}
+
+/* Dark mode - slightly more opaque */
+[data-theme='dark'] .overlay-backdrop {
+  background: rgb(0 0 0 / 0.7);
+}

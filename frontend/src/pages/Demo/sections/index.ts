@@ -1,7 +1,9 @@
 export { ButtonDemo } from './ButtonDemo';
 export { CheckboxDemo } from './CheckboxDemo';
 export { ColorsDemo } from './ColorsDemo';
+export { DrawerDemo } from './DrawerDemo';
 export { InputDemo } from './InputDemo';
+export { ModalDemo } from './ModalDemo';
 export { SelectDemo } from './SelectDemo';
 export { SpacingDemo } from './SpacingDemo';
 export { SwitchDemo } from './SwitchDemo';

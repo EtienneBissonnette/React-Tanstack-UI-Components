@@ -45,8 +45,23 @@ src/components/Button/
 ```
 --radius-sm/md/lg/full
 --shadow-sm/md/lg
---duration-fast (100ms) --duration-normal (200ms)
---z-dropdown/sticky/drawer/modal/toast
+--duration-fast (100ms) --duration-normal (200ms) --duration-slow (300ms)
+--z-dropdown/sticky/drawer/modal/overlay/toast
+```
+
+### Viewport Constraints
+```
+--viewport-min-width: 320px   (iPhone SE)
+--viewport-min-height: 568px  (iPhone SE)
+```
+
+### Overlay Sizes
+```
+Modal widths:   --modal-size-sm/md/lg/xl (400-800px)
+Drawer widths:  --drawer-size-sm/md/lg/xl (280-640px)
+Drawer heights: --drawer-height-sm/md/lg/xl (200-500px)
+Content max:    --overlay-content-max-width (90vw)
+                --overlay-content-max-height (85vh)
 ```
 
 ---

@@ -57,7 +57,14 @@ The skill ensures consistency with the project's:
 - Data-attribute variants pattern
 - Theme support (light/dark, color variants)
 
+### Viewport Requirements
+
+- Minimum supported viewport: 320px x 568px (iPhone SE)
+- All layouts must work at this minimum size
+
 **Reference**: See `frontend/docs/CSS_PATTERNS.md` for the complete token reference and patterns.
+
+**Reference**: See `frontend/docs/UI_PATTERNS.md` for overlay and component patterns.
 
 ## Backend
 
