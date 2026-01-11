@@ -1,16 +1,8 @@
+import { Tabs } from '@/components/ui';
 import { ThemeControls } from './ThemeControls';
-import {
-  ButtonDemo,
-  CheckboxDemo,
-  ColorsDemo,
-  DrawerDemo,
-  InputDemo,
-  ModalDemo,
-  SelectDemo,
-  SpacingDemo,
-  SwitchDemo,
-  TypographyDemo,
-} from './sections';
+import { ComponentsDemo } from './components';
+import { FormDemo } from './forms';
+import { TablesDemo } from './tables';
 import './Demo.css';
 
 export function Demo() {
@@ -23,17 +15,29 @@ export function Demo() {
           Interactive component showcase with theme customization
         </p>
       </header>
-      <div className="demo__content">
-        <ButtonDemo />
-        <InputDemo />
-        <CheckboxDemo />
-        <SwitchDemo />
-        <SelectDemo />
-        <ModalDemo />
-        <DrawerDemo />
-        <ColorsDemo />
-        <TypographyDemo />
-        <SpacingDemo />
+
+      <div className="demo__tabs">
+        <Tabs defaultValue="components">
+          <Tabs.List>
+            <Tabs.Trigger value="components">Components</Tabs.Trigger>
+            <Tabs.Trigger value="forms">Forms</Tabs.Trigger>
+            <Tabs.Trigger value="tables" disabled>
+              Tables
+            </Tabs.Trigger>
+          </Tabs.List>
+
+          <Tabs.Content value="components">
+            <ComponentsDemo />
+          </Tabs.Content>
+
+          <Tabs.Content value="forms">
+            <FormDemo />
+          </Tabs.Content>
+
+          <Tabs.Content value="tables">
+            <TablesDemo />
+          </Tabs.Content>
+        </Tabs>
       </div>
     </div>
   );

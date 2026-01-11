@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import './DemoSection.css';
 
 interface DemoSectionProps {
   title: string;
@@ -7,9 +8,9 @@ interface DemoSectionProps {
 
 export function DemoSection({ title, children }: DemoSectionProps) {
   return (
-    <section className="demo__section">
-      <h3 className="demo__section-title">{title}</h3>
-      <div className="demo__section-content">{children}</div>
+    <section className="demo-section">
+      <h3 className="demo-section__title">{title}</h3>
+      <div className="demo-section__content">{children}</div>
     </section>
   );
 }

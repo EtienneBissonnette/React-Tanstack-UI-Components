@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from '@tanstack/react-router';
-import { Button, Modal } from '../../../components/ui';
-import { DemoSection } from '../DemoSection';
+import { Button, Modal } from '@/components/ui';
+import { DemoSection } from '../../DemoSection';
 
 export function ModalDemo() {
   const [localModalOpen, setLocalModalOpen] = useState(false);
@@ -16,7 +16,7 @@ export function ModalDemo() {
   return (
     <DemoSection title="Modal">
       {/* Control patterns */}
-      <div className="demo__row">
+      <div className="demo-section__row">
         <Button onClick={() => setLocalModalOpen(true)}>
           Local State Modal
         </Button>
@@ -30,7 +30,7 @@ export function ModalDemo() {
       </div>
 
       {/* Sizes */}
-      <div className="demo__row">
+      <div className="demo-section__row">
         <Button intent="secondary" onClick={() => openSizeModal('sm')}>
           Small
         </Button>

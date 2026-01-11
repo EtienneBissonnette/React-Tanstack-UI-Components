@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link } from '@tanstack/react-router';
-import { Button, Drawer } from '../../../components/ui';
-import { DemoSection } from '../DemoSection';
-import type { DrawerPosition } from '../../../components/ui/Overlay';
+import { Button, Drawer } from '@/components/ui';
+import { DemoSection } from '../../DemoSection';
+import type { DrawerPosition } from '@/components/ui/Overlay';
 
 export function DrawerDemo() {
   const [positionDrawerOpen, setPositionDrawerOpen] = useState(false);
@@ -23,7 +23,7 @@ export function DrawerDemo() {
   return (
     <DemoSection title="Drawer">
       {/* Positions */}
-      <div className="demo__row">
+      <div className="demo-section__row">
         <Button onClick={() => openPositionDrawer('left')}>Left</Button>
         <Button onClick={() => openPositionDrawer('right')}>Right</Button>
         <Button onClick={() => openPositionDrawer('top')}>Top</Button>
@@ -31,7 +31,7 @@ export function DrawerDemo() {
       </div>
 
       {/* Sizes */}
-      <div className="demo__row">
+      <div className="demo-section__row">
         <Button intent="secondary" onClick={() => openSizeDrawer('sm')}>
           Small
         </Button>
@@ -47,7 +47,7 @@ export function DrawerDemo() {
       </div>
 
       {/* URL-driven */}
-      <div className="demo__row">
+      <div className="demo-section__row">
         <Link
           to="/demo"
           search={(prev) => ({ ...prev, drawer: 'nav' })}

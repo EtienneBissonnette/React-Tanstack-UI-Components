@@ -1,8 +1,0 @@
-/* Reset CSS browser defaults to a consistent baseline */
-@import "./baseline/reset.css";
-
-/* Import variables (colors, layout, shapes, typography) */
-@import "./variables/index.css";
-
-/* Import base styles for common HTML elements */
-@import "./baseline/base.css";

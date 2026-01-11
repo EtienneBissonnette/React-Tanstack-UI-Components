@@ -68,3 +68,30 @@
   padding: var(--space-3) var(--space-4);
   font-size: var(--text-base);
 }
+
+/* Autofill - Override browser default styling */
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus,
+.input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-bg) inset !important;
+  -webkit-text-fill-color: var(--color-fg) !important;
+  caret-color: var(--color-fg);
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Autofill with error state */
+.input[data-state='error']:-webkit-autofill,
+.input[data-state='error']:-webkit-autofill:hover,
+.input[data-state='error']:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-bg) inset !important;
+  border-color: var(--color-danger);
+}
+
+/* Autofill with success state */
+.input[data-state='success']:-webkit-autofill,
+.input[data-state='success']:-webkit-autofill:hover,
+.input[data-state='success']:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-bg) inset !important;
+  border-color: var(--color-success);
+}

@@ -1,9 +1,10 @@
-import { DemoSection } from '../DemoSection';
+import { DemoSection } from '../../DemoSection';
+import './TypographyDemo.css';
 
 export function TypographyDemo() {
   return (
     <DemoSection title="Typography">
-      <div className="demo__typography">
+      <div className="typography-demo__list">
         <p style={{ fontSize: 'var(--text-xs)' }}>text-xs (12px)</p>
         <p style={{ fontSize: 'var(--text-sm)' }}>text-sm (14px)</p>
         <p style={{ fontSize: 'var(--text-base)' }}>text-base (16px)</p>

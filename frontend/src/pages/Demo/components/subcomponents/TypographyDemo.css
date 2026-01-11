@@ -1,0 +1,11 @@
+/* TypographyDemo */
+.typography-demo__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.typography-demo__list p {
+  margin: 0;
+  color: var(--color-fg);
+}
