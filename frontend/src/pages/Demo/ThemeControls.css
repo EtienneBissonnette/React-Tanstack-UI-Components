@@ -11,14 +11,61 @@
   background: color-mix(in srgb, var(--color-bg) 85%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  border: 1px solid transparent;
   border-radius: var(--radius-lg);
   box-shadow:
     0 4px 24px -4px rgba(0, 0, 0, 0.12),
-    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    inset 0 1px 0 0 color-mix(in srgb, var(--scale-300) 40%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, var(--scale-500) 15%, transparent);
   transition:
     padding var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1),
-    border-radius var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow var(--duration-normal);
+}
+
+/* Animated multi-color border shine */
+.theme-controls::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--shine-angle, 0deg),
+    var(--blue-500),
+    var(--violet-500),
+    var(--rose-500),
+    var(--red-500),
+    var(--orange-500),
+    var(--green-500),
+    var(--blue-500)
+  );
+  animation: border-shine 4s linear infinite;
+  opacity: 0.7;
+}
+
+/* Inner background to mask the gradient center */
+.theme-controls::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  border-radius: calc(var(--radius-lg) - 1px);
+  background: color-mix(in srgb, var(--color-bg) 85%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@keyframes border-shine {
+  to {
+    --shine-angle: 360deg;
+  }
+}
+
+@property --shine-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
 }
 
 /* Minimized state */
@@ -26,6 +73,10 @@
   padding: var(--space-1);
   border-radius: var(--radius-full);
   gap: 0;
+}
+
+.theme-controls[data-minimized]::after {
+  border-radius: calc(var(--radius-full) - 1px);
 }
 
 /* Header: contains theme toggle + close button */

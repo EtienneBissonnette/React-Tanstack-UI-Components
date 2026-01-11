@@ -1,33 +1,43 @@
-/* Tabs */
+/* Tabs
+   ========================================================================== */
+
 .tabs {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-/* Tabs List */
+/* Tabs List
+   -------------------------------------------------------------------------- */
+
 .tabs__list {
   position: relative;
-  display: flex;
+  display: inline-flex;
   gap: var(--space-1);
   padding: var(--space-1);
-  background: var(--color-bg-secondary);
+  background: var(--scale-100);
   border-radius: var(--radius-lg);
   width: fit-content;
 }
 
-.tabs__list[data-size='sm'] {
-  padding: 2px;
+:root[data-theme="dark"] .tabs__list {
+  background: var(--scale-900);
+}
+
+.tabs__list[data-size="sm"] {
+  padding: 3px;
   gap: 2px;
   border-radius: var(--radius-md);
 }
 
-.tabs__list[data-size='lg'] {
+.tabs__list[data-size="lg"] {
   padding: var(--space-2);
   gap: var(--space-2);
 }
 
-/* Tabs Trigger */
+/* Tabs Trigger
+   -------------------------------------------------------------------------- */
+
 .tabs__trigger {
   position: relative;
   z-index: 1;
@@ -36,66 +46,90 @@
   justify-content: center;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-4);
-  font-family: inherit;
+  font-family: var(--font-sans);
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
+  line-height: var(--leading-tight);
   color: var(--color-fg-muted);
   background: transparent;
   border: none;
   border-radius: var(--radius-md);
   cursor: pointer;
   white-space: nowrap;
-  transition:
-    color var(--duration-fast),
-    background var(--duration-fast);
+  transition: color var(--duration-fast);
 }
 
-.tabs__list[data-size='sm'] .tabs__trigger {
+.tabs__list[data-size="sm"] .tabs__trigger {
   padding: var(--space-1) var(--space-3);
   font-size: var(--text-xs);
-  border-radius: var(--radius-sm);
+  border-radius: calc(var(--radius-md) - 1px);
 }
 
-.tabs__list[data-size='lg'] .tabs__trigger {
-  padding: var(--space-3) var(--space-5);
+.tabs__list[data-size="lg"] .tabs__trigger {
+  padding: var(--space-3) var(--space-6);
   font-size: var(--text-base);
 }
 
-.tabs__trigger:hover {
+/* Hover */
+.tabs__trigger:hover:not(:disabled) {
   color: var(--color-fg);
 }
 
+/* Focus */
 .tabs__trigger:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
-.tabs__trigger[data-selected] {
+/* Active/Selected */
+.tabs__trigger[data-active] {
   color: var(--color-fg);
 }
 
+/* Disabled */
 .tabs__trigger:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-/* Tabs Indicator */
+/* Tabs Indicator - Sliding pill using Base UI CSS variables
+   --------------------------------------------------------------------------
+   Base UI provides these CSS variables on the indicator:
+   --active-tab-left, --active-tab-width, --active-tab-top, --active-tab-height
+   -------------------------------------------------------------------------- */
+
 .tabs__indicator {
   position: absolute;
   z-index: 0;
+  left: 0;
+  top: 0;
+  width: var(--active-tab-width);
+  height: var(--active-tab-height);
+  translate: var(--active-tab-left) var(--active-tab-top);
   background: var(--color-bg);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
-  transition:
-    left var(--duration-normal),
-    width var(--duration-normal);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.1);
+  transition-property: translate, width, height;
+  transition-duration: var(--duration-normal);
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.tabs__list[data-size='sm'] .tabs__indicator {
-  border-radius: var(--radius-sm);
+.tabs__list[data-size="sm"] .tabs__indicator {
+  border-radius: calc(var(--radius-md) - 1px);
 }
 
-/* Tabs Content */
+:root[data-theme="dark"] .tabs__indicator {
+  background: var(--scale-800);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Tabs Content
+   -------------------------------------------------------------------------- */
+
 .tabs__content {
   outline: none;
 }
@@ -106,7 +140,6 @@
   border-radius: var(--radius-md);
 }
 
-/* Hide non-selected content */
 .tabs__content[hidden] {
   display: none;
 }
