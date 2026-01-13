@@ -220,8 +220,13 @@
 }
 
 .toast[data-type="info"] {
-  --toast-color: var(--color-primary);
-  color: var(--color-primary);
+  --toast-color: var(--scale-500);
+  color: var(--scale-500);
+}
+
+[data-theme="dark"] .toast[data-type="info"] {
+  --toast-color: var(--scale-400);
+  color: var(--scale-400);
 }
 
 /* =============================================================================
@@ -243,13 +248,12 @@
   width: 32px;
   height: 32px;
   border-radius: var(--radius-md);
-  background: currentColor;
-  color: white;
+  background: rgb(from var(--toast-color) r g b / 0.15);
+  color: var(--toast-color);
 }
 
 [data-theme="dark"] .toast__icon-wrapper {
   background: rgb(from var(--toast-color) r g b / 0.2);
-  color: currentColor;
 }
 
 .toast__icon {

@@ -1,0 +1,155 @@
+/* =============================================================================
+   Dropdown Menu Component
+   Action menu with refined aesthetics
+   ============================================================================= */
+
+/* =============================================================================
+   Trigger
+   ============================================================================= */
+
+.dropdown-menu__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.dropdown-menu__trigger[data-popup-open] {
+  /* Add active state styling if needed */
+}
+
+/* =============================================================================
+   Content (Popup)
+   ============================================================================= */
+
+.dropdown-menu__content {
+  --menu-bg: var(--color-bg);
+  --menu-border: var(--color-border);
+  --menu-shadow:
+    0 4px 16px rgb(0 0 0 / 0.1),
+    0 1px 4px rgb(0 0 0 / 0.05);
+
+  z-index: var(--z-dropdown);
+  min-width: 180px;
+  max-width: 280px;
+  padding: var(--space-1);
+  background: var(--menu-bg);
+  border: 1px solid var(--menu-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--menu-shadow);
+  outline: none;
+
+  /* Entry animation */
+  animation: dropdown-enter 0.15s ease-out;
+  transform-origin: var(--transform-origin);
+}
+
+[data-theme='dark'] .dropdown-menu__content {
+  --menu-shadow:
+    0 4px 16px rgb(0 0 0 / 0.4),
+    0 1px 4px rgb(0 0 0 / 0.2);
+}
+
+@keyframes dropdown-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.dropdown-menu__content[data-exiting] {
+  animation: dropdown-exit 0.1s ease-in forwards;
+}
+
+@keyframes dropdown-exit {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95) translateY(-4px);
+  }
+}
+
+/* =============================================================================
+   Item
+   ============================================================================= */
+
+.dropdown-menu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: var(--font-normal);
+  color: var(--color-fg);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  outline: none;
+  transition:
+    background var(--duration-fast),
+    color var(--duration-fast);
+}
+
+.dropdown-menu__item:hover,
+.dropdown-menu__item[data-highlighted] {
+  background: var(--color-bg-hover);
+}
+
+.dropdown-menu__item:focus-visible {
+  background: var(--color-bg-hover);
+  outline: 2px solid var(--color-ring);
+  outline-offset: -2px;
+}
+
+.dropdown-menu__item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Danger intent */
+.dropdown-menu__item[data-intent='danger'] {
+  color: var(--color-danger);
+}
+
+.dropdown-menu__item[data-intent='danger']:hover,
+.dropdown-menu__item[data-intent='danger'][data-highlighted] {
+  background: var(--color-danger-muted);
+  color: var(--color-danger);
+}
+
+/* =============================================================================
+   Separator
+   ============================================================================= */
+
+.dropdown-menu__separator {
+  height: 1px;
+  margin: var(--space-1) calc(var(--space-3) * -1);
+  background: var(--color-border);
+}
+
+/* =============================================================================
+   Group
+   ============================================================================= */
+
+.dropdown-menu__group {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-menu__group-label {
+  padding: var(--space-2) var(--space-3);
+  padding-bottom: var(--space-1);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: var(--color-fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}

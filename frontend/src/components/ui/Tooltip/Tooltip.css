@@ -1,0 +1,75 @@
+/* =============================================================================
+   Tooltip Component
+   Elegant hover information popup
+   ============================================================================= */
+
+.tooltip {
+  --tooltip-bg: var(--scale-900);
+  --tooltip-fg: var(--scale-50);
+  --tooltip-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+
+  position: relative;
+  z-index: var(--z-tooltip);
+  max-width: 280px;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-normal);
+  color: var(--tooltip-fg);
+  background: var(--tooltip-bg);
+  border-radius: var(--radius-md);
+  box-shadow: var(--tooltip-shadow);
+  white-space: normal;
+  word-wrap: break-word;
+
+  /* Entry animation */
+  animation: tooltip-enter 0.15s ease-out;
+  transform-origin: var(--transform-origin);
+}
+
+[data-theme='dark'] .tooltip {
+  --tooltip-bg: var(--scale-100);
+  --tooltip-fg: var(--scale-900);
+  --tooltip-shadow: 0 4px 12px rgb(0 0 0 / 0.4);
+}
+
+@keyframes tooltip-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Exiting state */
+.tooltip[data-exiting] {
+  animation: tooltip-exit 0.1s ease-in forwards;
+}
+
+@keyframes tooltip-exit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+/* =============================================================================
+   Arrow
+   ============================================================================= */
+
+.tooltip__arrow {
+  width: 10px;
+  height: 10px;
+  fill: var(--tooltip-bg);
+}
+
+[data-theme='dark'] .tooltip__arrow {
+  fill: var(--scale-100);
+}

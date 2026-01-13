@@ -1,0 +1,152 @@
+/* =============================================================================
+   Card Component
+   Flexible content container with variants
+   ============================================================================= */
+
+.card {
+  --card-bg: var(--color-bg);
+  --card-border: var(--color-border);
+  --card-shadow: none;
+  --card-radius: var(--radius-lg);
+  --card-padding: var(--space-4);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  transition:
+    background var(--duration-fast),
+    border-color var(--duration-fast),
+    box-shadow var(--duration-normal),
+    transform var(--duration-normal);
+}
+
+/* =============================================================================
+   Variants
+   ============================================================================= */
+
+/* Bordered - more pronounced border */
+.card[data-variant='bordered'] {
+  --card-border: var(--color-border-hover);
+}
+
+/* Elevated - prominent shadow, no border */
+.card[data-variant='elevated'] {
+  --card-border: transparent;
+  --card-shadow:
+    0 1px 3px rgb(0 0 0 / 0.08),
+    0 4px 12px rgb(0 0 0 / 0.06);
+}
+
+[data-theme='dark'] .card[data-variant='elevated'] {
+  --card-shadow:
+    0 1px 3px rgb(0 0 0 / 0.3),
+    0 4px 12px rgb(0 0 0 / 0.2);
+}
+
+/* =============================================================================
+   Interactive State
+   ============================================================================= */
+
+.card[data-interactive] {
+  cursor: pointer;
+}
+
+.card[data-interactive]:hover {
+  --card-border: var(--color-border-hover);
+  --card-shadow:
+    0 2px 8px rgb(0 0 0 / 0.08),
+    0 8px 24px rgb(0 0 0 / 0.06);
+  transform: translateY(-2px);
+}
+
+.card[data-interactive]:active {
+  transform: translateY(0);
+}
+
+.card[data-interactive]:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+[data-theme='dark'] .card[data-interactive]:hover {
+  --card-shadow:
+    0 2px 8px rgb(0 0 0 / 0.4),
+    0 8px 24px rgb(0 0 0 / 0.3);
+}
+
+/* =============================================================================
+   Padding Variants
+   ============================================================================= */
+
+.card[data-padding='none'] {
+  --card-padding: 0;
+}
+
+.card[data-padding='sm'] {
+  --card-padding: var(--space-3);
+}
+
+.card[data-padding='lg'] {
+  --card-padding: var(--space-6);
+}
+
+/* =============================================================================
+   Card Header
+   ============================================================================= */
+
+.card__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--card-padding);
+  padding-bottom: 0;
+}
+
+/* If header is the only child, add bottom padding */
+.card__header:only-child {
+  padding-bottom: var(--card-padding);
+}
+
+/* =============================================================================
+   Card Body
+   ============================================================================= */
+
+.card__body {
+  flex: 1;
+  padding: var(--card-padding);
+}
+
+/* Remove top padding if following header */
+.card__header + .card__body {
+  padding-top: var(--space-3);
+}
+
+/* =============================================================================
+   Card Footer
+   ============================================================================= */
+
+.card__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--card-padding);
+  padding-top: 0;
+  margin-top: auto;
+}
+
+/* If footer follows body, add separator line */
+.card__body + .card__footer {
+  padding-top: var(--card-padding);
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--card-padding);
+}
+
+/* Footer as only child */
+.card__footer:only-child {
+  padding-top: var(--card-padding);
+}
