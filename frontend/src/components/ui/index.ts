@@ -1,5 +1,11 @@
 export { Button } from './Button';
 export { Checkbox } from './Checkbox';
+export {
+  DataTable,
+  EditableTextCell,
+  EditableSelectCell,
+  EditableCheckboxCell,
+} from './DataTable';
 export { Drawer } from './Drawer';
 export {
   Form,

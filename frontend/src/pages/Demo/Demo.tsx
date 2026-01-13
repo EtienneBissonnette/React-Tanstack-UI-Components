@@ -21,9 +21,7 @@ export function Demo() {
           <Tabs.List>
             <Tabs.Trigger value="components">Components</Tabs.Trigger>
             <Tabs.Trigger value="forms">Forms</Tabs.Trigger>
-            <Tabs.Trigger value="tables" disabled>
-              Tables
-            </Tabs.Trigger>
+            <Tabs.Trigger value="tables">Tables</Tabs.Trigger>
           </Tabs.List>
 
           <Tabs.Content value="components">
