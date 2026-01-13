@@ -6,7 +6,6 @@ import {
   DataTable,
   EditableTextCell,
   EditableSelectCell,
-  EditableCheckboxCell,
   useDataTable,
 } from "@/components/ui/DataTable";
 import { Button } from "@/components/ui";
@@ -16,27 +15,94 @@ import {
   roleOptions,
   type Person,
 } from "./mockData";
+import type { ValidationResult } from "@/components/ui/DataTable/DataTable.types";
 import "./TablesDemo.css";
 
 const columnHelper = createColumnHelper<Person>();
+
+// Validation functions
+const validateFirstName = (value: unknown): ValidationResult => {
+  const name = String(value).trim();
+  if (name.length < 2) {
+    return { valid: false, message: "First name must be at least 2 characters" };
+  }
+  if (name.length > 50) {
+    return { valid: false, message: "First name cannot exceed 50 characters" };
+  }
+  if (!/^[a-zA-Z\s'-]+$/.test(name)) {
+    return { valid: false, message: "First name can only contain letters, spaces, hyphens, and apostrophes" };
+  }
+  return { valid: true };
+};
+
+const validateLastName = (value: unknown): ValidationResult => {
+  const name = String(value).trim();
+  if (name.length < 2) {
+    return { valid: false, message: "Last name must be at least 2 characters" };
+  }
+  if (name.length > 50) {
+    return { valid: false, message: "Last name cannot exceed 50 characters" };
+  }
+  if (!/^[a-zA-Z\s'-]+$/.test(name)) {
+    return { valid: false, message: "Last name can only contain letters, spaces, hyphens, and apostrophes" };
+  }
+  return { valid: true };
+};
+
+const validateEmail = (value: unknown): ValidationResult => {
+  const email = String(value).trim();
+  if (!email) {
+    return { valid: false, message: "Email is required" };
+  }
+  // Standard email regex pattern
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return { valid: false, message: "Please enter a valid email address" };
+  }
+  if (email.length > 254) {
+    return { valid: false, message: "Email cannot exceed 254 characters" };
+  }
+  return { valid: true };
+};
+
+// Date formatter
+const formatDate = (date: Date): string => {
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  }).format(date);
+};
 
 const columns = [
   columnHelper.accessor("firstName", {
     header: "First Name",
     cell: EditableTextCell,
-    meta: { editable: true },
+    meta: {
+      editable: true,
+      validate: validateFirstName,
+    },
   }),
   columnHelper.accessor("lastName", {
     header: "Last Name",
     cell: EditableTextCell,
-    meta: { editable: true },
+    meta: {
+      editable: true,
+      validate: validateLastName,
+    },
   }),
   columnHelper.accessor("email", {
     header: "Email",
+    cell: EditableTextCell,
+    meta: {
+      editable: true,
+      validate: validateEmail,
+    },
   }),
-  columnHelper.accessor("age", {
-    header: "Age",
-    meta: { align: "right" as const, width: 80 },
+  columnHelper.accessor("createdAt", {
+    header: "Created",
+    cell: (info) => formatDate(info.getValue()),
+    meta: { width: 120 },
   }),
   columnHelper.accessor("status", {
     header: "Status",
@@ -56,9 +122,12 @@ const columns = [
   }),
   columnHelper.accessor("verified", {
     header: "Verified",
-    cell: EditableCheckboxCell,
+    cell: (info) => (
+      <span className={`tables-demo__badge ${info.getValue() ? 'tables-demo__badge--success' : 'tables-demo__badge--muted'}`}>
+        {info.getValue() ? 'Yes' : 'No'}
+      </span>
+    ),
     meta: {
-      editable: true,
       align: "center" as const,
       width: 90,
     },
@@ -95,7 +164,7 @@ export function TablesDemo() {
           <div className="tables-demo__header-content">
             <h2 className="tables-demo__title">Team Members</h2>
             <p className="tables-demo__description">
-              Manage your team with sorting, filtering, and inline editing
+              Manage your team with sorting, filtering, and inline editing. Try entering invalid data to see validation.
             </p>
           </div>
           <div className="tables-demo__header-actions">

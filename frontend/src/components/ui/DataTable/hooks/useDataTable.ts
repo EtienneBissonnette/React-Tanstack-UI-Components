@@ -29,6 +29,7 @@ export interface UseDataTableOptions<TData> {
   onDataChange?: (data: TData[]) => void;
   onRowSelectionChange?: (selection: RowSelectionState) => void;
   getRowId?: (row: TData) => string;
+  onValidationError?: (columnId: string, message: string) => void;
 }
 
 export interface UseDataTableReturn<TData> {
@@ -61,6 +62,7 @@ export function useDataTable<TData>(
     onDataChange,
     onRowSelectionChange,
     getRowId,
+    onValidationError,
   } = options;
 
   // State for table features
@@ -93,6 +95,47 @@ export function useDataTable<TData>(
       }
     },
     [data, onDataChange, skipAutoResetPageIndex]
+  );
+
+  // Validate and update data - returns true if valid, false otherwise
+  const validateAndUpdate = useCallback(
+    async (rowIndex: number, columnId: string, value: unknown): Promise<boolean> => {
+      // Find the column to get its validator
+      const column = columns.find((col) => {
+        // Handle both accessor columns and display columns
+        if ('accessorKey' in col) {
+          return col.accessorKey === columnId;
+        }
+        if ('id' in col) {
+          return col.id === columnId;
+        }
+        return false;
+      });
+
+      const validator = column?.meta?.validate;
+
+      // If no validator, just update
+      if (!validator) {
+        updateData(rowIndex, columnId, value);
+        return true;
+      }
+
+      // Run validation
+      const result = await Promise.resolve(validator(value, columnId, rowIndex));
+
+      if (result.valid) {
+        updateData(rowIndex, columnId, value);
+        return true;
+      }
+
+      // Validation failed - call error handler
+      if (onValidationError && result.message) {
+        onValidationError(columnId, result.message);
+      }
+
+      return false;
+    },
+    [columns, updateData, onValidationError]
   );
 
   // Handle row selection changes
@@ -136,6 +179,8 @@ export function useDataTable<TData>(
     getRowId,
     meta: {
       updateData,
+      validateAndUpdate,
+      onValidationError,
     },
   });
 

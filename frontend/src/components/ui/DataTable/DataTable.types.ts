@@ -12,11 +12,30 @@ import type {
   RowData,
 } from '@tanstack/react-table';
 
-// Extend TanStack Table's meta to include updateData
+// Validation result type
+export interface ValidationResult {
+  valid: boolean;
+  message?: string;
+}
+
+// Validator function type
+export type CellValidator<TValue = unknown> = (
+  value: TValue,
+  columnId: string,
+  rowIndex: number
+) => ValidationResult | Promise<ValidationResult>;
+
+// Extend TanStack Table's meta to include updateData and validation
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface TableMeta<TData extends RowData> {
     updateData: (rowIndex: number, columnId: string, value: unknown) => void;
+    validateAndUpdate?: (
+      rowIndex: number,
+      columnId: string,
+      value: unknown
+    ) => Promise<boolean>;
+    onValidationError?: (columnId: string, message: string) => void;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -26,6 +45,7 @@ declare module '@tanstack/react-table' {
     options?: SelectOption[];
     align?: 'left' | 'center' | 'right';
     width?: string | number;
+    validate?: CellValidator<TValue>;
   }
 }
 

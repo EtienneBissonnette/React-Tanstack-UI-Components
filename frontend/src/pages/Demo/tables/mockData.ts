@@ -3,7 +3,7 @@ export interface Person {
   firstName: string;
   lastName: string;
   email: string;
-  age: number;
+  createdAt: Date;
   status: 'active' | 'inactive' | 'pending';
   verified: boolean;
   role: string;
@@ -57,6 +57,10 @@ function randomItem<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+function randomDate(start: Date, end: Date): Date {
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+}
+
 function generatePerson(index: number): Person {
   const firstName = randomItem(firstNames);
   const lastName = randomItem(lastNames);
@@ -64,12 +68,16 @@ function generatePerson(index: number): Person {
   const departments = departmentOptions.map((d) => d.value);
   const statuses: Person['status'][] = ['active', 'inactive', 'pending'];
 
+  // Generate a random date within the last 2 years
+  const now = new Date();
+  const twoYearsAgo = new Date(now.getFullYear() - 2, now.getMonth(), now.getDate());
+
   return {
     id: `person-${index + 1}`,
     firstName,
     lastName,
     email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@example.com`,
-    age: Math.floor(Math.random() * 40) + 22,
+    createdAt: randomDate(twoYearsAgo, now),
     status: randomItem(statuses),
     verified: Math.random() > 0.3,
     role: randomItem(roles),

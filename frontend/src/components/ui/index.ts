@@ -25,3 +25,4 @@ export { useOverlay } from './Overlay';
 export { Select } from './Select';
 export { Switch } from './Switch';
 export { Tabs } from './Tabs';
+export { ToastProvider, useToast } from './Toast';

@@ -7,6 +7,8 @@ export type {
   DataTableBodyProps,
   DataTablePaginationProps,
   SelectOption,
+  ValidationResult,
+  CellValidator,
 } from './DataTable.types';
 
 // Hooks
