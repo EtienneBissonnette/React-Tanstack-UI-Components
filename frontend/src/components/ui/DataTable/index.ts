@@ -8,3 +8,7 @@ export type {
   DataTablePaginationProps,
   SelectOption,
 } from './DataTable.types';
+
+// Hooks
+export { useDataTable, useSkipper } from './hooks';
+export type { UseDataTableOptions, UseDataTableReturn } from './hooks';

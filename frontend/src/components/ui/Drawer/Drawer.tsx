@@ -6,7 +6,7 @@ import {
   type ComponentPropsWithoutRef,
 } from 'react';
 import { X } from 'lucide-react';
-import { useOverlay } from '@/hooks/useOverlay';
+import { useOverlay } from '../Overlay/hooks';
 import type {
   DrawerProps,
   DrawerHeaderProps,

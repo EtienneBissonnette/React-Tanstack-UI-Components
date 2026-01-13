@@ -9,3 +9,7 @@ export type {
   OverlayBodyProps,
   OverlayFooterProps,
 } from './Overlay.types';
+
+// Hooks
+export { useOverlay } from './hooks';
+export type { UseOverlayOptions, UseOverlayReturn } from './hooks';

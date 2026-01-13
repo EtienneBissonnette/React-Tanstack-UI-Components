@@ -1,6 +1,6 @@
-'use no forget';
+"use no forget";
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -13,8 +13,8 @@ import {
   type ColumnFiltersState,
   type PaginationState,
   type Table,
-} from '@tanstack/react-table';
-import { useSkipper } from './useSkipper';
+} from "@tanstack/react-table";
+import { useSkipper } from "./useSkipper";
 
 export interface UseDataTableOptions<TData> {
   data: TData[];
@@ -99,7 +99,8 @@ export function useDataTable<TData>(
   const handleRowSelectionChange = useCallback(
     (updater: React.SetStateAction<RowSelectionState>) => {
       setRowSelection((old) => {
-        const newSelection = typeof updater === 'function' ? updater(old) : updater;
+        const newSelection =
+          typeof updater === "function" ? updater(old) : updater;
         onRowSelectionChange?.(newSelection);
         return newSelection;
       });
@@ -108,6 +109,7 @@ export function useDataTable<TData>(
   );
 
   // Create table instance
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
@@ -127,7 +129,9 @@ export function useDataTable<TData>(
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: enableSorting ? getSortedRowModel() : undefined,
     getFilteredRowModel: enableFiltering ? getFilteredRowModel() : undefined,
-    getPaginationRowModel: enablePagination ? getPaginationRowModel() : undefined,
+    getPaginationRowModel: enablePagination
+      ? getPaginationRowModel()
+      : undefined,
     autoResetPageIndex,
     getRowId,
     meta: {

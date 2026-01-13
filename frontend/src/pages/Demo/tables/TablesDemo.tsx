@@ -1,65 +1,65 @@
-'use no forget';
+"use no forget";
 
-import { useState } from 'react';
-import { createColumnHelper } from '@tanstack/react-table';
+import { useState } from "react";
+import { createColumnHelper } from "@tanstack/react-table";
 import {
   DataTable,
   EditableTextCell,
   EditableSelectCell,
   EditableCheckboxCell,
-} from '@/components/ui/DataTable';
-import { Button } from '@/components/ui';
-import { useDataTable } from '@/hooks/useDataTable';
+  useDataTable,
+} from "@/components/ui/DataTable";
+import { Button } from "@/components/ui";
 import {
   mockPeople,
   statusOptions,
   roleOptions,
   type Person,
-} from './mockData';
-import './TablesDemo.css';
+} from "./mockData";
+import "./TablesDemo.css";
 
 const columnHelper = createColumnHelper<Person>();
 
 const columns = [
-  columnHelper.accessor('firstName', {
-    header: 'First Name',
+  columnHelper.accessor("firstName", {
+    header: "First Name",
     cell: EditableTextCell,
     meta: { editable: true },
   }),
-  columnHelper.accessor('lastName', {
-    header: 'Last Name',
+  columnHelper.accessor("lastName", {
+    header: "Last Name",
     cell: EditableTextCell,
     meta: { editable: true },
   }),
-  columnHelper.accessor('email', {
-    header: 'Email',
+  columnHelper.accessor("email", {
+    header: "Email",
   }),
-  columnHelper.accessor('age', {
-    header: 'Age',
-    meta: { align: 'right' as const, width: 80 },
+  columnHelper.accessor("age", {
+    header: "Age",
+    meta: { align: "right" as const, width: 80 },
   }),
-  columnHelper.accessor('status', {
-    header: 'Status',
+  columnHelper.accessor("status", {
+    header: "Status",
     cell: EditableSelectCell,
     meta: {
       editable: true,
       options: statusOptions,
     },
   }),
-  columnHelper.accessor('role', {
-    header: 'Role',
+  columnHelper.accessor("role", {
+    header: "Role",
     cell: EditableSelectCell,
     meta: {
       editable: true,
       options: roleOptions,
     },
   }),
-  columnHelper.accessor('verified', {
-    header: 'Verified',
+  columnHelper.accessor("verified", {
+    header: "Verified",
     cell: EditableCheckboxCell,
     meta: {
       editable: true,
-      align: 'center' as const,
+      align: "center" as const,
       width: 90,
     },
   }),
@@ -104,7 +104,11 @@ export function TablesDemo() {
                 <span className="tables-demo__selection-count">
                   {selectedRows.length} selected
                 </span>
-                <Button intent="danger" size="sm" onClick={handleDeleteSelected}>
+                <Button
+                  intent="danger"
+                  size="sm"
+                  onClick={handleDeleteSelected}
+                >
                   Delete
                 </Button>
               </>
