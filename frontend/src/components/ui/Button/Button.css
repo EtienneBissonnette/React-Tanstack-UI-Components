@@ -1,5 +1,9 @@
-/* Button */
+/* =============================================================================
+   Button Component
+   ============================================================================= */
+
 .button {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -17,7 +21,8 @@
   transition:
     background var(--duration-fast),
     border-color var(--duration-fast),
-    color var(--duration-fast);
+    color var(--duration-fast),
+    opacity var(--duration-fast);
 }
 
 .button:hover {
@@ -36,7 +41,56 @@
   cursor: not-allowed;
 }
 
-/* Intent: Primary */
+/* =============================================================================
+   Button Content
+   ============================================================================= */
+
+.button__content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  transition: opacity var(--duration-fast);
+}
+
+.button__content[data-hidden] {
+  opacity: 0;
+}
+
+/* =============================================================================
+   Loading State
+   ============================================================================= */
+
+.button[data-loading] {
+  cursor: wait;
+}
+
+.button__spinner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button__spinner-icon {
+  width: 1em;
+  height: 1em;
+  animation: button-spin 0.6s linear infinite;
+}
+
+@keyframes button-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =============================================================================
+   Intent: Primary
+   ============================================================================= */
+
 .button[data-intent='primary'] {
   background: var(--color-primary);
   border-color: var(--color-primary);
@@ -48,7 +102,10 @@
   border-color: var(--color-primary-hover);
 }
 
-/* Intent: Secondary */
+/* =============================================================================
+   Intent: Secondary
+   ============================================================================= */
+
 .button[data-intent='secondary'] {
   background: var(--color-secondary);
   border-color: var(--color-secondary-border);
@@ -59,7 +116,10 @@
   background: var(--color-secondary-hover);
 }
 
-/* Intent: Danger */
+/* =============================================================================
+   Intent: Danger
+   ============================================================================= */
+
 .button[data-intent='danger'] {
   background: var(--color-danger);
   border-color: var(--color-danger);
@@ -71,7 +131,10 @@
   border-color: var(--color-danger-hover);
 }
 
-/* Intent: Ghost */
+/* =============================================================================
+   Intent: Ghost
+   ============================================================================= */
+
 .button[data-intent='ghost'] {
   background: transparent;
   border-color: transparent;
@@ -81,14 +144,20 @@
   background: var(--color-bg-hover);
 }
 
-/* Size: Small */
+/* =============================================================================
+   Size: Small
+   ============================================================================= */
+
 .button[data-size='sm'] {
   padding: var(--space-1) var(--space-2);
   font-size: var(--text-xs);
   border-radius: var(--radius-sm);
 }
 
-/* Size: Large */
+/* =============================================================================
+   Size: Large
+   ============================================================================= */
+
 .button[data-size='lg'] {
   padding: var(--space-3) var(--space-6);
   font-size: var(--text-base);
