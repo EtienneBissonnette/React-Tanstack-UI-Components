@@ -4,6 +4,407 @@ This document describes common UI patterns and component design principles used 
 
 ---
 
+## CSS Architecture
+
+### Overview
+
+The styling system uses CSS custom properties organized in layers:
+
+```
+globals.css
+├── fonts.css (fontsource imports)
+├── baseline/ (reset + base styles)
+└── variables/
+    ├── palettes.css   → Raw color definitions (11-shade scales)
+    ├── themes.css     → Variant mappings (data-variant, data-accent)
+    ├── colors.css     → Semantic tokens (light/dark modes)
+    ├── fonts.css      → Typography presets (data-typography)
+    ├── typography.css → Font sizes, weights, line heights
+    ├── layout.css     → Spacing, z-index, overlay sizing
+    └── shapes.css     → Border radius, shadows, durations
+```
+
+### Palette System
+
+**File:** `src/styles/variables/palettes.css`
+
+Raw color palettes with 11 shades each (50-950):
+
+| Category | Palettes |
+|----------|----------|
+| **Neutrals** | zinc, slate, stone, gray, neutral |
+| **Accents** | blue, red, green, orange, violet, rose |
+
+```css
+--zinc-50: #fafafa;
+--zinc-100: #f4f4f5;
+/* ... */
+--zinc-950: #09090b;
+```
+
+### Variant System (Theme Switching)
+
+**File:** `src/styles/variables/themes.css`
+
+Three data attributes on `<html>` control theming:
+
+| Attribute | Controls | Options |
+|-----------|----------|---------|
+| `data-theme` | Light/dark mode | `light`, `dark` |
+| `data-variant` | Neutral palette | `zinc` (default), `slate`, `stone`, `gray`, `neutral` |
+| `data-accent` | Primary color | `blue` (default), `red`, `green`, `orange`, `violet`, `rose` |
+
+**How it works:**
+
+```css
+/* Default: zinc neutrals, blue accent */
+:root {
+  --scale-50: var(--zinc-50);
+  --accent-500: var(--blue-500);
+}
+
+/* When data-variant="slate" → all neutrals become slate */
+[data-variant='slate'] {
+  --scale-50: var(--slate-50);
+  --scale-100: var(--slate-100);
+  /* ... all 11 shades remapped */
+}
+
+/* When data-accent="violet" → accent colors become violet */
+[data-accent='violet'] {
+  --accent-50: var(--violet-50);
+  --accent-500: var(--violet-500);
+  /* ... all 11 shades remapped */
+}
+```
+
+### Semantic Color Tokens
+
+**File:** `src/styles/variables/colors.css`
+
+Components use semantic tokens, never raw colors:
+
+```css
+/* These adapt automatically to theme/variant/accent */
+--color-bg            /* Background */
+--color-fg            /* Foreground text */
+--color-primary       /* Primary action (uses --accent-*) */
+--color-danger        /* Destructive actions (always red) */
+--color-success       /* Success states (always green) */
+--color-border        /* Default borders */
+```
+
+**Light vs Dark mode differences:**
+
+```css
+/* Light mode */
+--color-primary: var(--accent-500);
+--color-bg: var(--color-white);
+
+/* Dark mode - lighter shades for visibility */
+[data-theme='dark'] {
+  --color-primary: var(--accent-400);
+  --color-bg: var(--scale-950);
+}
+```
+
+### Typography System
+
+**File:** `src/styles/variables/fonts.css`
+
+Typography presets via `data-typography` on `<html>`:
+
+| Preset | Display Font | Body Font |
+|--------|--------------|-----------|
+| `system` (default) | System fonts | System fonts |
+| `modern` | Inter | Inter |
+| `geometric` | Space Grotesk | DM Sans |
+| `editorial` | Playfair Display | Source Sans 3 |
+
+```css
+[data-typography='geometric'] {
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+```
+
+**Size scale** (in `typography.css`):
+
+```css
+--text-xs: 0.75rem;   /* 12px */
+--text-sm: 0.875rem;  /* 14px */
+--text-base: 1rem;    /* 16px */
+--text-lg: 1.125rem;  /* 18px */
+--text-xl: 1.25rem;   /* 20px */
+```
+
+### Controlling Themes in React
+
+**File:** `src/context/theme.tsx`
+
+Use the `useTheme` hook:
+
+```tsx
+import { useTheme } from '@/context/useTheme';
+
+function Settings() {
+  const {
+    resolvedMode,  // 'light' | 'dark' (actual mode after system resolution)
+    mode,          // 'light' | 'dark' | 'system'
+    variant,       // 'zinc' | 'slate' | 'stone' | 'gray' | 'neutral'
+    accent,        // 'blue' | 'red' | 'green' | 'orange' | 'violet' | 'rose'
+    typography,    // 'system' | 'modern' | 'geometric' | 'editorial'
+    setMode,
+    setVariant,
+    setAccent,
+    setTypography,
+  } = useTheme();
+
+  return (
+    <Select value={accent} onValueChange={setAccent}>
+      <Select.Option value="blue">Blue</Select.Option>
+      <Select.Option value="violet">Violet</Select.Option>
+    </Select>
+  );
+}
+```
+
+Theme settings persist to localStorage automatically.
+
+### Component Variant Pattern
+
+Components use data attributes for variants:
+
+```css
+/* Intent variants */
+.button[data-intent='primary'] {
+  background: var(--color-primary);
+}
+.button[data-intent='danger'] {
+  background: var(--color-danger-muted);
+}
+
+/* Size variants */
+.button[data-size='sm'] {
+  padding: var(--space-1) var(--space-2);
+}
+```
+
+---
+
+## Form Implementation
+
+### TanStack Form Integration
+
+**Files:** `src/components/ui/Form/`
+
+Forms use TanStack Form with Zod validation. The `Form` component wraps `useForm` and provides context to child fields.
+
+```tsx
+import { Form, FormInput, FormSelect, FormActions } from '@/components/ui';
+import { z } from 'zod';
+
+const schema = z.object({
+  email: z.string().email('Invalid email'),
+  role: z.enum(['admin', 'user']),
+});
+
+function MyForm() {
+  return (
+    <Form
+      schema={schema}
+      defaultValues={{ email: '', role: 'user' }}
+      onSubmit={(values) => console.log(values)}
+    >
+      {(form) => (
+        <>
+          <form.Field name="email">
+            {(field) => <FormInput field={field} label="Email" />}
+          </form.Field>
+
+          <form.Field name="role">
+            {(field) => (
+              <FormSelect field={field} label="Role">
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+              </FormSelect>
+            )}
+          </form.Field>
+
+          <FormActions>
+            <Button type="submit">Save</Button>
+          </FormActions>
+        </>
+      )}
+    </Form>
+  );
+}
+```
+
+### Validation Behavior
+
+- Validation runs on `onChange` and `onSubmit`
+- Errors display after field blur OR form submission attempt
+- Each field component handles error extraction consistently
+
+### Available Form Components
+
+| Component | Purpose |
+|-----------|---------|
+| `Form` | Wrapper with schema validation |
+| `FormField` | Generic field with label/hint/error |
+| `FormInput` | Text input field |
+| `FormSelect` | Dropdown select |
+| `FormCheckbox` | Checkbox with validation |
+| `FormSwitch` | Toggle switch |
+| `FormGroup` | Visual grouping with legend |
+| `FormActions` | Button container |
+
+---
+
+## DataTable Implementation
+
+### TanStack Table Integration
+
+**Files:** `src/components/ui/DataTable/`
+
+The DataTable uses a compound component pattern:
+
+```tsx
+import { DataTable, useDataTable } from '@/components/ui';
+
+function MyTable() {
+  const [data, setData] = useState(initialData);
+
+  const { table } = useDataTable({
+    data,
+    columns,
+    enableSorting: true,
+    enableFiltering: true,
+    enablePagination: true,
+    enableRowSelection: true,
+    pageSize: 10,
+    onDataChange: setData,
+  });
+
+  return (
+    <DataTable table={table} hoverable>
+      <DataTable.Header />
+      <DataTable.Body emptyState={<p>No data</p>} />
+      <DataTable.Pagination showPageSizeSelect />
+    </DataTable>
+  );
+}
+```
+
+### Editable Cells
+
+Column definitions support inline editing with validation:
+
+```tsx
+const columns = [
+  {
+    accessorKey: 'email',
+    header: 'Email',
+    meta: {
+      editable: true,
+      editType: 'text',
+      validate: (value) => {
+        if (!value.includes('@')) {
+          return { valid: false, message: 'Invalid email' };
+        }
+        return { valid: true };
+      },
+    },
+  },
+  {
+    accessorKey: 'status',
+    header: 'Status',
+    meta: {
+      editable: true,
+      editType: 'select',
+      options: [
+        { value: 'active', label: 'Active' },
+        { value: 'inactive', label: 'Inactive' },
+      ],
+    },
+  },
+];
+```
+
+### React Compiler Compatibility
+
+**Issue:** TanStack Table's internal patterns conflict with React Compiler's automatic memoization. The compiler would incorrectly optimize away necessary state updates and references.
+
+**Solution:** All DataTable files use the `"use no forget"` directive to opt out of React Compiler optimization:
+
+```tsx
+'use no forget';
+
+import { useReactTable } from '@tanstack/react-table';
+// ...
+```
+
+**Files requiring this directive:**
+- `DataTable.tsx`, `DataTableHeader.tsx`, `DataTableBody.tsx`, `DataTablePagination.tsx`
+- `hooks/useDataTable.ts`, `hooks/useSkipper.ts`
+- `cells/EditableTextCell.tsx`, `cells/EditableSelectCell.tsx`, `cells/EditableCheckboxCell.tsx`
+
+### Auto-Reset Skipping (useSkipper)
+
+**File:** `src/components/ui/DataTable/hooks/useSkipper.ts`
+
+When editing cells, TanStack Table normally resets pagination/sorting. The `useSkipper` hook prevents this:
+
+```tsx
+// From TanStack Table's editable-data example
+export function useSkipper() {
+  const shouldSkipRef = useRef(true);
+  const shouldSkip = shouldSkipRef.current;
+
+  const skip = useCallback(() => {
+    shouldSkipRef.current = false;
+  }, []);
+
+  useEffect(() => {
+    shouldSkipRef.current = true;
+  });
+
+  return [shouldSkip, skip] as const;
+}
+```
+
+Used in `useDataTable`:
+
+```tsx
+const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
+
+const table = useReactTable({
+  autoResetPageIndex,
+  meta: {
+    updateData: (rowIndex, columnId, value) => {
+      skipAutoResetPageIndex(); // Prevent reset during edit
+      onDataChange?.(/* updated data */);
+    },
+  },
+});
+```
+
+### ESLint Exceptions
+
+Required exceptions for TanStack Table compatibility:
+
+```tsx
+// useDataTable.ts - TanStack's hook has different semantics
+// eslint-disable-next-line react-hooks/incompatible-library
+const table = useReactTable({...});
+
+// useSkipper.ts - Intentional pattern from TanStack docs
+// eslint-disable-next-line react-hooks/refs
+```
+
+---
+
 ## Overlay Components (Modal & Drawer)
 
 ### Overview
