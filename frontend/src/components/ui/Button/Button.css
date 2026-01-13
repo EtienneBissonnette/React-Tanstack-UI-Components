@@ -117,18 +117,47 @@
 }
 
 /* =============================================================================
-   Intent: Danger
+   Intent: Danger (Destructive)
+   Soft outlined warning - visually distinct from primary, requires intention
    ============================================================================= */
 
 .button[data-intent='danger'] {
-  background: var(--color-danger);
-  border-color: var(--color-danger);
-  color: var(--color-danger-fg);
+  --danger-glow: rgb(from var(--color-danger) r g b / 0.15);
+
+  background: var(--color-danger-muted);
+  border: 1.5px solid rgb(from var(--color-danger) r g b / 0.4);
+  color: var(--color-danger);
+  font-weight: var(--font-semibold);
+  box-shadow:
+    0 1px 2px rgb(from var(--color-danger) r g b / 0.06);
+  transition:
+    background var(--duration-normal),
+    border-color var(--duration-normal),
+    color var(--duration-normal),
+    box-shadow var(--duration-normal);
 }
 
 .button[data-intent='danger']:hover {
-  background: var(--color-danger-hover);
+  background: rgb(from var(--color-danger) r g b / 0.15);
+  border-color: var(--color-danger);
+  color: var(--color-danger-hover);
+  box-shadow:
+    0 2px 8px -2px var(--danger-glow),
+    0 0 0 3px rgb(from var(--color-danger) r g b / 0.08);
+}
+
+.button[data-intent='danger']:active {
+  background: rgb(from var(--color-danger) r g b / 0.2);
   border-color: var(--color-danger-hover);
+  box-shadow:
+    inset 0 1px 3px rgb(from var(--color-danger) r g b / 0.15);
+}
+
+.button[data-intent='danger']:focus-visible {
+  outline: 2px solid var(--color-danger);
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 4px var(--danger-glow);
 }
 
 /* =============================================================================
