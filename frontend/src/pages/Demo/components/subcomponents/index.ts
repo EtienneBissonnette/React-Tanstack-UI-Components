@@ -7,4 +7,5 @@ export { ModalDemo } from './ModalDemo';
 export { SelectDemo } from './SelectDemo';
 export { SpacingDemo } from './SpacingDemo';
 export { SwitchDemo } from './SwitchDemo';
+export { ToastDemo } from './ToastDemo';
 export { TypographyDemo } from './TypographyDemo';

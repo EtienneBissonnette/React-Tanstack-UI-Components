@@ -8,6 +8,7 @@ import {
   SelectDemo,
   SpacingDemo,
   SwitchDemo,
+  ToastDemo,
   TypographyDemo,
 } from './subcomponents';
 import './ComponentsDemo.css';
@@ -22,6 +23,7 @@ export function ComponentsDemo() {
       <SelectDemo />
       <ModalDemo />
       <DrawerDemo />
+      <ToastDemo />
       <ColorsDemo />
       <TypographyDemo />
       <SpacingDemo />
