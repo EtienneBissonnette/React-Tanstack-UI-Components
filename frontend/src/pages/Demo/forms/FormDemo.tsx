@@ -9,6 +9,8 @@ import {
   FormInput,
   FormSelect,
   FormSwitch,
+  FormTextarea,
+  useToast,
 } from '@/components/ui';
 import './FormDemo.css';
 
@@ -38,18 +40,25 @@ const roleOptions = [
 ];
 
 export function FormDemo() {
+  const { addToast } = useToast();
+
   const handleSubmit = (values: ContactFormData) => {
     console.log('Form submitted:', values);
-    alert('Form submitted successfully! Check the console for values.');
+    addToast({
+      type: 'success',
+      title: 'Message sent!',
+      message: 'Thanks for reaching out. We\'ll get back to you within 24 hours.',
+      duration: 5000,
+    });
   };
 
   return (
     <div className="form-demo">
       <div className="form-demo__container">
         <header className="form-demo__header">
-          <h2 className="form-demo__title">Contact Form</h2>
+          <h2 className="form-demo__title">Get in Touch</h2>
           <p className="form-demo__description">
-            A comprehensive form example using TanStack Form with Zod validation
+            Fill out the form below and we'll get back to you within 24 hours.
           </p>
         </header>
 
@@ -79,6 +88,7 @@ export function FormDemo() {
                         field={field}
                         label="First Name"
                         placeholder="John"
+                        autoComplete="given-name"
                         required
                       />
                     )}
@@ -89,6 +99,7 @@ export function FormDemo() {
                         field={field}
                         label="Last Name"
                         placeholder="Doe"
+                        autoComplete="family-name"
                         required
                       />
                     )}
@@ -99,9 +110,10 @@ export function FormDemo() {
                   {(field: AnyFieldApi) => (
                     <FormInput
                       field={field}
-                      label="Email"
+                      label="Email Address"
                       type="email"
                       placeholder="john@example.com"
+                      autoComplete="email"
                       hint="We'll never share your email with anyone else"
                       required
                     />
@@ -113,9 +125,10 @@ export function FormDemo() {
                     {(field: AnyFieldApi) => (
                       <FormInput
                         field={field}
-                        label="Phone"
+                        label="Phone Number"
                         type="tel"
                         placeholder="+1 (555) 123-4567"
+                        autoComplete="tel"
                       />
                     )}
                   </form.Field>
@@ -125,18 +138,19 @@ export function FormDemo() {
                         field={field}
                         label="Company"
                         placeholder="Acme Inc."
+                        autoComplete="organization"
                       />
                     )}
                   </form.Field>
                 </FormGroup>
               </FormGroup>
 
-              <FormGroup legend="Professional Details">
+              <FormGroup legend="Your Message" description="How can we help you?">
                 <form.Field name="role">
                   {(field: AnyFieldApi) => (
                     <FormSelect
                       field={field}
-                      label="Role"
+                      label="Your Role"
                       options={roleOptions}
                       placeholder="Select your role"
                       required
@@ -146,10 +160,11 @@ export function FormDemo() {
 
                 <form.Field name="message">
                   {(field: AnyFieldApi) => (
-                    <FormInput
+                    <FormTextarea
                       field={field}
                       label="Message"
                       placeholder="Tell us how we can help you..."
+                      hint="Be as detailed as possible so we can best assist you"
                       required
                     />
                   )}
@@ -162,7 +177,7 @@ export function FormDemo() {
                     <FormCheckbox
                       field={field}
                       checkboxLabel="Subscribe to our newsletter"
-                      hint="Get the latest updates and news"
+                      hint="Get the latest updates, tips, and news delivered to your inbox"
                     />
                   )}
                 </form.Field>
@@ -172,7 +187,7 @@ export function FormDemo() {
                     <FormSwitch
                       field={field}
                       switchLabel="Enable email notifications"
-                      hint="Receive notifications about your account"
+                      hint="Receive notifications about your account activity"
                     />
                   )}
                 </form.Field>
@@ -183,7 +198,7 @@ export function FormDemo() {
                   {(field: AnyFieldApi) => (
                     <FormCheckbox
                       field={field}
-                      checkboxLabel="I agree to the terms and conditions"
+                      checkboxLabel="I agree to the terms of service and privacy policy"
                       required
                     />
                   )}
@@ -196,12 +211,12 @@ export function FormDemo() {
                   intent="secondary"
                   onClick={() => form.reset()}
                 >
-                  Reset
+                  Clear Form
                 </Button>
                 <form.Subscribe selector={(state: { isSubmitting: boolean }) => state.isSubmitting}>
                   {(isSubmitting: boolean) => (
                     <Button type="submit" intent="primary" disabled={isSubmitting}>
-                      {isSubmitting ? 'Submitting...' : 'Submit'}
+                      {isSubmitting ? 'Sending...' : 'Send Message'}
                     </Button>
                   )}
                 </form.Subscribe>

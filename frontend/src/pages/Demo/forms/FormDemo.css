@@ -1,46 +1,144 @@
-/* Form Demo */
+/* =============================================================================
+   Form Demo - Refined Editorial Aesthetic
+   ============================================================================= */
+
 .form-demo {
-  padding: var(--space-6) var(--space-4);
-  max-width: 800px;
+  --form-accent: var(--color-primary);
+  --form-glow: rgb(from var(--color-primary) r g b / 0.08);
+
+  padding: var(--space-8) var(--space-4);
+  max-width: 680px;
   margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
+/* Container with refined depth */
 .form-demo__container {
+  position: relative;
   background: var(--color-bg);
-  border: var(--border);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: var(--space-6);
+  padding: var(--space-8);
   box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.04),
-    0 4px 12px rgba(0, 0, 0, 0.03);
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 4px 16px rgba(0, 0, 0, 0.04),
+    0 12px 48px rgba(0, 0, 0, 0.03);
+
+  /* Subtle top accent line */
+  overflow: hidden;
 }
 
+.form-demo__container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--form-accent) 20%,
+    var(--form-accent) 80%,
+    transparent 100%
+  );
+  opacity: 0.7;
+}
+
+/* Header with refined typography */
 .form-demo__header {
-  margin-bottom: var(--space-6);
-  padding-bottom: var(--space-4);
-  border-bottom: var(--border);
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+  text-align: center;
 }
 
 .form-demo__title {
-  margin: 0 0 var(--space-2);
-  font-size: var(--text-xl);
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
   font-weight: var(--font-bold);
   color: var(--color-fg);
+  letter-spacing: -0.02em;
+  line-height: var(--leading-tight);
 }
 
 .form-demo__description {
   margin: 0;
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   color: var(--color-fg-muted);
+  line-height: var(--leading-relaxed);
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Responsive */
+/* Progress indicator dots */
+.form-demo__progress {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.form-demo__progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-border);
+  transition: all var(--duration-normal) ease;
+}
+
+.form-demo__progress-dot[data-active] {
+  background: var(--form-accent);
+  box-shadow: 0 0 0 3px var(--form-glow);
+}
+
+.form-demo__progress-dot[data-completed] {
+  background: var(--color-success);
+}
+
+/* Responsive adjustments */
 @media (max-width: 640px) {
   .form-demo {
     padding: var(--space-4) var(--space-3);
+    min-height: auto;
   }
 
   .form-demo__container {
-    padding: var(--space-4);
+    padding: var(--space-5);
+    border-radius: var(--radius-md);
   }
+
+  .form-demo__header {
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
+  }
+
+  .form-demo__title {
+    font-size: var(--text-xl);
+  }
+
+  .form-demo__description {
+    font-size: var(--text-sm);
+  }
+}
+
+/* Animation on load */
+@keyframes form-demo-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-demo__container {
+  animation: form-demo-fade-in var(--duration-slow) ease-out;
 }

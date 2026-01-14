@@ -1,17 +1,53 @@
-/* Form */
+/* =============================================================================
+   Form Component
+   ============================================================================= */
+
 .form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-5);
   width: 100%;
 }
 
-/* Form Field */
+/* =============================================================================
+   Form Field - Base structure
+   ============================================================================= */
+
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: var(--space-2);
+  transition: opacity var(--duration-normal) ease;
 }
+
+/* Staggered animation for form fields */
+@keyframes form-field-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form > .form-group,
+.form > .form-field,
+.form > .form-actions {
+  animation: form-field-enter var(--duration-normal) ease-out backwards;
+}
+
+.form > :nth-child(1) { animation-delay: 0ms; }
+.form > :nth-child(2) { animation-delay: 50ms; }
+.form > :nth-child(3) { animation-delay: 100ms; }
+.form > :nth-child(4) { animation-delay: 150ms; }
+.form > :nth-child(5) { animation-delay: 200ms; }
+.form > :nth-child(6) { animation-delay: 250ms; }
+
+/* =============================================================================
+   Form Field - Label
+   ============================================================================= */
 
 .form-field__label {
   display: inline-flex;
@@ -21,29 +57,48 @@
   font-weight: var(--font-medium);
   color: var(--color-fg);
   line-height: var(--leading-tight);
+  transition: color var(--duration-fast) ease;
 }
 
 .form-field__required {
   color: var(--color-danger);
   font-weight: var(--font-normal);
+  font-size: var(--text-xs);
+  opacity: 0.8;
 }
+
+/* =============================================================================
+   Form Field - Control wrapper
+   ============================================================================= */
 
 .form-field__control {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
+
+/* =============================================================================
+   Form Field - Hint text
+   ============================================================================= */
 
 .form-field__hint {
   margin: 0;
+  margin-top: var(--space-1);
   font-size: var(--text-xs);
   color: var(--color-fg-muted);
   line-height: var(--leading-normal);
+  opacity: 0.9;
 }
+
+/* =============================================================================
+   Form Field - Error messages
+   ============================================================================= */
 
 .form-field__errors {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+  margin-top: var(--space-1);
 }
 
 .form-field__error {
@@ -51,14 +106,39 @@
   font-size: var(--text-xs);
   color: var(--color-danger);
   line-height: var(--leading-normal);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-1);
+  animation: form-error-enter var(--duration-fast) ease-out;
 }
 
-/* Form Field - Error state */
+@keyframes form-error-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =============================================================================
+   Form Field - Error state
+   ============================================================================= */
+
 .form-field[data-error] .form-field__label {
   color: var(--color-danger);
 }
 
-/* Form Group */
+.form-field[data-error] .form-field__hint {
+  display: none;
+}
+
+/* =============================================================================
+   Form Group - Semantic fieldset grouping
+   ============================================================================= */
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -68,19 +148,28 @@
   border: none;
 }
 
+/* Add visual separator between groups */
+.form-group + .form-group {
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+
 .form-group__legend {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+  font-family: var(--font-heading);
   font-size: var(--text-base);
   font-weight: var(--font-semibold);
   color: var(--color-fg);
   line-height: var(--leading-tight);
   padding: 0;
-  margin-bottom: var(--space-2);
+  margin-bottom: var(--space-3);
+  letter-spacing: -0.01em;
 }
 
 .form-group__description {
+  font-family: var(--font-sans);
   font-size: var(--text-sm);
   font-weight: var(--font-normal);
   color: var(--color-fg-muted);
@@ -93,7 +182,10 @@
   gap: var(--space-4);
 }
 
-/* Form Group - Horizontal layout */
+/* =============================================================================
+   Form Group - Horizontal layout
+   ============================================================================= */
+
 .form-group[data-layout='horizontal'] .form-group__content {
   flex-direction: row;
   flex-wrap: wrap;
@@ -102,10 +194,13 @@
 
 .form-group[data-layout='horizontal'] .form-group__content > * {
   flex: 1;
-  min-width: 200px;
+  min-width: 180px;
 }
 
-/* Form Group - Inline layout */
+/* =============================================================================
+   Form Group - Inline layout (for checkboxes/switches)
+   ============================================================================= */
+
 .form-group[data-layout='inline'] .form-group__content {
   flex-direction: row;
   flex-wrap: wrap;
@@ -117,18 +212,21 @@
   flex: 0 0 auto;
 }
 
-/* Form Actions */
+/* =============================================================================
+   Form Actions - Button container
+   ============================================================================= */
+
 .form-actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
   justify-content: flex-end;
-  padding-top: var(--space-4);
-  border-top: var(--border);
-  margin-top: var(--space-2);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--space-4);
 }
 
-/* Form Actions - Alignment variants */
+/* Alignment variants */
 .form-actions[data-align='start'] {
   justify-content: flex-start;
 }
@@ -149,8 +247,15 @@
   flex: 1;
 }
 
-/* Responsive adjustments */
+/* =============================================================================
+   Responsive Adjustments
+   ============================================================================= */
+
 @media (max-width: 640px) {
+  .form {
+    gap: var(--space-4);
+  }
+
   .form-group[data-layout='horizontal'] .form-group__content {
     flex-direction: column;
   }
@@ -161,9 +266,15 @@
 
   .form-actions {
     flex-direction: column;
+    padding-top: var(--space-4);
   }
 
   .form-actions > * {
     width: 100%;
+  }
+
+  /* Reverse button order on mobile so primary is on top */
+  .form-actions {
+    flex-direction: column-reverse;
   }
 }

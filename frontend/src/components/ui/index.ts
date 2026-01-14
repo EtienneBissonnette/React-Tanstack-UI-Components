@@ -19,11 +19,13 @@ export {
   FormField,
   FormGroup,
   FormInput,
+  FormTextarea,
   FormSelect,
   FormSwitch,
   useFormContext,
 } from './Form';
 export { Input } from './Input';
+export { Textarea } from './Textarea';
 export { Modal } from './Modal';
 export { useOverlay } from './Overlay';
 export { Select } from './Select';

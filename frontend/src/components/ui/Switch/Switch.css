@@ -1,4 +1,7 @@
-/* Switch */
+/* =============================================================================
+   Switch Component
+   ============================================================================= */
+
 .switch {
   position: relative;
   display: inline-flex;
@@ -10,7 +13,9 @@
   border: none;
   border-radius: var(--radius-full);
   cursor: pointer;
-  transition: background var(--duration-fast);
+  transition:
+    background var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
 }
 
 .switch:hover {
@@ -18,9 +23,13 @@
 }
 
 .switch:focus-visible {
-  outline: 2px solid var(--color-ring);
-  outline-offset: 2px;
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-primary-muted);
 }
+
+/* =============================================================================
+   Checked State
+   ============================================================================= */
 
 .switch[data-checked] {
   background: var(--color-primary);
@@ -30,34 +39,58 @@
   background: var(--color-primary-hover);
 }
 
+/* =============================================================================
+   Disabled State
+   ============================================================================= */
+
 .switch[data-disabled] {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-/* Thumb */
+/* =============================================================================
+   Thumb with refined animation
+   ============================================================================= */
+
 .switch__thumb {
   display: block;
   width: 20px;
   height: 20px;
   background: var(--color-bg);
   border-radius: var(--radius-full);
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--duration-fast);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.15),
+    0 1px 1px rgba(0, 0, 0, 0.1);
+  transition:
+    transform var(--duration-fast) cubic-bezier(0.34, 1.56, 0.64, 1),
+    width var(--duration-fast) ease;
 }
 
 .switch[data-checked] .switch__thumb {
   transform: translateX(20px);
 }
 
-/* Label wrapper */
+/* Stretch effect on active */
+.switch:active:not([data-disabled]) .switch__thumb {
+  width: 24px;
+}
+
+.switch[data-checked]:active:not([data-disabled]) .switch__thumb {
+  transform: translateX(16px);
+}
+
+/* =============================================================================
+   Label Wrapper
+   ============================================================================= */
+
 .switch__label {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-3);
   cursor: pointer;
   font-size: var(--text-sm);
   color: var(--color-fg);
+  line-height: var(--leading-normal);
 }
 
 .switch__label:has(.switch[data-disabled]) {
@@ -69,7 +102,10 @@
   user-select: none;
 }
 
-/* Size: Small */
+/* =============================================================================
+   Size: Small
+   ============================================================================= */
+
 .switch[data-size='sm'] {
   width: 36px;
   height: 20px;
@@ -84,11 +120,23 @@
   transform: translateX(16px);
 }
 
-.switch__label[data-size='sm'] {
-  font-size: var(--text-xs);
+.switch[data-size='sm']:active:not([data-disabled]) .switch__thumb {
+  width: 20px;
 }
 
-/* Size: Large */
+.switch[data-size='sm'][data-checked]:active:not([data-disabled]) .switch__thumb {
+  transform: translateX(12px);
+}
+
+.switch__label[data-size='sm'] {
+  font-size: var(--text-xs);
+  gap: var(--space-2);
+}
+
+/* =============================================================================
+   Size: Large
+   ============================================================================= */
+
 .switch[data-size='lg'] {
   width: 52px;
   height: 28px;
@@ -101,6 +149,14 @@
 
 .switch[data-size='lg'][data-checked] .switch__thumb {
   transform: translateX(24px);
+}
+
+.switch[data-size='lg']:active:not([data-disabled]) .switch__thumb {
+  width: 28px;
+}
+
+.switch[data-size='lg'][data-checked]:active:not([data-disabled]) .switch__thumb {
+  transform: translateX(20px);
 }
 
 .switch__label[data-size='lg'] {

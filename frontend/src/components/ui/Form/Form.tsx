@@ -27,7 +27,6 @@ export function Form<TFormData extends Record<string, unknown>>({
     validators: schema
       ? {
           onChange: schema,
-          onSubmit: schema,
         }
       : undefined,
     onSubmit: async ({ value }) => {
@@ -41,6 +40,7 @@ export function Form<TFormData extends Record<string, unknown>>({
     <FormContext.Provider value={{ form }}>
       <form
         className={classes}
+        noValidate
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();

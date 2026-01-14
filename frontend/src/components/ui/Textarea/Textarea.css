@@ -1,28 +1,29 @@
 /* =============================================================================
-   Input Component
+   Textarea Component
    ============================================================================= */
 
-.input {
-  --input-ring-color: var(--color-primary-muted);
-  --input-ring-size: 0px;
+.textarea {
+  --textarea-ring-color: var(--color-primary-muted);
 
   display: block;
   width: 100%;
+  min-height: 120px;
   padding: var(--space-3) var(--space-4);
   font-family: inherit;
   font-size: var(--text-sm);
-  line-height: var(--leading-normal);
+  line-height: var(--leading-relaxed);
   color: var(--color-fg);
   background: var(--color-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
+  resize: vertical;
   transition:
     border-color var(--duration-fast) ease,
     box-shadow var(--duration-fast) ease,
     background var(--duration-fast) ease;
 }
 
-.input::placeholder {
+.textarea::placeholder {
   color: var(--color-fg-subtle);
   opacity: 0.7;
 }
@@ -31,19 +32,19 @@
    Hover State
    ============================================================================= */
 
-.input:hover:not(:focus):not(:disabled):not([data-disabled]) {
+.textarea:hover:not(:focus):not(:disabled):not([data-disabled]) {
   border-color: var(--color-border-hover);
   background: var(--color-bg-secondary);
 }
 
 /* =============================================================================
-   Focus State - Refined ring effect
+   Focus State
    ============================================================================= */
 
-.input:focus {
+.textarea:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--input-ring-color);
+  box-shadow: 0 0 0 3px var(--textarea-ring-color);
   background: var(--color-bg);
 }
 
@@ -51,61 +52,48 @@
    Disabled State
    ============================================================================= */
 
-.input:disabled,
-.input[data-disabled] {
+.textarea:disabled,
+.textarea[data-disabled] {
   opacity: 0.5;
   cursor: not-allowed;
   background: var(--color-bg-secondary);
+  resize: none;
 }
 
 /* =============================================================================
    State: Error
    ============================================================================= */
 
-.input[data-state='error'] {
-  --input-ring-color: var(--color-danger-muted);
-
+.textarea[data-state='error'] {
+  --textarea-ring-color: var(--color-danger-muted);
   border-color: var(--color-danger);
 }
 
-.input[data-state='error']:focus {
+.textarea[data-state='error']:focus {
   border-color: var(--color-danger);
-  box-shadow: 0 0 0 3px var(--input-ring-color);
-}
-
-/* Subtle shake animation on error */
-@keyframes input-shake {
-  0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-4px); }
-  40% { transform: translateX(4px); }
-  60% { transform: translateX(-3px); }
-  80% { transform: translateX(2px); }
-}
-
-.input[data-state='error'][data-animate] {
-  animation: input-shake var(--duration-normal) ease;
+  box-shadow: 0 0 0 3px var(--textarea-ring-color);
 }
 
 /* =============================================================================
    State: Success
    ============================================================================= */
 
-.input[data-state='success'] {
-  --input-ring-color: var(--color-success-muted);
-
+.textarea[data-state='success'] {
+  --textarea-ring-color: var(--color-success-muted);
   border-color: var(--color-success);
 }
 
-.input[data-state='success']:focus {
+.textarea[data-state='success']:focus {
   border-color: var(--color-success);
-  box-shadow: 0 0 0 3px var(--input-ring-color);
+  box-shadow: 0 0 0 3px var(--textarea-ring-color);
 }
 
 /* =============================================================================
    Size: Small
    ============================================================================= */
 
-.input[data-size='sm'] {
+.textarea[data-size='sm'] {
+  min-height: 80px;
   padding: var(--space-2) var(--space-3);
   font-size: var(--text-xs);
   border-radius: var(--radius-sm);
@@ -115,56 +103,29 @@
    Size: Large
    ============================================================================= */
 
-.input[data-size='lg'] {
+.textarea[data-size='lg'] {
+  min-height: 160px;
   padding: var(--space-4) var(--space-5);
   font-size: var(--text-base);
-  border-radius: var(--radius-md);
 }
 
 /* =============================================================================
-   Textarea Variant
+   Custom Scrollbar
    ============================================================================= */
 
-textarea.input {
-  min-height: 120px;
-  resize: vertical;
-  line-height: var(--leading-relaxed);
+.textarea::-webkit-scrollbar {
+  width: 8px;
 }
 
-textarea.input[data-size='sm'] {
-  min-height: 80px;
+.textarea::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-textarea.input[data-size='lg'] {
-  min-height: 160px;
+.textarea::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-full);
 }
 
-/* =============================================================================
-   Autofill - Override browser default styling
-   ============================================================================= */
-
-.input:-webkit-autofill,
-.input:-webkit-autofill:hover,
-.input:-webkit-autofill:focus,
-.input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px var(--color-bg) inset !important;
-  -webkit-text-fill-color: var(--color-fg) !important;
-  caret-color: var(--color-fg);
-  transition: background-color 5000s ease-in-out 0s;
-}
-
-/* Autofill with error state */
-.input[data-state='error']:-webkit-autofill,
-.input[data-state='error']:-webkit-autofill:hover,
-.input[data-state='error']:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px var(--color-bg) inset !important;
-  border-color: var(--color-danger);
-}
-
-/* Autofill with success state */
-.input[data-state='success']:-webkit-autofill,
-.input[data-state='success']:-webkit-autofill:hover,
-.input[data-state='success']:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px var(--color-bg) inset !important;
-  border-color: var(--color-success);
+.textarea::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-hover);
 }
