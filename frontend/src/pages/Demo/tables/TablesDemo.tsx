@@ -1,6 +1,6 @@
 "use no forget";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { createColumnHelper } from "@tanstack/react-table";
 import {
   DataTable,
@@ -9,7 +9,7 @@ import {
   useDataTable,
 } from "@/components/ui/DataTable";
 import { Badge, Button, Input, Switch } from "@/components/ui";
-import { Filter, X } from "lucide-react";
+import { Filter, X, RefreshCw } from "lucide-react";
 import {
   mockPeople,
   statusOptions,
@@ -151,6 +151,17 @@ export function TablesDemo() {
   const [isEditMode, setIsEditMode] = useState(true);
   const [globalFilter, setGlobalFilter] = useState("");
   const [showColumnFilters, setShowColumnFilters] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Simulate data reload with loading state
+  const handleReload = useCallback(() => {
+    setIsLoading(true);
+    // Simulate network delay
+    setTimeout(() => {
+      setData(mockPeople);
+      setIsLoading(false);
+    }, 1200);
+  }, []);
 
   const {
     table,
@@ -187,8 +198,8 @@ export function TablesDemo() {
           <div className="tables-demo__header-content">
             <h2 className="tables-demo__title">Team Members</h2>
             <p className="tables-demo__description">
-              Manage your team with sorting, filtering, and inline editing. Try
-              entering invalid data to see validation.
+              Manage your team with sorting, filtering, and inline editing.
+              Click <strong>Reload</strong> to see the skeleton loading state and cascading row animation.
             </p>
           </div>
           <div className="tables-demo__header-actions">
@@ -206,6 +217,15 @@ export function TablesDemo() {
                 </Button>
               </>
             )}
+            <Button
+              intent="secondary"
+              size="sm"
+              onClick={handleReload}
+              disabled={isLoading}
+            >
+              <RefreshCw size={14} className={isLoading ? "tables-demo__spin" : ""} />
+              {isLoading ? "Loading..." : "Reload"}
+            </Button>
           </div>
         </header>
 
@@ -256,6 +276,8 @@ export function TablesDemo() {
         <DataTable table={table} hoverable editable={isEditMode}>
           <DataTable.Header showColumnFilters={showColumnFilters} />
           <DataTable.Body
+            isLoading={isLoading}
+            animateEntrance
             emptyState={
               <div className="tables-demo__empty">
                 <p>No team members found</p>

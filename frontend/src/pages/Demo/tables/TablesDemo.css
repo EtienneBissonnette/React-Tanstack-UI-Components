@@ -139,6 +139,20 @@
   color: var(--color-primary);
 }
 
+/* Reload button spin animation */
+@keyframes tables-demo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.tables-demo__spin {
+  animation: tables-demo-spin 1s linear infinite;
+}
+
 .tables-demo__empty {
   display: flex;
   flex-direction: column;

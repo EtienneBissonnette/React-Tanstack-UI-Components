@@ -135,6 +135,14 @@ export interface DataTableHeaderProps {
 export interface DataTableBodyProps {
   emptyState?: ReactNode;
   className?: string;
+  /** Show skeleton loading state (for non-Suspense usage) */
+  isLoading?: boolean;
+  /** Number of skeleton rows to display while loading (defaults to page size, or 5) */
+  skeletonRows?: number;
+  /** Animate rows with cascading entrance when data loads (for non-Suspense usage) */
+  animateEntrance?: boolean;
+  /** Animate rows on initial mount (for Suspense usage where component mounts with data) */
+  animateOnMount?: boolean;
 }
 
 // DataTable.Pagination props
