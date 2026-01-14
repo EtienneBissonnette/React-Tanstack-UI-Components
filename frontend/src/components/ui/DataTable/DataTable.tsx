@@ -16,6 +16,7 @@ interface DataTableRootProps<TData> {
   striped?: boolean;
   hoverable?: boolean;
   bordered?: boolean;
+  editable?: boolean;
   className?: string;
 }
 
@@ -26,6 +27,7 @@ function DataTableRoot<TData>({
   striped = false,
   hoverable = true,
   bordered = false,
+  editable = true,
   className = '',
 }: DataTableRootProps<TData>) {
   const classes = ['data-table', className].filter(Boolean).join(' ');
@@ -43,7 +45,7 @@ function DataTableRoot<TData>({
   });
 
   return (
-    <DataTableProvider table={table} size={size}>
+    <DataTableProvider table={table} size={size} isEditMode={editable}>
       <div className="data-table__container">
         <div className="data-table__scroll-area">
           <table

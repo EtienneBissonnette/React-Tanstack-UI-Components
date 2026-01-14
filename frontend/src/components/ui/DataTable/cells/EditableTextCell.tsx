@@ -4,25 +4,29 @@ import { useState, useCallback, useRef } from 'react';
 import type { CellContext } from '@tanstack/react-table';
 import { AlertCircle, X } from 'lucide-react';
 import { Input } from '../../Input';
+import { useDataTableContext } from '../DataTableContext';
 
 export function EditableTextCell<TData>({
   getValue,
   row,
   column,
   table,
-}: CellContext<TData, unknown>) {
+}: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+CellContext<TData, any>) {
   const initialValue = getValue() as string;
   const [editValue, setEditValue] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { isEditMode } = useDataTableContext<TData>();
 
   const startEditing = useCallback(() => {
+    if (!isEditMode) return;
     setEditValue(initialValue ?? '');
     setIsEditing(true);
     setErrorMessage(null);
-  }, [initialValue]);
+  }, [initialValue, isEditMode]);
 
   const handleSave = useCallback(async () => {
     // If value unchanged, just exit
@@ -142,16 +146,21 @@ export function EditableTextCell<TData>({
   return (
     <div
       className="data-table__cell-text"
-      onClick={startEditing}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          startEditing();
-        }
-      }}
-      tabIndex={0}
-      role="button"
-      aria-label={`Edit ${column.id}: ${initialValue}`}
+      onClick={isEditMode ? startEditing : undefined}
+      onKeyDown={
+        isEditMode
+          ? (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                startEditing();
+              }
+            }
+          : undefined
+      }
+      tabIndex={isEditMode ? 0 : undefined}
+      role={isEditMode ? 'button' : undefined}
+      aria-label={isEditMode ? `Edit ${column.id}: ${initialValue}` : undefined}
+      data-readonly={!isEditMode || undefined}
     >
       {initialValue || '\u00A0'}
     </div>

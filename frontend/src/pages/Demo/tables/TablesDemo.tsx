@@ -8,7 +8,7 @@ import {
   EditableSelectCell,
   useDataTable,
 } from "@/components/ui/DataTable";
-import { Button } from "@/components/ui";
+import { Button, Input, Switch } from "@/components/ui";
 import {
   mockPeople,
   statusOptions,
@@ -136,6 +136,8 @@ const columns = [
 
 export function TablesDemo() {
   const [data, setData] = useState<Person[]>(mockPeople);
+  const [isEditMode, setIsEditMode] = useState(true);
+  const [globalFilter, setGlobalFilter] = useState("");
 
   const { table, getSelectedRows, clearSelection } = useDataTable({
     data,
@@ -147,6 +149,8 @@ export function TablesDemo() {
     pageSize: 10,
     onDataChange: setData,
     getRowId: (row) => row.id,
+    globalFilter,
+    onGlobalFilterChange: setGlobalFilter,
   });
 
   const selectedRows = getSelectedRows();
@@ -185,7 +189,24 @@ export function TablesDemo() {
           </div>
         </header>
 
-        <DataTable table={table} hoverable>
+        <div className="tables-demo__toolbar">
+          <Input
+            type="search"
+            placeholder="Search all columns..."
+            value={globalFilter}
+            onChange={(e) => setGlobalFilter(e.target.value)}
+            size="sm"
+            className="tables-demo__search"
+          />
+          <Switch
+            checked={isEditMode}
+            onCheckedChange={setIsEditMode}
+            label="Edit mode"
+            size="sm"
+          />
+        </div>
+
+        <DataTable table={table} hoverable editable={isEditMode}>
           <DataTable.Header />
           <DataTable.Body
             emptyState={

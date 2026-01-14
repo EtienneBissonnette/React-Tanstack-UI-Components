@@ -5,6 +5,7 @@ import type { DataTableSize } from './DataTable.types';
 interface DataTableContextValue<TData> {
   table: Table<TData>;
   size: DataTableSize;
+  isEditMode: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,14 +23,16 @@ export function useDataTableContext<TData>(): DataTableContextValue<TData> {
 export function DataTableProvider<TData>({
   table,
   size,
+  isEditMode,
   children,
 }: {
   table: Table<TData>;
   size: DataTableSize;
+  isEditMode: boolean;
   children: ReactNode;
 }) {
   return (
-    <DataTableContext.Provider value={{ table, size }}>
+    <DataTableContext.Provider value={{ table, size, isEditMode }}>
       {children}
     </DataTableContext.Provider>
   );

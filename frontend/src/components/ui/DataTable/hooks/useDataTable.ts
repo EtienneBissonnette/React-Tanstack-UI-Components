@@ -26,6 +26,8 @@ export interface UseDataTableOptions<TData> {
   enablePagination?: boolean;
   pageSize?: number;
   pageIndex?: number;
+  globalFilter?: string;
+  onGlobalFilterChange?: (value: string) => void;
   onDataChange?: (data: TData[]) => void;
   onRowSelectionChange?: (selection: RowSelectionState) => void;
   getRowId?: (row: TData) => string;
@@ -38,10 +40,12 @@ export interface UseDataTableReturn<TData> {
   columnFilters: ColumnFiltersState;
   rowSelection: RowSelectionState;
   pagination: PaginationState;
+  globalFilter: string;
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>;
   setColumnFilters: React.Dispatch<React.SetStateAction<ColumnFiltersState>>;
   setRowSelection: React.Dispatch<React.SetStateAction<RowSelectionState>>;
   setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
+  setGlobalFilter: (value: string) => void;
   updateData: (rowIndex: number, columnId: string, value: unknown) => void;
   getSelectedRows: () => TData[];
   clearSelection: () => void;
@@ -59,6 +63,8 @@ export function useDataTable<TData>(
     enablePagination = true,
     pageSize = 10,
     pageIndex = 0,
+    globalFilter: controlledGlobalFilter,
+    onGlobalFilterChange,
     onDataChange,
     onRowSelectionChange,
     getRowId,
@@ -73,6 +79,20 @@ export function useDataTable<TData>(
     pageIndex,
     pageSize,
   });
+  const [internalGlobalFilter, setInternalGlobalFilter] = useState("");
+
+  // Use controlled or internal global filter
+  const globalFilter = controlledGlobalFilter ?? internalGlobalFilter;
+  const setGlobalFilter = useCallback(
+    (value: string) => {
+      if (onGlobalFilterChange) {
+        onGlobalFilterChange(value);
+      } else {
+        setInternalGlobalFilter(value);
+      }
+    },
+    [onGlobalFilterChange]
+  );
 
   // Skipper to prevent auto-reset during cell edits
   const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
@@ -161,14 +181,17 @@ export function useDataTable<TData>(
       columnFilters,
       rowSelection,
       pagination,
+      globalFilter,
     },
     enableSorting,
     enableFilters: enableFiltering,
     enableRowSelection,
+    enableGlobalFilter: enableFiltering,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onRowSelectionChange: handleRowSelectionChange,
     onPaginationChange: setPagination,
+    onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: enableSorting ? getSortedRowModel() : undefined,
     getFilteredRowModel: enableFiltering ? getFilteredRowModel() : undefined,
@@ -200,10 +223,12 @@ export function useDataTable<TData>(
     columnFilters,
     rowSelection,
     pagination,
+    globalFilter,
     setSorting,
     setColumnFilters,
     setRowSelection,
     setPagination,
+    setGlobalFilter,
     updateData,
     getSelectedRows,
     clearSelection,

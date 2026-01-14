@@ -39,6 +39,18 @@
   flex-shrink: 0;
 }
 
+.tables-demo__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.tables-demo__search {
+  max-width: 280px;
+}
+
 .tables-demo__selection-count {
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
@@ -92,5 +104,14 @@
 
   .tables-demo__header-actions {
     justify-content: flex-end;
+  }
+
+  .tables-demo__toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tables-demo__search {
+    max-width: none;
   }
 }

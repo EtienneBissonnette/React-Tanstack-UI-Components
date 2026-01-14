@@ -355,6 +355,22 @@
   box-shadow: 0 0 0 2px var(--color-primary-muted);
 }
 
+/* Read-only state - remove interactive styling */
+.data-table__cell-text[data-readonly] {
+  cursor: default;
+}
+
+.data-table__cell-text[data-readonly]:hover {
+  background: transparent;
+  border-color: transparent;
+}
+
+.data-table__cell-text[data-readonly]:focus {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
 /* Editable cell wrapper for error positioning */
 .data-table__cell-edit-wrapper {
   position: relative;
