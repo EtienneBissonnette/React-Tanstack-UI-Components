@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 import type {
   Table,
   ColumnDef,
@@ -10,7 +10,7 @@ import type {
   Cell,
   Header,
   RowData,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table";
 
 // Validation result type
 export interface ValidationResult {
@@ -26,7 +26,7 @@ export type CellValidator<TValue = unknown> = (
 ) => ValidationResult | Promise<ValidationResult>;
 
 // Extend TanStack Table's meta to include updateData and validation
-declare module '@tanstack/react-table' {
+declare module "@tanstack/react-table" {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface TableMeta<TData extends RowData> {
     updateData: (rowIndex: number, columnId: string, value: unknown) => void;
@@ -41,9 +41,9 @@ declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ColumnMeta<TData extends RowData, TValue> {
     editable?: boolean;
-    editType?: 'text' | 'select' | 'checkbox';
+    editType?: "text" | "select" | "checkbox";
     options?: SelectOption[];
-    align?: 'left' | 'center' | 'right';
+    align?: "left" | "center" | "right";
     width?: string | number;
     validate?: CellValidator<TValue>;
   }
@@ -62,11 +62,21 @@ export type {
   Header,
 };
 
+// Badge intent type for select options
+export type BadgeIntent =
+  | "default"
+  | "primary"
+  | "secondary"
+  | "success"
+  | "warning"
+  | "danger";
+
 // Select option for editable select cells
 export interface SelectOption {
   value: string;
   label: string;
   disabled?: boolean;
+  intent?: BadgeIntent;
 }
 
 // Hook options
@@ -101,7 +111,7 @@ export interface UseDataTableReturn<TData> {
 }
 
 // Component size variants
-export type DataTableSize = 'sm' | 'md' | 'lg';
+export type DataTableSize = "sm" | "md" | "lg";
 
 // DataTable root props
 export interface DataTableProps<TData> {
@@ -118,6 +128,7 @@ export interface DataTableProps<TData> {
 export interface DataTableHeaderProps {
   sticky?: boolean;
   className?: string;
+  showColumnFilters?: boolean;
 }
 
 // DataTable.Body props

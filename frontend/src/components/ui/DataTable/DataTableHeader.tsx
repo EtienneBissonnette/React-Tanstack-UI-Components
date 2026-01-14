@@ -1,19 +1,24 @@
-'use no forget';
+"use no forget";
 
-import { flexRender } from '@tanstack/react-table';
-import { ArrowUp, ArrowDown, ArrowUpDown } from 'lucide-react';
-import { Input } from '../Input';
-import { Checkbox } from '../Checkbox';
-import { useDataTableContext } from './DataTableContext';
-import type { DataTableHeaderProps } from './DataTable.types';
+import { flexRender } from "@tanstack/react-table";
+import { ArrowUp, ArrowDown, ArrowUpDown, Search } from "lucide-react";
+import { Checkbox } from "../Checkbox";
+import { useDataTableContext } from "./DataTableContext";
+import type { DataTableHeaderProps } from "./DataTable.types";
 
-interface ExtendedHeaderProps extends DataTableHeaderProps {
-  showFilters?: boolean;
-}
-
-export function DataTableHeader({ sticky = false, showFilters = false, className = '' }: ExtendedHeaderProps) {
+export function DataTableHeader({
+  sticky = false,
+  showColumnFilters = false,
+  className = "",
+}: DataTableHeaderProps) {
   const { table, size } = useDataTableContext();
-  const classes = ['data-table__header', className].filter(Boolean).join(' ');
+  const classes = ["data-table__header", className].filter(Boolean).join(" ");
+
+  // Get all filterable columns for the filter row
+  const filterableHeaders =
+    table
+      .getHeaderGroups()[0]
+      ?.headers.filter((header) => header.column.getCanFilter()) ?? [];
 
   return (
     <thead className={classes} data-sticky={sticky || undefined}>
@@ -24,8 +29,10 @@ export function DataTableHeader({ sticky = false, showFilters = false, className
               <Checkbox
                 checked={table.getIsAllPageRowsSelected()}
                 indeterminate={table.getIsSomePageRowsSelected()}
-                onCheckedChange={(checked) => table.toggleAllPageRowsSelected(!!checked)}
-                size={size === 'lg' ? 'md' : 'sm'}
+                onCheckedChange={(checked) =>
+                  table.toggleAllPageRowsSelected(!!checked)
+                }
+                size={size === "lg" ? "md" : "sm"}
                 aria-label="Select all rows"
               />
             </th>
@@ -33,8 +40,7 @@ export function DataTableHeader({ sticky = false, showFilters = false, className
           {headerGroup.headers.map((header) => {
             const canSort = header.column.getCanSort();
             const sortDir = header.column.getIsSorted();
-            const canFilter = header.column.getCanFilter();
-            const align = header.column.columnDef.meta?.align ?? 'left';
+            const align = header.column.columnDef.meta?.align ?? "left";
             const width = header.column.columnDef.meta?.width;
 
             return (
@@ -44,18 +50,22 @@ export function DataTableHeader({ sticky = false, showFilters = false, className
                 colSpan={header.colSpan}
                 data-sortable={canSort || undefined}
                 data-sorted={sortDir || undefined}
-                data-align={align !== 'left' ? align : undefined}
+                data-align={align !== "left" ? align : undefined}
                 style={width ? { width } : undefined}
               >
                 {header.isPlaceholder ? null : (
                   <div className="data-table__header-content">
                     <div
                       className="data-table__header-label"
-                      onClick={canSort ? header.column.getToggleSortingHandler() : undefined}
+                      onClick={
+                        canSort
+                          ? header.column.getToggleSortingHandler()
+                          : undefined
+                      }
                       onKeyDown={
                         canSort
                           ? (e) => {
-                              if (e.key === 'Enter' || e.key === ' ') {
+                              if (e.key === "Enter" || e.key === " ") {
                                 e.preventDefault();
                                 header.column.toggleSorting();
                               }
@@ -63,21 +73,24 @@ export function DataTableHeader({ sticky = false, showFilters = false, className
                           : undefined
                       }
                       tabIndex={canSort ? 0 : undefined}
-                      role={canSort ? 'button' : undefined}
+                      role={canSort ? "button" : undefined}
                       aria-sort={
-                        sortDir === 'asc'
-                          ? 'ascending'
-                          : sortDir === 'desc'
-                            ? 'descending'
+                        sortDir === "asc"
+                          ? "ascending"
+                          : sortDir === "desc"
+                            ? "descending"
                             : undefined
                       }
                     >
-                      {flexRender(header.column.columnDef.header, header.getContext())}
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                       {canSort && (
                         <span className="data-table__sort-indicator">
-                          {sortDir === 'asc' ? (
+                          {sortDir === "asc" ? (
                             <ArrowUp size={14} />
-                          ) : sortDir === 'desc' ? (
+                          ) : sortDir === "desc" ? (
                             <ArrowDown size={14} />
                           ) : (
                             <ArrowUpDown size={14} />
@@ -85,17 +98,6 @@ export function DataTableHeader({ sticky = false, showFilters = false, className
                         </span>
                       )}
                     </div>
-                    {showFilters && canFilter && (
-                      <div className="data-table__filter">
-                        <Input
-                          value={(header.column.getFilterValue() as string) ?? ''}
-                          onChange={(e) => header.column.setFilterValue(e.target.value)}
-                          placeholder="Filter..."
-                          size="sm"
-                          className="data-table__filter-input"
-                        />
-                      </div>
-                    )}
                   </div>
                 )}
               </th>
@@ -103,8 +105,63 @@ export function DataTableHeader({ sticky = false, showFilters = false, className
           })}
         </tr>
       ))}
+
+      {/* Separate filter row */}
+      {showColumnFilters && filterableHeaders.length > 0 && (
+        <tr className="data-table__filter-row">
+          {table.options.enableRowSelection && (
+            <th className="data-table__filter-cell data-table__filter-cell--checkbox" />
+          )}
+          {table.getHeaderGroups()[0]?.headers.map((header) => {
+            const canFilter = header.column.getCanFilter();
+            const filterValue = header.column.getFilterValue() as string;
+            const hasFilter = !!filterValue;
+            const align = header.column.columnDef.meta?.align ?? "left";
+
+            return (
+              <th
+                key={`filter-${header.id}`}
+                className="data-table__filter-cell"
+                data-align={align !== "left" ? align : undefined}
+              >
+                {canFilter ? (
+                  <div
+                    className="data-table__column-filter"
+                    data-active={hasFilter || undefined}
+                  >
+                    <Search
+                      className="data-table__column-filter-icon"
+                      size={12}
+                    />
+                    <input
+                      type="text"
+                      value={filterValue ?? ""}
+                      onChange={(e) =>
+                        header.column.setFilterValue(e.target.value)
+                      }
+                      placeholder={`Filter...`}
+                      className="data-table__column-filter-input"
+                      aria-label={`Filter ${header.column.columnDef.header}`}
+                    />
+                    {hasFilter && (
+                      <button
+                        type="button"
+                        className="data-table__column-filter-clear"
+                        onClick={() => header.column.setFilterValue("")}
+                        aria-label="Clear filter"
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
+                ) : null}
+              </th>
+            );
+          })}
+        </tr>
+      )}
     </thead>
   );
 }
 
-DataTableHeader.displayName = 'DataTable.Header';
+DataTableHeader.displayName = "DataTable.Header";

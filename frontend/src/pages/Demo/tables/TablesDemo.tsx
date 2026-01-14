@@ -8,7 +8,8 @@ import {
   EditableSelectCell,
   useDataTable,
 } from "@/components/ui/DataTable";
-import { Button, Input, Switch } from "@/components/ui";
+import { Badge, Button, Input, Switch } from "@/components/ui";
+import { Filter, X } from "lucide-react";
 import {
   mockPeople,
   statusOptions,
@@ -24,13 +25,20 @@ const columnHelper = createColumnHelper<Person>();
 const validateFirstName = (value: unknown): ValidationResult => {
   const name = String(value).trim();
   if (name.length < 2) {
-    return { valid: false, message: "First name must be at least 2 characters" };
+    return {
+      valid: false,
+      message: "First name must be at least 2 characters",
+    };
   }
   if (name.length > 50) {
     return { valid: false, message: "First name cannot exceed 50 characters" };
   }
   if (!/^[a-zA-Z\s'-]+$/.test(name)) {
-    return { valid: false, message: "First name can only contain letters, spaces, hyphens, and apostrophes" };
+    return {
+      valid: false,
+      message:
+        "First name can only contain letters, spaces, hyphens, and apostrophes",
+    };
   }
   return { valid: true };
 };
@@ -44,7 +52,11 @@ const validateLastName = (value: unknown): ValidationResult => {
     return { valid: false, message: "Last name cannot exceed 50 characters" };
   }
   if (!/^[a-zA-Z\s'-]+$/.test(name)) {
-    return { valid: false, message: "Last name can only contain letters, spaces, hyphens, and apostrophes" };
+    return {
+      valid: false,
+      message:
+        "Last name can only contain letters, spaces, hyphens, and apostrophes",
+    };
   }
   return { valid: true };
 };
@@ -67,10 +79,10 @@ const validateEmail = (value: unknown): ValidationResult => {
 
 // Date formatter
 const formatDate = (date: Date): string => {
-  return new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
   }).format(date);
 };
 
@@ -123,9 +135,9 @@ const columns = [
   columnHelper.accessor("verified", {
     header: "Verified",
     cell: (info) => (
-      <span className={`tables-demo__badge ${info.getValue() ? 'tables-demo__badge--success' : 'tables-demo__badge--muted'}`}>
-        {info.getValue() ? 'Yes' : 'No'}
-      </span>
+      <Badge intent={info.getValue() ? "success" : "warning"}>
+        {info.getValue() ? "Yes" : "No"}
+      </Badge>
     ),
     meta: {
       align: "center" as const,
@@ -138,8 +150,15 @@ export function TablesDemo() {
   const [data, setData] = useState<Person[]>(mockPeople);
   const [isEditMode, setIsEditMode] = useState(true);
   const [globalFilter, setGlobalFilter] = useState("");
+  const [showColumnFilters, setShowColumnFilters] = useState(false);
 
-  const { table, getSelectedRows, clearSelection } = useDataTable({
+  const {
+    table,
+    getSelectedRows,
+    clearSelection,
+    columnFilters,
+    setColumnFilters,
+  } = useDataTable({
     data,
     columns,
     enableSorting: true,
@@ -168,7 +187,8 @@ export function TablesDemo() {
           <div className="tables-demo__header-content">
             <h2 className="tables-demo__title">Team Members</h2>
             <p className="tables-demo__description">
-              Manage your team with sorting, filtering, and inline editing. Try entering invalid data to see validation.
+              Manage your team with sorting, filtering, and inline editing. Try
+              entering invalid data to see validation.
             </p>
           </div>
           <div className="tables-demo__header-actions">
@@ -190,14 +210,41 @@ export function TablesDemo() {
         </header>
 
         <div className="tables-demo__toolbar">
-          <Input
-            type="search"
-            placeholder="Search all columns..."
-            value={globalFilter}
-            onChange={(e) => setGlobalFilter(e.target.value)}
-            size="sm"
-            className="tables-demo__search"
-          />
+          <div className="tables-demo__toolbar-left">
+            <Input
+              type="search"
+              placeholder="Search all columns..."
+              value={globalFilter}
+              onChange={(e) => setGlobalFilter(e.target.value)}
+              size="sm"
+              className="tables-demo__search"
+            />
+            <button
+              type="button"
+              className="tables-demo__filter-toggle"
+              onClick={() => setShowColumnFilters(!showColumnFilters)}
+              data-active={showColumnFilters || undefined}
+              aria-pressed={showColumnFilters}
+            >
+              <Filter size={14} />
+              <span>Filters</span>
+              {columnFilters.length > 0 && (
+                <span className="tables-demo__filter-badge">
+                  {columnFilters.length}
+                </span>
+              )}
+            </button>
+            {columnFilters.length > 0 && (
+              <button
+                type="button"
+                className="tables-demo__clear-filters"
+                onClick={() => setColumnFilters([])}
+              >
+                <X size={12} />
+                <span>Clear all</span>
+              </button>
+            )}
+          </div>
           <Switch
             checked={isEditMode}
             onCheckedChange={setIsEditMode}
@@ -207,7 +254,7 @@ export function TablesDemo() {
         </div>
 
         <DataTable table={table} hoverable editable={isEditMode}>
-          <DataTable.Header />
+          <DataTable.Header showColumnFilters={showColumnFilters} />
           <DataTable.Body
             emptyState={
               <div className="tables-demo__empty">

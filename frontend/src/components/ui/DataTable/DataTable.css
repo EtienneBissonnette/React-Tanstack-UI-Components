@@ -130,7 +130,136 @@
   opacity: 1;
 }
 
+/* =============================================================================
+   Column Filter Row
+   A refined, separate row for per-column filtering
+   ============================================================================= */
+
+.data-table__filter-row {
+  background: linear-gradient(
+    to bottom,
+    var(--color-bg-secondary),
+    var(--color-bg)
+  );
+  border-bottom: var(--border);
+}
+
+.data-table__filter-cell {
+  padding: var(--space-2) var(--space-3);
+  vertical-align: middle;
+}
+
+.data-table__filter-cell--checkbox {
+  width: 32px;
+  min-width: 32px;
+  max-width: 32px;
+}
+
+/* Column filter container */
+.data-table__column-filter {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: all var(--duration-fast);
+}
+
+.data-table__column-filter:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-muted);
+}
+
+.data-table__column-filter[data-active] {
+  background: var(--color-primary-muted);
+  border-color: var(--color-primary);
+}
+
+/* Filter icon */
+.data-table__column-filter-icon {
+  flex-shrink: 0;
+  color: var(--color-fg-subtle);
+  opacity: 0.6;
+  transition: all var(--duration-fast);
+}
+
+.data-table__column-filter:focus-within .data-table__column-filter-icon,
+.data-table__column-filter[data-active] .data-table__column-filter-icon {
+  color: var(--color-primary);
+  opacity: 1;
+}
+
 /* Filter input */
+.data-table__column-filter-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  color: var(--color-fg);
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.data-table__column-filter-input::placeholder {
+  color: var(--color-fg-subtle);
+  opacity: 0.7;
+}
+
+/* Clear button */
+.data-table__column-filter-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  line-height: 1;
+  color: var(--color-fg-muted);
+  background: var(--color-bg-hover);
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.data-table__column-filter-clear:hover {
+  color: var(--color-fg);
+  background: var(--color-border);
+}
+
+/* Size variants for filter row */
+.data-table[data-size="sm"] .data-table__filter-cell {
+  padding: var(--space-1) var(--space-2);
+}
+
+.data-table[data-size="sm"] .data-table__column-filter {
+  padding: 2px var(--space-1);
+}
+
+.data-table[data-size="sm"] .data-table__column-filter-input {
+  font-size: 10px;
+}
+
+.data-table[data-size="lg"] .data-table__filter-cell {
+  padding: var(--space-2) var(--space-4);
+}
+
+.data-table[data-size="lg"] .data-table__column-filter {
+  padding: var(--space-2) var(--space-3);
+}
+
+.data-table[data-size="lg"] .data-table__column-filter-input {
+  font-size: var(--text-sm);
+}
+
+/* Legacy filter input (inline in header) */
 .data-table__filter {
   margin-top: var(--space-1);
 }

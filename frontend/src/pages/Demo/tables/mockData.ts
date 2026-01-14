@@ -11,9 +11,9 @@ export interface Person {
 }
 
 export const statusOptions = [
-  { value: 'active', label: 'Active' },
-  { value: 'inactive', label: 'Inactive' },
-  { value: 'pending', label: 'Pending' },
+  { value: 'active', label: 'Active', intent: 'success' as const },
+  { value: 'inactive', label: 'Inactive', intent: 'secondary' as const },
+  { value: 'pending', label: 'Pending', intent: 'warning' as const },
 ];
 
 export const roleOptions = [
