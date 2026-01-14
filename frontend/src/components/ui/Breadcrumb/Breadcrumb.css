@@ -1,0 +1,181 @@
+/* =============================================================================
+   Breadcrumb Component - Clean Editorial Typography
+   ============================================================================= */
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+}
+
+/* =============================================================================
+   List - Horizontal layout
+   ============================================================================= */
+
+.breadcrumb__list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.breadcrumb__list-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* =============================================================================
+   Item - Text container
+   ============================================================================= */
+
+.breadcrumb__item {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--text-sm);
+  color: var(--color-fg-muted);
+  line-height: var(--leading-tight);
+}
+
+/* Current page - distinct styling */
+.breadcrumb__item[data-current] {
+  color: var(--color-fg);
+  font-weight: var(--font-medium);
+}
+
+/* =============================================================================
+   Link - Clickable navigation
+   ============================================================================= */
+
+.breadcrumb__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--color-fg-muted);
+  text-decoration: none;
+  line-height: var(--leading-tight);
+  transition: color var(--duration-fast) ease;
+}
+
+.breadcrumb__link:hover {
+  color: var(--color-fg);
+}
+
+/* Animated underline on hover */
+.breadcrumb__link::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-fast) ease;
+}
+
+.breadcrumb__link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Focus state */
+.breadcrumb__link:focus-visible {
+  outline: none;
+  color: var(--color-primary);
+}
+
+.breadcrumb__link:focus-visible::after {
+  transform: scaleX(1);
+  background: var(--color-primary);
+}
+
+/* =============================================================================
+   Separator - Visual divider
+   ============================================================================= */
+
+.breadcrumb__separator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-fg-subtle);
+  flex-shrink: 0;
+}
+
+.breadcrumb__separator svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* =============================================================================
+   Ellipsis - Truncation indicator
+   ============================================================================= */
+
+.breadcrumb__ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-fg-muted);
+  letter-spacing: 0.1em;
+  cursor: default;
+}
+
+/* =============================================================================
+   Size: Small
+   ============================================================================= */
+
+.breadcrumb[data-size='sm'] .breadcrumb__item,
+.breadcrumb[data-size='sm'] .breadcrumb__link {
+  font-size: var(--text-xs);
+}
+
+.breadcrumb[data-size='sm'] .breadcrumb__separator svg {
+  width: 12px;
+  height: 12px;
+}
+
+.breadcrumb[data-size='sm'] .breadcrumb__ellipsis {
+  font-size: var(--text-xs);
+  padding: 2px var(--space-1);
+}
+
+.breadcrumb[data-size='sm'] .breadcrumb__list {
+  gap: 2px;
+}
+
+.breadcrumb[data-size='sm'] .breadcrumb__list-item {
+  gap: 2px;
+}
+
+/* =============================================================================
+   Icons in breadcrumbs
+   ============================================================================= */
+
+.breadcrumb__link svg,
+.breadcrumb__item svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.breadcrumb[data-size='sm'] .breadcrumb__link svg,
+.breadcrumb[data-size='sm'] .breadcrumb__item svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* =============================================================================
+   Accessibility
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .breadcrumb__link::after {
+    transition: none;
+  }
+}

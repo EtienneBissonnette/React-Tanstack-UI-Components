@@ -129,3 +129,11 @@
 .textarea::-webkit-scrollbar-thumb:hover {
   background: var(--color-border-hover);
 }
+
+.textarea::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.textarea::-webkit-resizer {
+  background: transparent;
+}

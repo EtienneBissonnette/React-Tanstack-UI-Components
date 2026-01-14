@@ -1,5 +1,5 @@
 import { Menu as BaseMenu } from '@base-ui/react/menu';
-import { forwardRef, type ReactNode, type ComponentPropsWithoutRef } from 'react';
+import { forwardRef, type ReactNode, type ReactElement, type ComponentPropsWithoutRef } from 'react';
 import './DropdownMenu.css';
 
 type DropdownMenuSide = 'top' | 'right' | 'bottom' | 'left';
@@ -11,7 +11,7 @@ interface DropdownMenuRootProps {
 }
 
 interface DropdownMenuTriggerProps extends ComponentPropsWithoutRef<'button'> {
-  children: ReactNode;
+  children: ReactElement;
 }
 
 interface DropdownMenuContentProps {
@@ -48,9 +48,7 @@ const DropdownMenuTrigger = forwardRef<HTMLButtonElement, DropdownMenuTriggerPro
     const classes = ['dropdown-menu__trigger', className].filter(Boolean).join(' ');
 
     return (
-      <BaseMenu.Trigger ref={ref} className={classes} {...props}>
-        {children}
-      </BaseMenu.Trigger>
+      <BaseMenu.Trigger ref={ref} className={classes} render={children} {...props} />
     );
   }
 );

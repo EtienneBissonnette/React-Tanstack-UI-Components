@@ -1,6 +1,7 @@
 import {
   AvatarDemo,
   BadgeDemo,
+  BreadcrumbDemo,
   ButtonDemo,
   CardDemo,
   CheckboxDemo,
@@ -9,6 +10,8 @@ import {
   DropdownMenuDemo,
   InputDemo,
   ModalDemo,
+  ProgressDemo,
+  RadioDemo,
   SelectDemo,
   SkeletonDemo,
   SpacingDemo,
@@ -28,7 +31,10 @@ export function ComponentsDemo() {
       <InputDemo />
       <CheckboxDemo />
       <SwitchDemo />
+      <RadioDemo />
       <SelectDemo />
+      <ProgressDemo />
+      <BreadcrumbDemo />
       <TooltipDemo />
       <DropdownMenuDemo />
       <ModalDemo />

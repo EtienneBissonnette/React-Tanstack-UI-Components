@@ -1,0 +1,146 @@
+/* =============================================================================
+   Progress Component - Refined Minimal Aesthetic
+   ============================================================================= */
+
+.progress {
+  --progress-height: 6px;
+  --progress-radius: var(--radius-full);
+  --progress-bg: var(--color-bg-active);
+  --progress-fill: var(--color-primary);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+/* =============================================================================
+   Header - Label and Value
+   ============================================================================= */
+
+.progress__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.progress__label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-fg);
+  line-height: var(--leading-tight);
+}
+
+.progress__value {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-fg-muted);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--duration-normal) ease;
+}
+
+.progress[data-complete] .progress__value {
+  color: var(--color-success);
+}
+
+/* =============================================================================
+   Track - Background bar
+   ============================================================================= */
+
+.progress__track {
+  position: relative;
+  width: 100%;
+  height: var(--progress-height);
+  background: var(--progress-bg);
+  border-radius: var(--progress-radius);
+  overflow: hidden;
+}
+
+/* =============================================================================
+   Indicator - Filled portion
+   ============================================================================= */
+
+.progress__indicator {
+  height: 100%;
+  background: var(--progress-fill);
+  border-radius: var(--progress-radius);
+  transition: width 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* =============================================================================
+   Complete State
+   ============================================================================= */
+
+.progress[data-complete] {
+  --progress-fill: var(--color-success);
+}
+
+/* =============================================================================
+   Indeterminate State - Gentle sliding wave
+
+   Design: Slow, smooth, calming. Not attention-grabbing.
+   A single bar that glides across like a soft breath.
+   ============================================================================= */
+
+.progress[data-indeterminate] .progress__indicator {
+  width: 35%;
+  animation: progress-slide 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes progress-slide {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0.7;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(285%);
+    opacity: 0.7;
+  }
+}
+
+/* =============================================================================
+   Size Variants
+   ============================================================================= */
+
+.progress[data-size='sm'] {
+  --progress-height: 3px;
+  gap: var(--space-1);
+}
+
+.progress[data-size='sm'] .progress__label,
+.progress[data-size='sm'] .progress__value {
+  font-size: var(--text-xs);
+}
+
+.progress[data-size='lg'] {
+  --progress-height: 10px;
+  gap: var(--space-3);
+}
+
+.progress[data-size='lg'] .progress__label,
+.progress[data-size='lg'] .progress__value {
+  font-size: var(--text-base);
+}
+
+/* =============================================================================
+   Accessibility - Reduced motion
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .progress__indicator {
+    transition: width 100ms ease;
+  }
+
+  .progress[data-indeterminate] .progress__indicator {
+    animation: none;
+    width: 100%;
+    opacity: 0.6;
+  }
+}

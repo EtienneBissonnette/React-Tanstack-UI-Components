@@ -1,0 +1,248 @@
+/* =============================================================================
+   Radio Component - Satisfying Micro-interactions
+   ============================================================================= */
+
+/* =============================================================================
+   RadioGroup - Container
+   ============================================================================= */
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.radio-group__label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-fg);
+  line-height: var(--leading-tight);
+}
+
+.radio-group__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Horizontal orientation */
+.radio-group[data-orientation='horizontal'] .radio-group__items {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+/* Size variants for group label */
+.radio-group[data-size='sm'] .radio-group__label {
+  font-size: var(--text-xs);
+}
+
+.radio-group[data-size='lg'] .radio-group__label {
+  font-size: var(--text-base);
+}
+
+/* =============================================================================
+   Radio - The circular button
+   ============================================================================= */
+
+.radio {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-5);
+  height: var(--space-5);
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition:
+    border-color var(--duration-fast) ease,
+    background var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease,
+    transform var(--duration-fast) ease;
+}
+
+.radio:hover {
+  border-color: var(--color-border-hover);
+  background: var(--color-bg-secondary);
+}
+
+.radio:focus-visible {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-muted);
+}
+
+/* Active press effect */
+.radio:active:not([data-disabled]) {
+  transform: scale(0.92);
+}
+
+/* =============================================================================
+   Radio - Indicator (inner dot)
+   ============================================================================= */
+
+.radio__indicator {
+  width: 10px;
+  height: 10px;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+  opacity: 0;
+  transform: scale(0);
+  transition:
+    opacity var(--duration-fast) ease,
+    transform var(--duration-fast) cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* =============================================================================
+   Radio - Checked State
+   ============================================================================= */
+
+.radio[data-checked] {
+  border-color: var(--color-primary);
+  background: var(--color-bg);
+}
+
+.radio[data-checked]:hover {
+  border-color: var(--color-primary-hover);
+}
+
+.radio[data-checked] .radio__indicator {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Pop animation on check */
+@keyframes radio-pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.radio[data-checked] {
+  animation: radio-pop var(--duration-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* =============================================================================
+   Radio - Disabled State
+   ============================================================================= */
+
+.radio[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =============================================================================
+   Radio - Label wrapper
+   ============================================================================= */
+
+.radio__label {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  cursor: pointer;
+  user-select: none;
+}
+
+.radio__label[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.radio__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-top: 1px;
+}
+
+.radio__text {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-fg);
+  line-height: var(--leading-tight);
+}
+
+.radio__description {
+  font-size: var(--text-xs);
+  color: var(--color-fg-muted);
+  line-height: var(--leading-normal);
+}
+
+/* Hover effect on label */
+.radio__label:hover .radio:not([data-disabled]):not([data-checked]) {
+  border-color: var(--color-border-hover);
+  background: var(--color-bg-secondary);
+}
+
+/* =============================================================================
+   Size Variants
+   ============================================================================= */
+
+/* Small */
+.radio[data-size='sm'],
+.radio-group[data-size='sm'] .radio {
+  width: var(--space-4);
+  height: var(--space-4);
+}
+
+.radio[data-size='sm'] .radio__indicator,
+.radio-group[data-size='sm'] .radio .radio__indicator {
+  width: 8px;
+  height: 8px;
+}
+
+.radio-group[data-size='sm'] .radio__text {
+  font-size: var(--text-xs);
+}
+
+.radio-group[data-size='sm'] .radio__description {
+  font-size: 10px;
+}
+
+.radio-group[data-size='sm'] .radio__label {
+  gap: var(--space-2);
+}
+
+/* Large */
+.radio[data-size='lg'],
+.radio-group[data-size='lg'] .radio {
+  width: var(--space-6);
+  height: var(--space-6);
+}
+
+.radio[data-size='lg'] .radio__indicator,
+.radio-group[data-size='lg'] .radio .radio__indicator {
+  width: 12px;
+  height: 12px;
+}
+
+.radio-group[data-size='lg'] .radio__text {
+  font-size: var(--text-base);
+}
+
+.radio-group[data-size='lg'] .radio__description {
+  font-size: var(--text-sm);
+}
+
+/* =============================================================================
+   Accessibility - Reduced motion
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .radio,
+  .radio__indicator {
+    transition: none;
+  }
+
+  .radio[data-checked] {
+    animation: none;
+  }
+}

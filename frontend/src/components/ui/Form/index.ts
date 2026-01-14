@@ -8,3 +8,4 @@ export { FormTextarea } from './FormTextarea';
 export { FormSelect } from './FormSelect';
 export { FormCheckbox } from './FormCheckbox';
 export { FormSwitch } from './FormSwitch';
+export { FormRadioGroup } from './FormRadioGroup';
