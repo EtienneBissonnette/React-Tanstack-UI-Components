@@ -1,11 +1,18 @@
-import { createContext, useContext, type ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
 import type { Table } from '@tanstack/react-table';
 import type { DataTableSize } from './DataTable.types';
+
+export interface CellWithError {
+  rowIndex: number;
+  columnId: string;
+}
 
 interface DataTableContextValue<TData> {
   table: Table<TData>;
   size: DataTableSize;
   isEditMode: boolean;
+  cellWithError: CellWithError | null;
+  setCellWithError: (cell: CellWithError | null) => void;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,8 +38,14 @@ export function DataTableProvider<TData>({
   isEditMode: boolean;
   children: ReactNode;
 }) {
+  const [cellWithError, setCellWithErrorState] = useState<CellWithError | null>(null);
+
+  const setCellWithError = useCallback((cell: CellWithError | null) => {
+    setCellWithErrorState(cell);
+  }, []);
+
   return (
-    <DataTableContext.Provider value={{ table, size, isEditMode }}>
+    <DataTableContext.Provider value={{ table, size, isEditMode, cellWithError, setCellWithError }}>
       {children}
     </DataTableContext.Provider>
   );

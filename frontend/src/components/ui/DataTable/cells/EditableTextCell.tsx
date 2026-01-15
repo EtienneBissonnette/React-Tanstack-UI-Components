@@ -18,21 +18,34 @@ CellContext<TData, any>) {
   const [isEditing, setIsEditing] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [shouldShake, setShouldShake] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { isEditMode } = useDataTableContext<TData>();
+  const { isEditMode, cellWithError, setCellWithError } = useDataTableContext<TData>();
+
+  // Check if this cell is the one with an error
+  const isThisCellWithError = cellWithError?.rowIndex === row.index && cellWithError?.columnId === column.id;
+  // Check if another cell has an error (blocks editing this cell)
+  const isBlockedByOtherError = cellWithError !== null && !isThisCellWithError;
 
   const startEditing = useCallback(() => {
-    if (!isEditMode) return;
+    if (!isEditMode || isBlockedByOtherError) return;
     setEditValue(initialValue ?? '');
     setIsEditing(true);
     setErrorMessage(null);
-  }, [initialValue, isEditMode]);
+  }, [initialValue, isEditMode, isBlockedByOtherError]);
+
+  const triggerShake = useCallback(() => {
+    setShouldShake(true);
+    // Remove shake after animation completes
+    setTimeout(() => setShouldShake(false), 400);
+  }, []);
 
   const handleSave = useCallback(async () => {
     // If value unchanged, just exit
     if (editValue === initialValue) {
       setIsEditing(false);
       setErrorMessage(null);
+      setCellWithError(null);
       return;
     }
 
@@ -49,7 +62,12 @@ CellContext<TData, any>) {
       if (!result.valid) {
         // Show error inline, keep editing
         setErrorMessage(result.message ?? 'Invalid value');
-        inputRef.current?.focus();
+        setCellWithError({ rowIndex: row.index, columnId: column.id });
+        triggerShake();
+        // Defer focus to ensure it happens after React re-renders
+        requestAnimationFrame(() => {
+          inputRef.current?.focus();
+        });
         return;
       }
     }
@@ -63,13 +81,15 @@ CellContext<TData, any>) {
 
     setIsEditing(false);
     setErrorMessage(null);
-  }, [editValue, initialValue, table.options.meta, row.index, column.id, column.columnDef.meta?.validate]);
+    setCellWithError(null);
+  }, [editValue, initialValue, table.options.meta, row.index, column.id, column.columnDef.meta?.validate, setCellWithError, triggerShake]);
 
   const handleCancel = useCallback(() => {
     setEditValue(initialValue ?? '');
     setIsEditing(false);
     setErrorMessage(null);
-  }, [initialValue]);
+    setCellWithError(null);
+  }, [initialValue, setCellWithError]);
 
   const handleBlur = (e: React.FocusEvent) => {
     // Don't close if clicking on the error popover or cancel button
@@ -93,14 +113,17 @@ CellContext<TData, any>) {
 
   if (isEditing) {
     return (
-      <div className="data-table__cell-edit-wrapper">
+      <div className="data-table__cell-edit-wrapper" data-shake={shouldShake || undefined}>
         <Input
           ref={inputRef}
           value={editValue}
           onChange={(e) => {
             setEditValue(e.target.value);
             // Clear error when user starts typing
-            if (errorMessage) setErrorMessage(null);
+            if (errorMessage) {
+              setErrorMessage(null);
+              setCellWithError(null);
+            }
           }}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
@@ -143,12 +166,14 @@ CellContext<TData, any>) {
     );
   }
 
+  const canEdit = isEditMode && !isBlockedByOtherError;
+
   return (
     <div
       className="data-table__cell-text"
-      onClick={isEditMode ? startEditing : undefined}
+      onClick={canEdit ? startEditing : undefined}
       onKeyDown={
-        isEditMode
+        canEdit
           ? (e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -157,10 +182,11 @@ CellContext<TData, any>) {
             }
           : undefined
       }
-      tabIndex={isEditMode ? 0 : undefined}
-      role={isEditMode ? 'button' : undefined}
-      aria-label={isEditMode ? `Edit ${column.id}: ${initialValue}` : undefined}
+      tabIndex={canEdit ? 0 : undefined}
+      role={canEdit ? 'button' : undefined}
+      aria-label={canEdit ? `Edit ${column.id}: ${initialValue}` : undefined}
       data-readonly={!isEditMode || undefined}
+      data-blocked={isBlockedByOtherError || undefined}
     >
       {initialValue || '\u00A0'}
     </div>

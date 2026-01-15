@@ -518,6 +518,12 @@
   position: relative;
 }
 
+/* Elevate wrapper when it has an error to prevent text bleeding through */
+.data-table__cell-edit-wrapper:has(.data-table__cell-error) {
+  isolation: isolate;
+  z-index: var(--z-dropdown);
+}
+
 /* Editable cell input */
 .data-table__cell-input {
   width: 100%;
@@ -539,6 +545,32 @@
 .data-table__cell-input[data-validating] {
   opacity: 0.7;
   cursor: wait;
+}
+
+/* Shake animation for validation errors */
+@keyframes cell-error-shake {
+  0%, 100% { transform: translateX(0); }
+  15% { transform: translateX(-4px); }
+  30% { transform: translateX(4px); }
+  45% { transform: translateX(-3px); }
+  60% { transform: translateX(3px); }
+  75% { transform: translateX(-2px); }
+  90% { transform: translateX(2px); }
+}
+
+.data-table__cell-edit-wrapper[data-shake] {
+  animation: cell-error-shake 0.4s ease-out;
+}
+
+/* Blocked cell state - when another cell has validation error */
+.data-table__cell-text[data-blocked] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.data-table__cell-text[data-blocked]:hover {
+  background: transparent;
+  border-color: transparent;
 }
 
 /* =============================================================================
@@ -776,5 +808,9 @@
     animation: none;
     opacity: 1;
     transform: none;
+  }
+
+  .data-table__cell-edit-wrapper[data-shake] {
+    animation: none;
   }
 }

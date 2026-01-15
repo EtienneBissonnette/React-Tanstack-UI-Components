@@ -17,7 +17,10 @@ CellContext<TData, any>) {
   const value = getValue() as string;
   const options = (column.columnDef.meta?.options as SelectOption[]) ?? [];
   const [isValidating, setIsValidating] = useState(false);
-  const { isEditMode } = useDataTableContext<TData>();
+  const { isEditMode, cellWithError } = useDataTableContext<TData>();
+
+  // Check if another cell has a validation error (blocks this cell)
+  const isBlockedByError = cellWithError !== null;
 
   const handleChange = useCallback(
     async (newValue: string) => {
@@ -61,7 +64,7 @@ CellContext<TData, any>) {
       options={options}
       onValueChange={handleChange}
       size="sm"
-      disabled={isValidating}
+      disabled={isValidating || isBlockedByError}
     />
   );
 }

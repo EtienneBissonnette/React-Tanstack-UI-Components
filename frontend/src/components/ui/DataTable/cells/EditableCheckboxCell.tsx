@@ -12,7 +12,10 @@ export function EditableCheckboxCell<TData>({
 }: // eslint-disable-next-line @typescript-eslint/no-explicit-any
 CellContext<TData, any>) {
   const value = getValue() as boolean;
-  const { isEditMode } = useDataTableContext<TData>();
+  const { isEditMode, cellWithError } = useDataTableContext<TData>();
+
+  // Check if another cell has a validation error (blocks this cell)
+  const isBlockedByError = cellWithError !== null;
 
   const handleChange = (checked: boolean | 'indeterminate') => {
     if (checked !== 'indeterminate') {
@@ -25,7 +28,7 @@ CellContext<TData, any>) {
       checked={value}
       onCheckedChange={handleChange}
       size="sm"
-      disabled={!isEditMode}
+      disabled={!isEditMode || isBlockedByError}
       aria-label={`${column.id}: ${value ? 'checked' : 'unchecked'}`}
     />
   );
