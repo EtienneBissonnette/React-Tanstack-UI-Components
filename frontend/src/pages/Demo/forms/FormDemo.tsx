@@ -45,7 +45,7 @@ export function FormDemo() {
   const handleSubmit = (values: ContactFormData) => {
     console.log('Form submitted:', values);
     addToast({
-      type: 'success',
+      intent: 'success',
       title: 'Message sent!',
       message: 'Thanks for reaching out. We\'ll get back to you within 24 hours.',
       duration: 5000,

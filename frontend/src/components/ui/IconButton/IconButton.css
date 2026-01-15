@@ -166,12 +166,12 @@
    ============================================================================= */
 
 .icon-button[data-variant='soft'] {
-  background: var(--color-bg-secondary);
+  background: var(--color-bg-hover);
   color: var(--color-fg-muted);
 }
 
 .icon-button[data-variant='soft']:hover {
-  background: var(--color-bg-hover);
+  background: var(--color-bg-active);
   color: var(--color-fg);
 }
 
@@ -246,6 +246,56 @@
   background: var(--color-primary-muted);
   border-color: var(--color-primary-hover);
   color: var(--color-primary-hover);
+}
+
+/* =============================================================================
+   Intent: Secondary
+   ============================================================================= */
+
+/* Ghost + Secondary */
+.icon-button[data-intent='secondary'] {
+  color: var(--color-fg-muted);
+}
+
+.icon-button[data-intent='secondary']:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-fg);
+}
+
+/* Solid + Secondary */
+.icon-button[data-variant='solid'][data-intent='secondary'] {
+  background: var(--color-secondary);
+  border-color: var(--color-secondary-border);
+  color: var(--color-secondary-fg);
+}
+
+.icon-button[data-variant='solid'][data-intent='secondary']:hover {
+  background: var(--color-secondary-hover);
+  border-color: var(--color-secondary-hover);
+  color: var(--color-secondary-fg);
+}
+
+/* Soft + Secondary */
+.icon-button[data-variant='soft'][data-intent='secondary'] {
+  background: var(--color-bg-hover);
+  color: var(--color-fg-muted);
+}
+
+.icon-button[data-variant='soft'][data-intent='secondary']:hover {
+  background: var(--color-bg-active);
+  color: var(--color-fg);
+}
+
+/* Outline + Secondary */
+.icon-button[data-variant='outline'][data-intent='secondary'] {
+  border-color: var(--color-border);
+  color: var(--color-fg-muted);
+}
+
+.icon-button[data-variant='outline'][data-intent='secondary']:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-border-hover);
+  color: var(--color-fg);
 }
 
 /* =============================================================================

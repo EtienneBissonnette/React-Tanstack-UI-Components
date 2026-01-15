@@ -64,12 +64,12 @@
    State: Error
    ============================================================================= */
 
-.textarea[data-state='error'] {
+.textarea[data-status='error'] {
   --textarea-ring-color: var(--color-danger-muted);
   border-color: var(--color-danger);
 }
 
-.textarea[data-state='error']:focus {
+.textarea[data-status='error']:focus {
   border-color: var(--color-danger);
   box-shadow: 0 0 0 3px var(--textarea-ring-color);
 }
@@ -78,12 +78,12 @@
    State: Success
    ============================================================================= */
 
-.textarea[data-state='success'] {
+.textarea[data-status='success'] {
   --textarea-ring-color: var(--color-success-muted);
   border-color: var(--color-success);
 }
 
-.textarea[data-state='success']:focus {
+.textarea[data-status='success']:focus {
   border-color: var(--color-success);
   box-shadow: 0 0 0 3px var(--textarea-ring-color);
 }

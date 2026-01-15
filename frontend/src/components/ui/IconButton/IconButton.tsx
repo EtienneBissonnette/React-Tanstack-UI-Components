@@ -4,7 +4,7 @@ import { Loader2 } from 'lucide-react';
 import './IconButton.css';
 
 type IconButtonVariant = 'solid' | 'soft' | 'ghost' | 'outline';
-type IconButtonIntent = 'neutral' | 'primary' | 'danger';
+type IconButtonIntent = 'default' | 'primary' | 'secondary' | 'danger';
 type IconButtonSize = 'sm' | 'md' | 'lg';
 type IconButtonShape = 'square' | 'circle';
 
@@ -29,7 +29,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   (
     {
       variant = 'ghost',
-      intent = 'neutral',
+      intent = 'default',
       size = 'md',
       shape = 'square',
       loading = false,
@@ -48,7 +48,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
         ref={ref}
         className={classes}
         data-variant={variant !== 'ghost' ? variant : undefined}
-        data-intent={intent !== 'neutral' ? intent : undefined}
+        data-intent={intent !== 'default' ? intent : undefined}
         data-size={size !== 'md' ? size : undefined}
         data-shape={shape !== 'square' ? shape : undefined}
         data-loading={loading || undefined}

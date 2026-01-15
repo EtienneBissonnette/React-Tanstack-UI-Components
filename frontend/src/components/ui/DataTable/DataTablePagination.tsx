@@ -56,7 +56,7 @@ export function DataTablePagination({
             onClick={() => table.firstPage()}
             disabled={!table.getCanPreviousPage()}
             size={size === 'lg' ? 'md' : 'sm'}
-            intent="ghost"
+            variant="ghost"
             aria-label="Go to first page"
           >
             <ChevronsLeft size={16} />
@@ -65,7 +65,7 @@ export function DataTablePagination({
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
             size={size === 'lg' ? 'md' : 'sm'}
-            intent="ghost"
+            variant="ghost"
             aria-label="Go to previous page"
           >
             <ChevronLeft size={16} />
@@ -81,7 +81,7 @@ export function DataTablePagination({
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
             size={size === 'lg' ? 'md' : 'sm'}
-            intent="ghost"
+            variant="ghost"
             aria-label="Go to next page"
           >
             <ChevronRight size={16} />
@@ -90,7 +90,7 @@ export function DataTablePagination({
             onClick={() => table.lastPage()}
             disabled={!table.getCanNextPage()}
             size={size === 'lg' ? 'md' : 'sm'}
-            intent="ghost"
+            variant="ghost"
             aria-label="Go to last page"
           >
             <ChevronsRight size={16} />

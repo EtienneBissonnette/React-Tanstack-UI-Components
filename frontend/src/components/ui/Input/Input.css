@@ -62,13 +62,13 @@
    State: Error
    ============================================================================= */
 
-.input[data-state='error'] {
+.input[data-status='error'] {
   --input-ring-color: var(--color-danger-muted);
 
   border-color: var(--color-danger);
 }
 
-.input[data-state='error']:focus {
+.input[data-status='error']:focus {
   border-color: var(--color-danger);
   box-shadow: 0 0 0 3px var(--input-ring-color);
 }
@@ -82,7 +82,7 @@
   80% { transform: translateX(2px); }
 }
 
-.input[data-state='error'][data-animate] {
+.input[data-status='error'][data-animate] {
   animation: input-shake var(--duration-normal) ease;
 }
 
@@ -90,13 +90,13 @@
    State: Success
    ============================================================================= */
 
-.input[data-state='success'] {
+.input[data-status='success'] {
   --input-ring-color: var(--color-success-muted);
 
   border-color: var(--color-success);
 }
 
-.input[data-state='success']:focus {
+.input[data-status='success']:focus {
   border-color: var(--color-success);
   box-shadow: 0 0 0 3px var(--input-ring-color);
 }
@@ -154,17 +154,17 @@ textarea.input[data-size='lg'] {
 }
 
 /* Autofill with error state */
-.input[data-state='error']:-webkit-autofill,
-.input[data-state='error']:-webkit-autofill:hover,
-.input[data-state='error']:-webkit-autofill:focus {
+.input[data-status='error']:-webkit-autofill,
+.input[data-status='error']:-webkit-autofill:hover,
+.input[data-status='error']:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 1000px var(--color-bg) inset !important;
   border-color: var(--color-danger);
 }
 
 /* Autofill with success state */
-.input[data-state='success']:-webkit-autofill,
-.input[data-state='success']:-webkit-autofill:hover,
-.input[data-state='success']:-webkit-autofill:focus {
+.input[data-status='success']:-webkit-autofill,
+.input[data-status='success']:-webkit-autofill:hover,
+.input[data-status='success']:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 1000px var(--color-bg) inset !important;
   border-color: var(--color-success);
 }

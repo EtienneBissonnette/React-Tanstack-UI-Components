@@ -17,8 +17,8 @@ export function InputDemo() {
         <Input placeholder="Disabled" disabled />
       </div>
       <div className="demo-section__row" data-layout="stack">
-        <Input placeholder="Error state" state="error" />
-        <Input placeholder="Success state" state="success" />
+        <Input placeholder="Error status" status="error" />
+        <Input placeholder="Success status" status="success" />
       </div>
       <div className="demo-section__row">
         <Input placeholder="sm" size="sm" />

@@ -2,12 +2,12 @@
 
 import { createContext, useContext } from 'react';
 
-// Toast types
-export type ToastType = 'error' | 'success' | 'warning' | 'info';
+// Toast intent (notification type)
+export type ToastIntent = 'success' | 'error' | 'warning' | 'info';
 
 export interface Toast {
   id: string;
-  type: ToastType;
+  intent: ToastIntent;
   title: string;
   message?: string;
   duration?: number;

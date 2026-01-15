@@ -6,7 +6,7 @@ export function ToastDemo() {
 
   const showSuccess = () => {
     addToast({
-      type: 'success',
+      intent: 'success',
       title: 'Changes saved',
       message: 'Your preferences have been updated successfully.',
       duration: 4000,
@@ -15,7 +15,7 @@ export function ToastDemo() {
 
   const showError = () => {
     addToast({
-      type: 'error',
+      intent: 'error',
       title: 'Something went wrong',
       message: 'Unable to save changes. Please try again.',
       duration: 5000,
@@ -24,7 +24,7 @@ export function ToastDemo() {
 
   const showWarning = () => {
     addToast({
-      type: 'warning',
+      intent: 'warning',
       title: 'Unsaved changes',
       message: 'You have unsaved changes that will be lost.',
       duration: 4000,
@@ -33,7 +33,7 @@ export function ToastDemo() {
 
   const showInfo = () => {
     addToast({
-      type: 'info',
+      intent: 'info',
       title: 'New update available',
       message: 'A new version is ready to install.',
       duration: 4000,
@@ -41,12 +41,12 @@ export function ToastDemo() {
   };
 
   const showMultiple = () => {
-    addToast({ type: 'info', title: 'Processing...', duration: 3000 });
+    addToast({ intent: 'info', title: 'Processing...', duration: 3000 });
     setTimeout(() => {
-      addToast({ type: 'success', title: 'Step 1 complete', duration: 3000 });
+      addToast({ intent: 'success', title: 'Step 1 complete', duration: 3000 });
     }, 800);
     setTimeout(() => {
-      addToast({ type: 'success', title: 'All done!', message: 'Operation completed successfully.', duration: 4000 });
+      addToast({ intent: 'success', title: 'All done!', message: 'Operation completed successfully.', duration: 4000 });
     }, 1600);
   };
 
@@ -59,8 +59,8 @@ export function ToastDemo() {
         <Button onClick={showInfo}>Info</Button>
       </div>
       <div className="demo-section__row">
-        <Button intent="ghost" onClick={showMultiple}>Show Multiple</Button>
-        <Button intent="ghost" onClick={clearToasts}>Clear All</Button>
+        <Button variant="ghost" onClick={showMultiple}>Show Multiple</Button>
+        <Button variant="ghost" onClick={clearToasts}>Clear All</Button>
       </div>
     </DemoSection>
   );

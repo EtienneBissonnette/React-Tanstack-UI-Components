@@ -3,15 +3,15 @@ import { forwardRef, type InputHTMLAttributes } from 'react';
 import './Input.css';
 
 type InputSize = 'sm' | 'md' | 'lg';
-type InputState = 'default' | 'error' | 'success';
+type InputStatus = 'default' | 'error' | 'success';
 
 interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   size?: InputSize;
-  state?: InputState;
+  status?: InputStatus;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ size = 'md', state = 'default', className = '', ...props }, ref) => {
+  ({ size = 'md', status = 'default', className = '', ...props }, ref) => {
     const classes = ['input', className].filter(Boolean).join(' ');
 
     return (
@@ -19,7 +19,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         ref={ref}
         className={classes}
         data-size={size !== 'md' ? size : undefined}
-        data-state={state !== 'default' ? state : undefined}
+        data-status={status !== 'default' ? status : undefined}
         {...props}
       />
     );

@@ -192,6 +192,79 @@ Components use data attributes for variants:
 
 ---
 
+## Shared Component Props
+
+Most interactive components share a consistent prop API for sizing, styling, and semantic intent.
+
+### size
+
+Controls component dimensions. Default: `md`
+
+| Value | Use Case |
+|-------|----------|
+| `sm` | Compact UIs, table cells, dense layouts |
+| `md` | Standard size (default) |
+| `lg` | Prominent actions, touch targets |
+
+### variant
+
+Controls visual style/emphasis. Default varies by component.
+
+| Value | Purpose |
+|-------|---------|
+| `solid` | High emphasis, filled background |
+| `soft` | Medium emphasis, muted/tinted background |
+| `outline` | Medium emphasis, bordered with transparent fill |
+| `ghost` | Low emphasis, transparent until hover |
+
+**Used by:** `Button`, `IconButton`, `Badge`
+
+### intent
+
+Controls semantic color. Default: `default`
+
+| Value | Purpose |
+|-------|---------|
+| `default` | Neutral, no specific meaning |
+| `primary` | Primary actions (uses accent color) |
+| `secondary` | Secondary actions, less prominent |
+| `danger` | Destructive or warning actions |
+
+**Used by:** `Button`, `IconButton`, `Badge`, `DropdownMenu.Item`
+
+**Toast-specific intents:** `success`, `error`, `warning`, `info`
+
+### status
+
+Controls validation state for form inputs. Default: `default`
+
+| Value | Purpose |
+|-------|---------|
+| `default` | No validation state |
+| `error` | Invalid input |
+| `success` | Valid input |
+
+**Used by:** `Input`, `Textarea`
+
+### Data Attribute Pattern
+
+Props map to CSS data attributes for styling:
+
+```tsx
+// Component
+<Button variant="soft" intent="primary" size="sm">
+
+// Renders as
+<button data-variant="soft" data-intent="primary" data-size="sm">
+
+// CSS targets these
+.button[data-variant='soft'][data-intent='primary'] { ... }
+```
+
+Default values are omitted from the DOM for cleaner markup.
+
+---
+
 ## Form Implementation
 
 ### TanStack Form Integration

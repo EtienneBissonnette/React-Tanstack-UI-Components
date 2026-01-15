@@ -9,11 +9,11 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { CheckCircle, XCircle, AlertTriangle, Info, X } from "lucide-react";
-import { ToastContext, type Toast, type ToastType } from "./hooks/useToast";
+import { ToastContext, type Toast, type ToastIntent } from "./hooks/useToast";
 import "./Toast.css";
 
-// Icon map for toast types
-const toastIcons: Record<ToastType, typeof CheckCircle> = {
+// Icon map for toast intents
+const toastIcons: Record<ToastIntent, typeof CheckCircle> = {
   success: CheckCircle,
   error: XCircle,
   warning: AlertTriangle,
@@ -136,12 +136,12 @@ function ToastItem({ toast, onRemove, index }: ToastItemProps) {
     };
   }, [isPaused, handleClose]);
 
-  const Icon = toastIcons[toast.type];
+  const Icon = toastIcons[toast.intent];
 
   return (
     <div
       className="toast"
-      data-type={toast.type}
+      data-intent={toast.intent}
       data-exiting={isExiting || undefined}
       style={{ "--toast-index": index } as React.CSSProperties}
       onMouseEnter={() => setIsPaused(true)}

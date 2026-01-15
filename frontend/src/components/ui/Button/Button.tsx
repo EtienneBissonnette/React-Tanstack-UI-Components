@@ -3,10 +3,12 @@ import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { Loader2 } from 'lucide-react';
 import './Button.css';
 
-type ButtonIntent = 'default' | 'primary' | 'secondary' | 'danger' | 'ghost';
+type ButtonVariant = 'solid' | 'soft' | 'ghost' | 'outline';
+type ButtonIntent = 'default' | 'primary' | 'secondary' | 'danger';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: ButtonVariant;
   intent?: ButtonIntent;
   size?: ButtonSize;
   loading?: boolean;
@@ -14,7 +16,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ intent = 'default', size = 'md', loading = false, className = '', disabled, children, ...props }, ref) => {
+  ({ variant = 'solid', intent = 'default', size = 'md', loading = false, className = '', disabled, children, ...props }, ref) => {
     const classes = ['button', className].filter(Boolean).join(' ');
     const isDisabled = disabled || loading;
 
@@ -22,6 +24,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <BaseButton
         ref={ref}
         className={classes}
+        data-variant={variant !== 'solid' ? variant : undefined}
         data-intent={intent !== 'default' ? intent : undefined}
         data-size={size !== 'md' ? size : undefined}
         data-loading={loading || undefined}
