@@ -1,0 +1,330 @@
+/* =============================================================================
+   IconButton Component
+   Square or circular buttons for icon-only actions
+   ============================================================================= */
+
+.icon-button {
+  --icon-button-size: 36px;
+  --icon-button-icon-size: 18px;
+  --icon-button-radius: var(--radius-md);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-button-size);
+  height: var(--icon-button-size);
+  padding: 0;
+  font-family: inherit;
+  color: var(--color-fg-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--icon-button-radius);
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) ease-out,
+    border-color var(--duration-fast) ease-out,
+    color var(--duration-fast) ease-out,
+    box-shadow var(--duration-fast) ease-out,
+    transform var(--duration-fast) ease-out;
+}
+
+/* Subtle scale on hover for tactile feedback */
+.icon-button:hover {
+  color: var(--color-fg);
+  background: var(--color-bg-hover);
+}
+
+.icon-button:active {
+  transform: scale(0.95);
+}
+
+/* Focus ring - prominent and accessible */
+.icon-button:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-bg),
+    0 0 0 4px var(--color-ring);
+}
+
+/* Disabled state */
+.icon-button:disabled,
+.icon-button[data-disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.icon-button:disabled:hover,
+.icon-button[data-disabled]:hover {
+  background: transparent;
+  color: var(--color-fg-muted);
+}
+
+/* =============================================================================
+   Icon Element
+   ============================================================================= */
+
+.icon-button__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-button-icon-size);
+  height: var(--icon-button-icon-size);
+  transition: opacity var(--duration-fast);
+}
+
+.icon-button__icon[data-hidden] {
+  opacity: 0;
+}
+
+.icon-button__icon > svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* =============================================================================
+   Loading State
+   ============================================================================= */
+
+.icon-button[data-loading] {
+  cursor: wait;
+  transform: none;
+}
+
+.icon-button__spinner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-button__spinner-icon {
+  width: var(--icon-button-icon-size);
+  height: var(--icon-button-icon-size);
+  animation: icon-button-spin 0.6s linear infinite;
+}
+
+@keyframes icon-button-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* =============================================================================
+   Sizes
+   ============================================================================= */
+
+/* Small */
+.icon-button[data-size='sm'] {
+  --icon-button-size: 28px;
+  --icon-button-icon-size: 14px;
+  --icon-button-radius: var(--radius-sm);
+}
+
+/* Large */
+.icon-button[data-size='lg'] {
+  --icon-button-size: 44px;
+  --icon-button-icon-size: 22px;
+  --icon-button-radius: var(--radius-lg);
+}
+
+/* =============================================================================
+   Shapes
+   ============================================================================= */
+
+.icon-button[data-shape='circle'] {
+  --icon-button-radius: var(--radius-full);
+}
+
+/* =============================================================================
+   Variant: Solid
+   Filled background with high contrast
+   ============================================================================= */
+
+.icon-button[data-variant='solid'] {
+  background: var(--color-fg);
+  color: var(--color-bg);
+  border-color: var(--color-fg);
+}
+
+.icon-button[data-variant='solid']:hover {
+  background: var(--color-fg-muted);
+  border-color: var(--color-fg-muted);
+  color: var(--color-bg);
+}
+
+.icon-button[data-variant='solid']:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--color-bg),
+    0 0 0 4px var(--color-fg);
+}
+
+/* =============================================================================
+   Variant: Soft
+   Subtle tinted background
+   ============================================================================= */
+
+.icon-button[data-variant='soft'] {
+  background: var(--color-bg-secondary);
+  color: var(--color-fg-muted);
+}
+
+.icon-button[data-variant='soft']:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-fg);
+}
+
+/* =============================================================================
+   Variant: Outline
+   Border with transparent background
+   ============================================================================= */
+
+.icon-button[data-variant='outline'] {
+  background: transparent;
+  border-color: var(--color-border);
+  color: var(--color-fg-muted);
+}
+
+.icon-button[data-variant='outline']:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-border-hover);
+  color: var(--color-fg);
+}
+
+/* =============================================================================
+   Intent: Primary
+   ============================================================================= */
+
+/* Ghost + Primary */
+.icon-button[data-intent='primary'] {
+  color: var(--color-primary);
+}
+
+.icon-button[data-intent='primary']:hover {
+  background: var(--color-primary-muted);
+  color: var(--color-primary-hover);
+}
+
+.icon-button[data-intent='primary']:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--color-bg),
+    0 0 0 4px var(--color-primary);
+}
+
+/* Solid + Primary */
+.icon-button[data-variant='solid'][data-intent='primary'] {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-primary-fg);
+}
+
+.icon-button[data-variant='solid'][data-intent='primary']:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  color: var(--color-primary-fg);
+}
+
+/* Soft + Primary */
+.icon-button[data-variant='soft'][data-intent='primary'] {
+  background: var(--color-primary-muted);
+  color: var(--color-primary);
+}
+
+.icon-button[data-variant='soft'][data-intent='primary']:hover {
+  background: rgb(from var(--color-primary) r g b / 0.2);
+  color: var(--color-primary-hover);
+}
+
+/* Outline + Primary */
+.icon-button[data-variant='outline'][data-intent='primary'] {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.icon-button[data-variant='outline'][data-intent='primary']:hover {
+  background: var(--color-primary-muted);
+  border-color: var(--color-primary-hover);
+  color: var(--color-primary-hover);
+}
+
+/* =============================================================================
+   Intent: Danger
+   ============================================================================= */
+
+/* Ghost + Danger */
+.icon-button[data-intent='danger'] {
+  color: var(--color-danger);
+}
+
+.icon-button[data-intent='danger']:hover {
+  background: var(--color-danger-muted);
+  color: var(--color-danger-hover);
+}
+
+.icon-button[data-intent='danger']:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--color-bg),
+    0 0 0 4px var(--color-danger);
+}
+
+/* Solid + Danger */
+.icon-button[data-variant='solid'][data-intent='danger'] {
+  background: var(--color-danger);
+  border-color: var(--color-danger);
+  color: var(--color-danger-fg);
+}
+
+.icon-button[data-variant='solid'][data-intent='danger']:hover {
+  background: var(--color-danger-hover);
+  border-color: var(--color-danger-hover);
+  color: var(--color-danger-fg);
+}
+
+/* Soft + Danger */
+.icon-button[data-variant='soft'][data-intent='danger'] {
+  background: var(--color-danger-muted);
+  color: var(--color-danger);
+}
+
+.icon-button[data-variant='soft'][data-intent='danger']:hover {
+  background: rgb(from var(--color-danger) r g b / 0.2);
+  color: var(--color-danger-hover);
+}
+
+/* Outline + Danger */
+.icon-button[data-variant='outline'][data-intent='danger'] {
+  border-color: rgb(from var(--color-danger) r g b / 0.5);
+  color: var(--color-danger);
+}
+
+.icon-button[data-variant='outline'][data-intent='danger']:hover {
+  background: var(--color-danger-muted);
+  border-color: var(--color-danger);
+  color: var(--color-danger-hover);
+}
+
+/* =============================================================================
+   Disabled States (preserve variant colors but muted)
+   ============================================================================= */
+
+.icon-button[data-variant='solid']:disabled:hover,
+.icon-button[data-variant='solid'][data-disabled]:hover {
+  background: var(--color-fg);
+  border-color: var(--color-fg);
+  color: var(--color-bg);
+}
+
+.icon-button[data-variant='solid'][data-intent='primary']:disabled:hover,
+.icon-button[data-variant='solid'][data-intent='primary'][data-disabled]:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-primary-fg);
+}
+
+.icon-button[data-variant='solid'][data-intent='danger']:disabled:hover,
+.icon-button[data-variant='solid'][data-intent='danger'][data-disabled]:hover {
+  background: var(--color-danger);
+  border-color: var(--color-danger);
+  color: var(--color-danger-fg);
+}

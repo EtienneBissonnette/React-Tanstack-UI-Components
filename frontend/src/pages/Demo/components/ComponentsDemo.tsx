@@ -8,6 +8,7 @@ import {
   ColorsDemo,
   DrawerDemo,
   DropdownMenuDemo,
+  IconButtonDemo,
   InputDemo,
   ModalDemo,
   ProgressDemo,
@@ -26,6 +27,7 @@ export function ComponentsDemo() {
   return (
     <div className="components-demo">
       <ButtonDemo />
+      <IconButtonDemo />
       <BadgeDemo />
       <AvatarDemo />
       <InputDemo />

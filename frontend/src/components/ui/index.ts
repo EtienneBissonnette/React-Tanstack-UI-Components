@@ -26,6 +26,7 @@ export {
   FormSwitch,
   useFormContext,
 } from './Form';
+export { IconButton } from './IconButton';
 export { Input } from './Input';
 export { Modal } from './Modal';
 export { useOverlay } from './Overlay';

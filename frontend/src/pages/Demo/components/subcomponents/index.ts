@@ -3,6 +3,7 @@ export { BadgeDemo } from './BadgeDemo';
 export { BreadcrumbDemo } from './BreadcrumbDemo';
 export { ButtonDemo } from './ButtonDemo';
 export { CardDemo } from './CardDemo';
+export { IconButtonDemo } from './IconButtonDemo';
 export { CheckboxDemo } from './CheckboxDemo';
 export { ColorsDemo } from './ColorsDemo';
 export { DrawerDemo } from './DrawerDemo';
